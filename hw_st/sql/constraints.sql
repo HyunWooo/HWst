@@ -1,0 +1,2 @@
+alter table product add constraint product_userCode_fk foreign key(userCode) references users(userCode);
+alter table product add constraint product_catCode_fk foreign key(catCode) references category(catCode);
