@@ -1,0 +1,23 @@
+2015-07-01 17:43:51,221 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: hw_st:hw_st:0.0.1-SNAPSHOT @ C:\Users\gusdn\Documents\hwst\hw_st\pom.xml.
+2015-07-01 17:43:54,132 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-01 17:43:54,135 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\gusdn\Documents\hwst\hw_st\src\main\resources
+2015-07-01 17:43:54,139 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-01 17:43:54,141 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\gusdn\Documents\hwst\hw_st\src\test\resources
+2015-07-01 17:43:54,172 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /hw_st/src
+2015-07-01 17:43:54,174 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Not adding source folder /hw_st/src/test/java because it overlaps with /hw_st/src
+2015-07-01 17:43:55,039 [Worker-7] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2015-07-01 17:43:55,116 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: hw_st:hw_st:0.0.1-SNAPSHOT @ C:\Users\gusdn\Documents\hwst\hw_st\pom.xml.
+2015-07-01 17:43:55,365 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /hw_st/src
+2015-07-01 17:43:55,366 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Not adding source folder /hw_st/src/test/java because it overlaps with /hw_st/src
+2015-07-01 17:43:55,909 [Worker-7] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for hw_st
+2015-07-01 17:43:56,049 [Worker-7] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 1 sec
+2015-07-01 17:43:56,341 [Worker-9] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: hw_st:hw_st:0.0.1-SNAPSHOT @ C:\Users\gusdn\Documents\hwst\hw_st\pom.xml.
+2015-07-01 17:43:56,475 [Worker-9] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-01 17:43:56,477 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\gusdn\Documents\hwst\hw_st\src\main\resources
+2015-07-01 17:43:56,479 [Worker-9] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-01 17:43:56,480 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\gusdn\Documents\hwst\hw_st\src\test\resources
+2015-07-01 17:44:07,554 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: hw_st:hw_st:0.0.1-SNAPSHOT @ C:\Users\gusdn\Documents\hwst\hw_st\pom.xml.
+2015-07-01 17:44:07,651 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-01 17:44:07,653 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\gusdn\Documents\hwst\hw_st\src\main\resources
+2015-07-01 17:44:07,655 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2015-07-01 17:44:07,656 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\gusdn\Documents\hwst\hw_st\src\test\resources
