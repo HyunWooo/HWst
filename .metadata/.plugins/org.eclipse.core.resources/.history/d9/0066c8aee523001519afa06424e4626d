@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="users">
+
+	<resultMap type="uVo" id="uResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+	</resultMap>
+	
+	<resultMap type="bVo" id="bResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="grade" property="grade" />
+		<result column="udtGradeTime" property="udtGradeTime" />
+	</resultMap>
+	
+	<resultMap type="sVo" id="sResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="bankName" property="bankName" />
+		<result column="accountNo" property="accountNo" />
+	</resultMap>
+	
+	<resultMap type="aVo" id="aResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="adminName" property="adminName" />
+	</resultMap>
+
+
+	<!-- 회원별 로그인 쿼리 -->
+	<select id="uLogin" parameterType="uVo" resultMap="uResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection
+		from users u 
+		where u.id=#{id} and u.pw=#{pw}
+	</select>
+	
+	<select id="bLogin" parameterType="bVo" resultMap="bResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, b.grade, b.udtGradeTime 
+		from users u, buyer b 
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=b.userNo
+	</select>
+	
+	<select id="sLogin" parameterType="sVo" resultMap="sResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, s.bankName, s.accountNo 
+		from users u, seller s 
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=s.userNo
+	</select>
+	
+	<select id="aLogin" parameterType="aVo" resultMap="aResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, a.adminName
+		from users u, admin a 
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=a.userNo
+	</select>
+	
+	<select id="oneUserNo" parameterType="uVo" resultMap="uResultMap">
+		select userNo
+		from users
+		where id=#{id}
+	</select>
+	
+	
+	<!-- 회원별 회원가입 쿼리 -->
+	<insert id="ubInsert" parameterType="uVo">
+		insert into users
+		values(null , #{id} , #{pw} , #{name}, #{phone}, #{postCode}, #{address}, 0)
+	</insert>
+	
+	<insert id="usInsert" parameterType="uVo">
+		insert into users
+		values(null , #{id} , #{pw} , #{name}, #{phone}, #{postCode}, #{address}, 1)
+	</insert>
+	
+	<insert id="bInsert" parameterType="String">
+		insert into buyer
+		values(#{userNo}, 0, now());
+	</insert>
+	
+	<insert id="sInsert" parameterType="int">
+		insert into seller
+		values(#{userNo}, 0)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="bIdCheck" parameterType="String" resultMap="bResultMap">
+		select * from users where id= #{id}
+	</select>
+
+	
+
+	<select id="bSelect" resultMap="bResultMap">
+		select * from users
+	</select>
+
+	<delete id="bDelete" parameterType="String">
+		delete users where id = #{id}
+	</delete>
+
+	<update id="bUpdate" parameterType="bVo">
+		update users
+		set userCode=#{userCode} , id=#{id} , pw=#{pw} , name=#{name}, phone=#{phone} , userStat=#{userStat}
+		where id = #{id}
+	</update>
+	
+</mapper>

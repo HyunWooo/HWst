@@ -1,0 +1,64 @@
+package hwst.domain.users;
+
+public class SellerVo extends UsersVo{
+
+	String bankName;
+	String accountNo;
+	
+	public SellerVo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public SellerVo(int userNo, String id, String pw, String name,
+			String phone, String postCode, String address, int userSection) {
+		super(userNo, id, pw, name, phone, address, postCode, userSection);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+	public String getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SellerVo [getId()=");
+		builder.append(getId());
+		builder.append(", getPw()=");
+		builder.append(getPw());
+		builder.append(", getName()=");
+		builder.append(getName());
+		builder.append(", getPhone()=");
+		builder.append(getPhone());
+		builder.append(", getPostCode()=");
+		builder.append(getPostCode());
+		builder.append(", getUserNo()=");
+		builder.append(getUserNo());
+		builder.append(", getAddress()=");
+		builder.append(getAddress());
+		builder.append(", getUserSection()=");
+		builder.append(getUserSection());
+		builder.append(", bankName=");
+		builder.append(bankName);
+		builder.append(", accountNo=");
+		builder.append(accountNo);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+
+	
+	
+}

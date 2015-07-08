@@ -1,0 +1,182 @@
+package model.dao.users;
+
+import java.util.List;
+
+import model.domain.users.AdminVo;
+import model.domain.users.BuyerVo;
+import model.domain.users.SellerVo;
+import model.domain.users.UsersVo;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import util.DBUtil;
+
+@Repository("uDao")
+public class UsersDaoImpl implements UsersDao {
+
+	@Override
+	public List<UsersVo> usersSelect() {
+		SqlSession session = null;
+		List<UsersVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("users.selectAll");
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+
+	@Override
+	public int usersUpdate(UsersVo vo) {
+		SqlSession session = null;
+		boolean flag = false;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.update("users.uUpdate", vo);
+			flag = result > 0 ? true : false;
+
+		} finally {
+			DBUtil.closeSqlSession(flag, session);
+		}
+		return result;
+	}
+
+	@Override
+	public int usersDelete(String id) {
+		SqlSession session = null;
+		boolean flag = false;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.delete("users.uDelete", id);
+			flag = result > 0 ? true : false;
+		} finally {
+			DBUtil.closeSqlSession(flag, session);
+		}
+		return result;
+	}
+
+	@Override
+	public UsersVo usersIdCheck(String id) {
+		SqlSession session = null;
+		UsersVo uVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			uVo = session.selectOne("users.uIdCheck", id);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return uVo;
+	}
+
+	@Override
+	public int selectOneUserNo(UsersVo vo){
+		SqlSession session = null;
+		int userNo = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			System.out.println(vo + "VO");
+			userNo = session.selectOne("users.oneUserNo", vo);
+		} catch(Exception e){
+			System.out.println("null Exception");
+		}
+		finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return userNo;
+	}
+	@Override
+	public UsersVo selectOneUser(UsersVo vo){
+		SqlSession session = null;
+		UsersVo uVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			uVo = session.selectOne("users.uLogin", vo);
+			System.out.println(uVo.getUserSection());
+		} catch(Exception e){
+			System.out.println("public UsersVo selectOneUser(UsersVo vo) null Exception");
+		}
+		finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return uVo;
+	}
+	
+	@Override
+	public BuyerVo selectOneBuyer(UsersVo vo){
+		SqlSession session = null;
+		BuyerVo bVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			bVo = session.selectOne("users.bLogin", vo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return bVo;
+	}
+	
+	@Override
+	public SellerVo selectOneSeller(UsersVo vo){
+		SqlSession session = null;
+		SellerVo sVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			sVo = session.selectOne("users.sLogin", vo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return sVo;
+	}
+	
+	@Override
+	public AdminVo selectOneAdmin(UsersVo vo){
+		SqlSession session = null;
+		AdminVo aVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			aVo = session.selectOne("users.aLogin", vo);
+			System.out.println(aVo);
+		} catch(Exception e){
+			System.out.println("관리자로그인 null예외처리");
+		}
+		finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return aVo;
+	}
+	
+	//회원가입
+	//구매자 회원가입
+	@Override
+	public int usersInsert(UsersVo vo) {
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			System.out.println(vo+"daoVo");
+			result = session.insert("users.ubInsert", vo);
+			System.out.println(result + "result");
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+	
+	//구매자 회원가입
+	@Override
+	public int buyerInsert(int userNo){
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.insert("users.bInsert", userNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+		
+}

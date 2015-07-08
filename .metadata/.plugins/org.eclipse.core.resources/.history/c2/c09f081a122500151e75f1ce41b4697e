@@ -1,0 +1,17 @@
+package service;
+
+import java.util.List;
+
+import domain.users.SellerVo;
+import domain.users.UsersVo;
+
+public interface UsersService {
+	int uInsert(UsersVo vo);
+	List<UsersVo> uSelect();
+	boolean uUpdate(UsersVo vo);
+	boolean uDelete(int userNo);
+	String usersIdCheck(String id);
+	UsersVo usersLogin(UsersVo vo);
+	boolean bSignup(UsersVo user);
+	boolean sSignup(SellerVo vo);
+}

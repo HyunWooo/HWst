@@ -1,0 +1,10 @@
+package hwst.service;
+
+import hwst.domain.ProductVo;
+
+import java.util.List;
+
+public interface ProductService {
+
+	List<ProductVo> pSelect();
+}

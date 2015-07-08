@@ -1,0 +1,156 @@
+package controller;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import model.domain.users.SellerVo;
+import model.domain.users.UsersVo;
+import model.service.UsersService;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class UsersController {
+	 
+	
+	@Resource(name="uService")
+    private UsersService uService;
+	
+	@RequestMapping("/delete.do")
+	@ResponseBody
+	public String delete(String studentNo) {
+		String result = "no";
+		if(uService.uDelete(studentNo) > 0 ) {
+			result = "ok";
+		}
+		return result ;
+	}
+	
+/*	@RequestMapping("checkId.do")
+	@ResponseBody
+	public ResponseEntity<String> usersIdCheck(String id){
+		String checkMsg = "dd";
+		
+		String chk = uService.usersIdCheck(id);
+		if(chk != null){
+			checkMsg = "ww";
+		}
+		HttpHeaders resHeader = new HttpHeaders();
+		resHeader.add("Content-Type", "text/html;charset=UTF-8");
+		ResponseEntity resultMsg = new ResponseEntity<String>(checkMsg, resHeader, HttpStatus.OK);
+		return resultMsg;
+	}*/
+	//id중복체크
+	@RequestMapping("checkId.do")
+	@ResponseBody
+	public String usersIdCheck(String id){
+		return uService.usersIdCheck(id);
+	}
+
+	// 로그인
+    @RequestMapping(value="loginProcess.do", method = RequestMethod.POST)
+    public ModelAndView loginProcess(UsersVo user, HttpSession session, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        UsersVo loginUser = uService.usersLogin(user);
+        if (loginUser != null) {
+            session.setAttribute("userLoginInfo", loginUser);
+            System.out.println(loginUser);
+            mav.setViewName("redirect:index.do");
+        }
+        else{
+        	session.setAttribute("loginFail", "Y");
+        	System.out.println(session.getAttribute("loginFail"));
+        	mav.setViewName("redirect:login.do");
+        }
+        return mav;
+        
+    }
+    
+    //로그아웃
+    @RequestMapping(value="logoutProcess.do")
+    public ModelAndView logoutProcess(HttpSession session){
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("redirect:index.do");
+    	session.invalidate();
+    	return mav;
+    }
+    
+	 // 구매자 회원가입
+    @RequestMapping(value="bSignupProcess.do", method = RequestMethod.POST)
+    public ModelAndView bSignupProcess(UsersVo vo,HttpSession session) {
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("redirect:bSignup.do");
+    	System.out.println(vo + " controller User");
+    	boolean flag = uService.bSignup(vo);
+        if (flag != false) {
+            session.setAttribute("signupProcess", "Y");
+        }else{
+        	session.setAttribute("signupProcess", "N");
+        }
+        return mav;
+    }
+    
+	 // 판매자 회원가입
+    @RequestMapping(value="sSignupProcess.do", method = RequestMethod.POST)
+    public ModelAndView sSignupProcess(SellerVo sVo,HttpSession session) {
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("redirect:sSignup.do");
+    	System.out.println(sVo + " controller User");
+    	boolean flag = uService.sSignup(sVo);
+        if (flag != false) {
+            session.setAttribute("signupProcess", "Y");
+        }else{
+        	session.setAttribute("signupProcess", "N");
+        }
+        return mav;
+    }
+    
+    
+    @RequestMapping(value="userInfoUpdateProcess.do", method = RequestMethod.POST)
+    public ModelAndView uInfoUpdateProcess(UsersVo vo,HttpSession session) {
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("redirect:index.do");
+    	System.out.println(vo + " controller User");
+    	boolean flag = uService.uUpdate(vo);
+        if (flag != false) {
+            session.setAttribute("uUpdateProcess", "Y");
+        }else{
+        	session.setAttribute("uUpdateProcess", "N");
+        }
+        return mav;
+    }
+    
+    
+    
+    
+    @RequestMapping(value="index.do")
+    public String index(){
+    	return "index";
+    }
+    
+    @RequestMapping(value="login.do")
+    public String login(){
+    	return "login";
+    }
+    
+    @RequestMapping(value="chooseSignup.do")
+    public String chooseSignup(){
+    	return "chooseSignup";
+    }
+    
+    @RequestMapping(value="sSignup.do")
+    public String sSignup(){
+    	return "sSignup";
+    }
+    
+    @RequestMapping(value="bSignup.do")
+    public String bSignup(){
+    	return "bSignup";
+    }
+    
+}

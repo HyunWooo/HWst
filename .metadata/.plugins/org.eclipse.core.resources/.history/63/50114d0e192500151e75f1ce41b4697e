@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="controller"/>
+	<context:component-scan base-package="model.dao" />
+	<context:component-scan base-package="model.service" />
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- <property name="prefix" value="/WEB-INF/hw_st/"/> -->
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- viewReslover 등록 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/" /> <!-- 폴더경로 -->
+		<property name="suffix" value=".jsp" /><!-- 확장자 -->
+	</bean>
+	
+	<!-- Json 응답을 위한 설정 -->
+	<bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView" >
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+	
+	
+	<!-- ViewResolver를 찾을때 bean의 id로 제일먼저 찾을수 있도록 우선순위를 0으로 줌
+			생략시 spring controller에서 jsonView에 매핑된 view 실행 불가 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+	
+	
+	<!-- @ResponseBody 사용을 위한 설정
+			이 설정 생략시 간혹 응답 되는 데이터의 한글 인코딩 문제가 발생
+	-->
+	<bean  class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+	   <property name="messageConverters">
+	      <list>
+	         <bean class = "org.springframework.http.converter.StringHttpMessageConverter">
+	            <property name = "supportedMediaTypes">
+	               <list>
+	               <value>text/plain;charset=UTF-8</value>
+	               </list>
+	            </property>
+	         </bean>
+	      </list>
+	   </property>
+	</bean>
+	
+</beans>

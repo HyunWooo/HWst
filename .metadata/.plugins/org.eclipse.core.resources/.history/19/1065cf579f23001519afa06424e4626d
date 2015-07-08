@@ -1,0 +1,102 @@
+package model.domain.users;
+
+import java.io.Serializable;
+
+//Serializable 직렬화 : WAS와 Session서버는 통신을 통해 데이터 즉 객체 정보를 주고 받게 되는데, 이 때 객체를 Serialize해야 한다.
+public class UsersVo implements Serializable{
+	private int userNo;
+	private String id;
+	private String pw;
+	private String name;
+	private String phone;
+	private String postCode;
+	private String address;
+	private int userSection;
+	
+	
+	public UsersVo() {}
+
+	public UsersVo(int userCode, String id, String pw, String name,
+			String phone, int userStat) {
+		super();
+		this.userNo = userCode;
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.phone = phone;
+		this.postCode = postCode;
+		this.address = address;
+		this.userSection = userStat;
+	}
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getUserSection() {
+		return userSection;
+	}
+
+	public void setUserSection(int userSection) {
+		this.userSection = userSection;
+	}
+
+	
+
+	
+	
+	
+}

@@ -1,0 +1,5 @@
+package model.dao.users;
+
+public class SellerDaoImpl {
+
+}

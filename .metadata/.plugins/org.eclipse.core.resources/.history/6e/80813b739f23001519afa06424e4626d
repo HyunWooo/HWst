@@ -1,0 +1,42 @@
+package model.domain.users;
+
+public class SellerVo extends UsersVo{
+
+	String bankName;
+	String accountNo;
+	
+	public SellerVo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public SellerVo(int userCode, String id, String pw, String name,
+			String phone, int userStat) {
+		super(userCode, id, pw, name, phone, userStat);
+		// TODO Auto-generated constructor stub
+	}
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+	public String getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SellerVo [bankName=");
+		builder.append(bankName);
+		builder.append(", accountNo=");
+		builder.append(accountNo);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+}

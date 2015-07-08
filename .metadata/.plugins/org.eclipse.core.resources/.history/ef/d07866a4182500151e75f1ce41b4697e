@@ -1,0 +1,9 @@
+package hwst.dao;
+
+import java.util.List;
+
+import domain.ProductVo;
+
+public interface ProductDao {
+	List<ProductVo> proSelect();
+}

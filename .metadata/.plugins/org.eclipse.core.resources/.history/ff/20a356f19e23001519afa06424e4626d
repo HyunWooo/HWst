@@ -1,0 +1,101 @@
+package model.domain.users;
+
+import java.io.Serializable;
+
+//Serializable 직렬화 : WAS와 Session서버는 통신을 통해 데이터 즉 객체 정보를 주고 받게 되는데, 이 때 객체를 Serialize해야 한다.
+public class UsersVo implements Serializable{
+	private int userCode;
+	private String id;
+	private String pw;
+	private String name;
+	private String phone;
+	private int userStat;
+	
+	
+	public UsersVo() {}
+
+	public UsersVo(int userCode, String id, String pw, String name,
+			String phone, int userStat) {
+		super();
+		this.userCode = userCode;
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.phone = phone;
+		this.userStat = userStat;
+	}
+	
+	
+	public int getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(int userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public int getUserStat() {
+		return userStat;
+	}
+	
+	public void setUserStat(int userStat) {
+		this.userStat = userStat;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UsersVo [userCode=");
+		builder.append(userCode);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", pw=");
+		builder.append(pw);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", phone=");
+		builder.append(phone);
+		builder.append(", userStat=");
+		builder.append(userStat);
+		builder.append("]");
+		return builder.toString();
+	}
+
+
+
+	
+	
+	
+}

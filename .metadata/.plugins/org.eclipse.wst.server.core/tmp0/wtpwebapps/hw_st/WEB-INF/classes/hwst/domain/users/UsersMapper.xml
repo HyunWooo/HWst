@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="users">
+
+	<resultMap type="usersVo" id="uResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+	</resultMap>
+	
+	<resultMap type="buyerVo" id="bResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="grade" property="grade" />
+		<result column="udtGradeTime" property="udtGradeTime" />
+	</resultMap>
+	
+	<resultMap type="sellerVo" id="sResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="bankName" property="bankName" />
+		<result column="accountNo" property="accountNo" />
+	</resultMap>
+	
+ 	<resultMap type="adminVo" id="aResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="adminName" property="adminName" />
+	</resultMap> 
+
+
+	<!-- 회원별 로그인 쿼리 -->
+	<select id="loginUsers" parameterType="usersVo" resultMap="uResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection
+		from users u 
+		where u.id=#{id} and u.pw=#{pw}
+	</select>
+	
+	<select id="loginBuyer" parameterType="buyerVo" resultMap="bResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, b.grade, b.udtGradeTime 
+		from users u, buyer b 
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=b.userNo
+	</select>
+	
+	<select id="loginSeller" parameterType="sellerVo" resultMap="sResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, s.bankName, s.accountNo 
+		from users u, seller s 
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=s.userNo
+	</select>
+	
+	<select id="loginAdmin" parameterType="adminVo" resultMap="aResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, a.adminName
+		from users u, admin a 
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=a.userNo
+	</select>
+	
+	<!--가입시 id중복체크 및 id해당하는 userNo 빼오기-->
+	<select id="selectOneUserNo" parameterType="String" resultType="int">
+		select userNo
+		from users
+		where id=#{id}
+	</select>
+	
+
+
+
+	<!-- 회원별 회원가입 쿼리 -->
+	<insert id="insertUsers" parameterType="usersVo">
+		insert into users(id,pw,name,phone,postCode,address,userSection) 
+		values(#{id}, #{pw}, #{name}, #{phone}, #{postCode}, #{address},#{userSection})
+	</insert>
+	
+	<insert id="insertBuyer" parameterType="String">
+		insert into buyer
+		values(#{userNo}, 0, now());
+	</insert>
+	
+	<insert id="insertSeller" parameterType="sellerVo">
+		insert into seller
+		values(#{userNo}, #{bankName}, #{accountNo})
+	</insert>
+	
+
+	<!-- 회원별 회원정보수정-->
+	<update id="updateUsers" parameterType="usersVo">
+		update users
+		set pw=#{pw} , phone=#{phone} , postCode=#{postCode}, address=#{address}
+		where userNo = #{userNo}
+	</update>
+	
+	
+	<!-- 회원별 회원탈퇴-->
+	 <update id="updateBuyerLog" parameterType="int">
+		update buyer 
+		set grade=0, udtGradeTime=now()
+		where userNo = #{userNo}
+	</update> 
+	
+	<update id="updateSellerLog" parameterType="int">
+		update seller 
+		set bankName= '탈퇴', accountNo = '탈퇴'
+		where userNo = #{userNo}
+	</update> 
+	
+	<update id="updateUsersLog" parameterType="int">
+		update users 
+		set id= '탈퇴', pw= '탈퇴', name= '탈퇴', phone= '탈퇴', postCode= '탈퇴', address= '탈퇴', userSection=0
+		where userNo = #{userNo}
+	</update>
+
+	
+</mapper>

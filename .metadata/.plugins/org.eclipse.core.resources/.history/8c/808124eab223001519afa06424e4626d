@@ -1,0 +1,16 @@
+package model.dao.users;
+
+import java.util.List;
+
+import model.domain.users.BuyerVo;
+import model.domain.users.UsersVo;
+
+public interface UsersDao {
+	int usersInsert(UsersVo vo);
+	List<UsersVo> usersSelect();
+	int usersUpdate(UsersVo vo);
+	int usersDelete(String usersNo);
+	UsersVo usersIdCheck(String usersNo);	
+	UsersVo selectOneUser(UsersVo vo);
+	BuyerVo selectOneBuyer(UsersVo vo);
+}

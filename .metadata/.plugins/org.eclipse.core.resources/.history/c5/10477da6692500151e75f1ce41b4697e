@@ -1,0 +1,22 @@
+drop table product;
+
+create table product(
+  productNo int AUTO_INCREMENT primary key,
+  userNo int not null,
+  categoryNo int not null,
+  name varchar(30) not null,
+  basicPrice int not null,
+  stat int not null,
+  details varchar(200) not null,
+  opTotalNum int not null,
+  regisTime datetime not null,
+  recentUpdateTime datetime not null,
+  recentUpdateUserNo int not null
+);
+
+commit;
+
+insert into product values(null,2,2,'스타일리쉬한 카라티',10000,3,'집에 하나쯤은 사놔야하지 않겠니?',1,now(),now(),2);
+insert into product values(null,2,2,'시원해보이는 남방',20000,3,'없으면 서운한 남방',1,now(),now(),2);
+insert into product values(null,2,2,'기본 베이직 브이넥',30000,3,'패션의 완성은 브이넥',1,now(),now(),2);
+

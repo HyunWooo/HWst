@@ -1,0 +1,152 @@
+package service;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import model.dao.users.UsersDao;
+import model.domain.users.SellerVo;
+import model.domain.users.UsersVo;
+
+import org.springframework.stereotype.Service;
+
+
+@Service("uService")
+public class UsersServiceImpl implements UsersService {
+
+	@Resource(name="uDao")
+	private UsersDao uDao;
+	
+	@Override
+	public int uInsert(UsersVo vo) {
+		return uDao.usersInsert(vo);
+	}
+
+	@Override
+	public List<UsersVo> uSelect() {
+		return uDao.usersSelect();
+	}
+
+	
+
+
+
+	@Override
+	public String usersIdCheck(String id) {
+		int chkNo = 0;
+		String chk ="사용가능한 ID입니다";
+		
+		chkNo = uDao.selectOneUserNo(id);
+		if(chkNo >0){
+			chk="ID 중복입니다. 다른 ID를 입력하세요";
+		}
+		
+		return chk;
+	}
+	
+	@Override
+	public UsersVo usersLogin(UsersVo vo){
+		UsersVo uVo = null;
+		uVo = uDao.selectOneUser(vo);
+		
+		if(uVo==null){
+			return null;
+		}
+		else if(uVo.getUserSection()==0){
+			return uDao.selectOneBuyer(vo);
+		}else if(uVo.getUserSection()==1){
+			return uDao.selectOneSeller(vo);
+		}else if(uVo.getUserSection()==2){
+			return uDao.selectOneAdmin(vo);
+		}else{
+			return null;
+		}
+	}
+	
+	
+	@Override
+	public boolean bSignup(UsersVo vo){
+		boolean flag1 = false;
+		boolean flag2 = false;
+		int result1 = 0;
+		int result2 = 0;
+		int result3 = 0;
+		
+		result1 = uDao.usersInsert(vo);
+		result3 = uDao.selectOneUserNo(vo.getId());
+		result2 = uDao.buyerInsert(result3);
+		
+		flag1 = result1 > 0 ? true : false;
+		flag2 = result2 > 0 ? true : false;
+		
+		if(flag1==true && flag2==true){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean sSignup(SellerVo vo){
+		boolean flag1 = false;
+		boolean flag2 = false;
+		int result1 = 0;
+		int result2 = 0;
+		int userNo = 0;
+		SellerVo sVo = new SellerVo();
+		
+		result1 = uDao.usersInsert(vo);
+		userNo = uDao.selectOneUserNo(vo.getId());
+		sVo.setUserNo(userNo);
+		sVo.setBankName(vo.getBankName());
+		sVo.setAccountNo(vo.getAccountNo());
+		System.out.println(sVo + "++sSignup sVo");
+		result2 = uDao.sellerInsert(sVo);
+		
+		flag1 = result1 > 0 ? true : false;
+		flag2 = result2 > 0 ? true : false;
+		
+		if(flag1==true && flag2==true){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean uUpdate(UsersVo vo) {
+		boolean flag = false;
+		int result = 0;
+		result = uDao.usersUpdate(vo);
+		
+		flag = result > 0 ? true : false;
+		
+		if(flag==true){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean uDelete(int userNo) {
+		boolean flag1 = false;
+		boolean flag2 = false;
+		int result1 = 0;
+		int result2 = 0;
+		
+		result1 = uDao.buyerDelete(userNo);
+		result2 = uDao.usersDelete(userNo);
+		
+		flag1 = result1 > 0 ? true : false;
+		flag2 = result2 > 0 ? true : false;
+		
+		if(flag1==true && flag2==true){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+
+}

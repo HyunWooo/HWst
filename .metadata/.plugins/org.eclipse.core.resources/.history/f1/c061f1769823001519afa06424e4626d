@@ -1,0 +1,5 @@
+package model.domain.users;
+
+public class SellerVo {
+
+}

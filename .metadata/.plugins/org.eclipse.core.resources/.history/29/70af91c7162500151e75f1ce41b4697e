@@ -1,0 +1,25 @@
+package dao;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import domain.ProVo;
+import util.DBUtil;
+
+@Repository("pDao")
+public class ProDaoImpl  implements ProductDao {
+	@Override
+	public List<ProVo> proSelect() {
+		SqlSession session = null;
+		List<ProVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("pro.selectAll");
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+}

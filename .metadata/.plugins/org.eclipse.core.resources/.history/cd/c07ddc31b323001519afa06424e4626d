@@ -1,0 +1,141 @@
+package model.dao.users;
+
+import java.util.List;
+
+import model.domain.users.BuyerVo;
+import model.domain.users.UsersVo;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import util.DBUtil;
+
+@Repository("uDao")
+public class UsersDaoImpl implements UsersDao {
+	@Override
+	public int usersInsert(UsersVo vo) {
+		SqlSession session = null;
+		boolean flag = false;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.insert("users.uInsert", vo);
+			flag = result > 0 ? true : false;
+		} finally {
+			DBUtil.closeSqlSession(flag, session);
+		}
+		return result;
+	}
+
+	@Override
+	public List<UsersVo> usersSelect() {
+		SqlSession session = null;
+		List<UsersVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("users.selectAll");
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+
+	@Override
+	public int usersUpdate(UsersVo vo) {
+		SqlSession session = null;
+		boolean flag = false;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.update("users.uUpdate", vo);
+			flag = result > 0 ? true : false;
+
+		} finally {
+			DBUtil.closeSqlSession(flag, session);
+		}
+		return result;
+	}
+
+	@Override
+	public int usersDelete(String id) {
+		SqlSession session = null;
+		boolean flag = false;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.delete("users.uDelete", id);
+			flag = result > 0 ? true : false;
+		} finally {
+			DBUtil.closeSqlSession(flag, session);
+		}
+		return result;
+	}
+
+	@Override
+	public UsersVo usersIdCheck(String id) {
+		SqlSession session = null;
+		UsersVo uVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			uVo = session.selectOne("users.uIdCheck", id);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return uVo;
+	}
+
+	@Override
+	public UsersVo selectOneUser(UsersVo vo){
+		SqlSession session = null;
+		UsersVo uVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			uVo = session.selectOne("users.uLogin", vo);
+			System.out.println(uVo.getUserSection());
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return uVo;
+	}
+	
+	@Override
+	public BuyerVo selectOneBuyer(UsersVo vo){
+		SqlSession session = null;
+		BuyerVo bVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			bVo = session.selectOne("users.bLogin", vo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return bVo;
+	}
+	
+	@Override
+	public SellerVo selectOneSeller(UsersVo vo);{
+		SqlSession session = null;
+		SellerVo sVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			sVo = session.selectOne("users.bLogin", vo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return sVo;
+	}
+	
+	@Override
+	public UsersVo selectOneAdmin(UsersVo vo);{
+		SqlSession session = null;
+		BuyerVo bVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			bVo = session.selectOne("users.bLogin", vo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return bVo;
+	}
+	
+	
+}

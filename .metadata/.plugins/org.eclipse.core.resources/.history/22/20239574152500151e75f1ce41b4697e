@@ -1,0 +1,140 @@
+package service;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import dao.users.UsersDao;
+import domain.users.SellerVo;
+import domain.users.UsersVo;
+
+@Service("usersService")
+public class UsersServiceImpl implements UsersService {
+
+	@Resource(name = "usersDao")
+	private UsersDao usersDao;
+
+
+	@Override
+	public List<UsersVo> uSelect() {
+		return usersDao.usersSelect();
+	}
+
+	@Override
+	public String checkUsersId(String id) {
+		int chkNo = 0;
+		String chk = "사용가능한 ID입니다";
+
+		chkNo = usersDao.selectOneUserNo(id);
+		if (chkNo > 0) {
+			chk = "ID 중복입니다. 다른 ID를 입력하세요";
+		}
+
+		return chk;
+	}
+
+	@Override
+	public UsersVo loginUsers(UsersVo vo) {
+		UsersVo uVo = null;
+		uVo = usersDao.selectOneUser(vo);
+
+		if (uVo == null) {
+			return null;
+		} else if (uVo.getUserSection() == 0) {
+			return usersDao.selectOneBuyer(vo);
+		} else if (uVo.getUserSection() == 1) {
+			return usersDao.selectOneSeller(vo);
+		} else if (uVo.getUserSection() == 2) {
+			return usersDao.selectOneAdmin(vo);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean signupBuyer(UsersVo vo) {
+		boolean flag1 = false;
+		boolean flag2 = false;
+		int result1 = 0;
+		int result2 = 0;
+		int result3 = 0;
+
+		result1 = usersDao.insertUsers(vo);
+		result3 = usersDao.selectOneUserNo(vo.getId());
+		result2 = usersDao.insertBuyer(result3);
+
+		flag1 = result1 > 0 ? true : false;
+		flag2 = result2 > 0 ? true : false;
+
+		if (flag1 == true && flag2 == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean signupSeller(SellerVo vo) {
+		boolean flag1 = false;
+		boolean flag2 = false;
+		int result1 = 0;
+		int result2 = 0;
+		int userNo = 0;
+		SellerVo sVo = new SellerVo();
+
+		result1 = usersDao.insertUsers(vo);
+		userNo = usersDao.selectOneUserNo(vo.getId());
+		sVo.setUserNo(userNo);
+		sVo.setBankName(vo.getBankName());
+		sVo.setAccountNo(vo.getAccountNo());
+		System.out.println(sVo + "++sSignup sVo");
+		result2 = usersDao.insertSeller(sVo);
+
+		flag1 = result1 > 0 ? true : false;
+		flag2 = result2 > 0 ? true : false;
+
+		if (flag1 == true && flag2 == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateUsers(UsersVo vo) {
+		boolean flag = false;
+		int result = 0;
+		result = usersDao.updateUsers(vo);
+
+		flag = result > 0 ? true : false;
+
+		if (flag == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean deleteUsers(int userNo) {
+		boolean flag1 = false;
+		boolean flag2 = false;
+		int result1 = 0;
+		int result2 = 0;
+
+		result1 = usersDao.deleteBuyer(userNo);
+		result2 = usersDao.usersDelete(userNo);
+
+		flag1 = result1 > 0 ? true : false;
+		flag2 = result2 > 0 ? true : false;
+
+		if (flag1 == true && flag2 == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+}

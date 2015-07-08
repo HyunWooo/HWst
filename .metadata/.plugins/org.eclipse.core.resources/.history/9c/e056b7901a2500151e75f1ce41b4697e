@@ -1,0 +1,25 @@
+package hwst.dao;
+
+import hwst.domain.ProductVo;
+import hwst.util.DBUtil;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+@Repository("pDao")
+public class ProductDaoImpl  implements ProductDao {
+	@Override
+	public List<ProductVo> proSelect() {
+		SqlSession session = null;
+		List<ProductVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("pro.selectAll");
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+}

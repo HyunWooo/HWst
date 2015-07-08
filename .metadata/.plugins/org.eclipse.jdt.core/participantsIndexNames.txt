@@ -1,0 +1,9 @@
+INDEX VERSION 1.126
+C:\Users\gusdn\Documents\hwst\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\829216396.index
+\yw3\src\main\java
+C:\Users\gusdn\Documents\hwst\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2301599746.index
+\yw3\src\main\java
+C:\Users\gusdn\Documents\hwst\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2436894725.index
+\hw_st\src
+C:\Users\gusdn\Documents\hwst\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4260690856.index
+\yw3\src\main\java

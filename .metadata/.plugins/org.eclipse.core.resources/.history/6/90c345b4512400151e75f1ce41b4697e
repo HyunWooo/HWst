@@ -1,0 +1,28 @@
+log4j.rootLogger = DEBUG, stdout, dailyfile
+
+
+# console
+#log4j.appender.stdout.Threshold = DEBUG 
+log4j.appender.stdout.Threshold = INFO 
+log4j.appender.stdout = org.apache.log4j.ConsoleAppender  
+log4j.appender.stdout.layout = org.apache.log4j.PatternLayout 
+#log4j.appender.stdout.layout.ConversionPattern=%d %-5p [%t] [%c2] (%13F:%L) %3x - %m%n
+log4j.appender.stdout.layout.ConversionPattern=%d %p [%c.%M():%L] - %m%n
+
+# file
+#log4j.appender.dailyfile.Threshold = INFO
+log4j.appender.dailyfile.Threshold = DEBUG
+log4j.appender.dailyfile = org.apache.log4j.DailyRollingFileAppender 
+log4j.appender.dailyfile.MaxFileSize=10MB
+log4j.appender.dailyfile.DatePattern='.'yyyy-MM-dd
+log4j.appender.dailyfile.layout = org.apache.log4j.PatternLayout
+log4j.appender.dailyfile.layout.ConversionPattern=%d %p [%c.%M():%L] - %m%n
+log4j.appender.dailyfile.File = ${catalina.base}/logs/survey.log
+
+# iBatis
+log4j.logger.model.dao.users = DEBUG
+log4j.logger.java.sql.Connection=DEBUG
+log4j.logger.java.sql.Statement=DEBUG
+log4j.logger.java.sql.PreparedStatement=DEBUG
+log4j.logger.java.sql.ResultSet=DEBUG
+log4j.logger.package.path=DEBUG

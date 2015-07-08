@@ -1,0 +1,22 @@
+package service;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import dao.ProDao;
+import domain.ProVo;
+
+@Service("pService")
+public class ProServiceImpl implements ProService {
+
+	@Resource(name="pDao")
+	private ProDao pDao;
+	
+	@Override
+	public List<ProVo> pSelect() {
+		return pDao.proSelect();
+	}
+}

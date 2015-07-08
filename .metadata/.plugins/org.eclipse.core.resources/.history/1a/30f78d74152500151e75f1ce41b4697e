@@ -1,0 +1,24 @@
+package dao.users;
+
+import java.util.List;
+
+import domain.users.AdminVo;
+import domain.users.BuyerVo;
+import domain.users.SellerVo;
+import domain.users.UsersVo;
+
+public interface UsersDao {
+	int insertUsers(UsersVo vo);
+	List<UsersVo> usersSelect();
+	
+	UsersVo selectOneUser(UsersVo vo);
+	BuyerVo selectOneBuyer(UsersVo vo);
+	SellerVo selectOneSeller(UsersVo vo);
+	AdminVo selectOneAdmin(UsersVo vo);
+	int insertBuyer(int userNo);
+	int insertSeller(SellerVo sVo);
+	int selectOneUserNo(String id);
+	int updateUsers(UsersVo vo);
+	int usersDelete(int userNo);
+	int deleteBuyer(int userNo);
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="users">
+<!-- 
+	<resultMap type="uVo" id="uResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="grade" property="grade" />
+		<result column="udtGradeTime" property="udtGradeTime" />
+	</resultMap>
+	 -->
+	<resultMap type="bVo" id="bResultMap">
+		<result column="userNo" property="userNo" />
+		<result column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="userSection" property="userSection" />
+		<result column="grade" property="grade" />
+		<result column="udtGradeTime" property="udtGradeTime" />
+	</resultMap>
+
+	<select id="uIdCheck" parameterType="String" resultMap="uResultMap">
+		select * from users where id= #{id}
+	</select>
+	
+	<select id="bLogin" parameterType="bVo" resultMap="bResultMap">
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, b.grade, b.udtGradeTime 
+		from users u, buyer b 
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=b.userNo
+	</select>
+
+	<insert id="uInsert" parameterType="uVo">
+		insert into users(id, pw, name, phone)
+		values(#{id} , #{pw} , #{name}, #{phone})
+	</insert>
+
+	<select id="uSelect" resultMap="uResultMap">
+		select * from users
+	</select>
+
+	<delete id="uDelete" parameterType="String">
+		delete users where id = #{id}
+	</delete>
+
+	<update id="uUpdate" parameterType="uVo">
+		update users
+		set userCode=#{userCode} , id=#{id} , pw=#{pw} , name=#{name}, phone=#{phone} , userStat=#{userStat}
+		where id = #{id}
+	</update>
+	
+</mapper>

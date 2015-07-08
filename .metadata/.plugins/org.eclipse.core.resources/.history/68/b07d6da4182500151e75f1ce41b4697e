@@ -1,0 +1,23 @@
+package service;
+
+import hwst.dao.ProductDao;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import domain.ProductVo;
+
+@Service("pService")
+public class ProductServiceImpl implements ProductService {
+
+	@Resource(name="pDao")
+	private ProductDao pDao;
+	
+	@Override
+	public List<ProductVo> pSelect() {
+		return pDao.proSelect();
+	}
+}

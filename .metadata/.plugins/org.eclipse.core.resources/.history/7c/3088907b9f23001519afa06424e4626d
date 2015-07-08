@@ -1,0 +1,37 @@
+package model.domain.users;
+
+public class AdminVo extends UsersVo{
+	
+	String adminName;
+
+	public AdminVo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public AdminVo(int userCode, String id, String pw, String name,
+			String phone, int userStat) {
+		super(userCode, id, pw, name, phone, userStat);
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AdminVo [adminName=");
+		builder.append(adminName);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+
+}
