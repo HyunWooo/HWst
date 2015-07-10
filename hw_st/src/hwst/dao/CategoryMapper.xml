@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+	<resultMap type="categoryVo" id="cResultMap">
+		<result column="categoryNo" property="categoryNo" />
+		<result column="upCategoryNo" property="upCategoryNo" />
+		<result column="categoryName" property="categoryName" />
+		<result column="recentUpdateTime" property="recentUpdateTime" />
+		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
+		<result column="upCategoryName" property="upCategoryName" />
+	</resultMap>
+
+	<select id="selectCategory" resultMap="cResultMap">
+		select * from category where upCategoryNo >1;
+	</select>
+	
+	<select id="selectUpCategory" resultMap="cResultMap">
+		select * from category where upCategoryNo =1 and categoryNo>1;
+	</select>
+	
+	
+</mapper>

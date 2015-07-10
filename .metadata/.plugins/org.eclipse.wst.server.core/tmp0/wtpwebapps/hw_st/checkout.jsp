@@ -106,7 +106,7 @@
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="shop.jsp">Products</a></li>
-										<li><a href="product_details.jsp">Product Details</a></li> 
+										<li><a href="product_details.do">Product Details</a></li> 
                                     </ul>
                                 </li> 
 								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>

@@ -1,0 +1,84 @@
+package hwst.controller;
+
+import hwst.domain.ProductVo;
+import hwst.service.ProductService;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class ProductController {
+
+	@Resource(name="productService")
+    private ProductService productService;
+	
+	//상품전체보기(현재는 최근등록순 정렬)
+	@RequestMapping(value="allProductView.do", method = RequestMethod.GET)
+	public ModelAndView selectProductAll(HttpSession session, HttpServletRequest request){
+		List<ProductVo> list =  productService.selectProductAll();
+		request.setAttribute("pg",1);
+		System.out.println(list);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("list", list);	
+		mv.setViewName("product");	
+		return mv;
+	}
+	
+	//상품상세보기
+	@RequestMapping(value="viewProductDetails.do", method = RequestMethod.GET)
+	public ModelAndView selectProductDetails(int productNo, HttpSession session, HttpServletRequest request){
+		ProductVo productVo =  productService.selectProductDetails(productNo);
+		System.out.println(productVo);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("product", productVo);	
+		mv.setViewName("product_details");	
+		return mv;
+	}
+	
+	//키워드검색
+	@RequestMapping(value="selectProductByKeyword.do", method = RequestMethod.POST)
+	public ModelAndView selectProductByKeyword(String keyword, HttpSession session, HttpServletRequest request){
+		System.out.println("컨트롤러 "+keyword);
+		List<ProductVo> list =  productService.selectProductByKeyword(keyword);
+		System.out.println(list);
+		request.setAttribute("pg",1);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("list", list);	
+		mv.setViewName("product");	
+		return mv;
+	}
+
+	//카테고리검색
+	@RequestMapping(value="selectProductByCategory.do", method = RequestMethod.GET)
+	public ModelAndView selectProductByCategory(int categoryNo, HttpSession session, HttpServletRequest request){
+		System.out.println("컨트롤러 "+categoryNo);
+		List<ProductVo> list =  productService.selectProductByCategory(categoryNo);
+		System.out.println(list);
+		request.setAttribute("pg",1);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("list", list);	
+		mv.setViewName("product");	
+		return mv;
+	}
+
+
+	
+	/* @RequestMapping(value="product.do")
+	    public String product(){
+	    	return "product";
+	    }*/
+	 @RequestMapping(value="product_details.do")
+	    public String productDetails(){
+	    	return "product_details";
+	    }
+	
+
+}

@@ -50,7 +50,7 @@ public final class contact_005fus_jsp extends org.apache.jasper.runtime.HttpJspB
 
 
     try {
-      response.setContentType("text/html; charset=EUC-KR");
+      response.setContentType("text/html; charset=utf-8");
       pageContext = _jspxFactory.getPageContext(this, request, response,
       			null, true, 8192, true);
       _jspx_page_context = pageContext;
@@ -98,8 +98,8 @@ public final class contact_005fus_jsp extends org.apache.jasper.runtime.HttpJspB
       out.write("\t\t\t\t\t\t<div class=\"contactinfo\">\r\n");
       out.write("\t\t\t\t\t\t\t<ul class=\"nav nav-pills\">\r\n");
       out.write("\t\t\t\t\t\t\t\t<li><a><i class=\"fa fa-star\"></i> 관리자 문의</a></li>\r\n");
-      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.jsp\"><i class=\"fa fa-phone\"></i> 010-3341-3855</a></li>\r\n");
-      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.jsp\"><i class=\"fa fa-envelope\"></i> gusdn@sk.com</a></li>\r\n");
+      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.do\"><i class=\"fa fa-phone\"></i> 010-3341-3855</a></li>\r\n");
+      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.do\"><i class=\"fa fa-envelope\"></i> gusdn@sk.com</a></li>\r\n");
       out.write("\t\t\t\t\t\t\t</ul>\r\n");
       out.write("\t\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t</div>\r\n");
@@ -122,7 +122,7 @@ public final class contact_005fus_jsp extends org.apache.jasper.runtime.HttpJspB
       out.write("\t\t\t\t<div class=\"row\">\r\n");
       out.write("\t\t\t\t\t<div class=\"col-sm-4\">\r\n");
       out.write("\t\t\t\t\t\t<div class=\"logo pull-left\">\r\n");
-      out.write("\t\t\t\t\t\t\t<a href=\"index.jsp\"><img src=\"images/home/logo.png\" alt=\"\" /></a>\r\n");
+      out.write("\t\t\t\t\t\t\t<a href=\"index.do\"><img src=\"images/home/logo.png\" alt=\"\" /></a>\r\n");
       out.write("\t\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t\t<!-- 안쓰는 버튼그룹 -->\r\n");
       out.write("\t\t\t\t\t\t<div class=\"btn-group pull-right\">\r\n");
@@ -151,15 +151,16 @@ public final class contact_005fus_jsp extends org.apache.jasper.runtime.HttpJspB
       out.write("\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t<div class=\"col-sm-8\">\r\n");
       out.write("\t\t\t\t\t\t<div class=\"search_box pull-right\">\r\n");
-      out.write("\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"Search\"/>\r\n");
+      out.write("\t\t\t\t\t\t\t<form action=\"selectProductByKeyword.do\"  name=\"selectProductByKeyword.do\" method=\"post\">\r\n");
+      out.write("\t                             <input type=\"text\" placeholder=\"Search\" id=\"keyword\"  name = \"keyword\" autocomplete=\"off\"/>\r\n");
+      out.write("                             </form>\r\n");
       out.write("\t\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t\t<div class=\"mainmenu pull-right\">\r\n");
       out.write("\t\t\t\t\t\t\t<ul class=\"nav navbar-nav collapse navbar-collapse\">\r\n");
-      out.write("\t\t\t\t\t\t\t\t<li><a href=\"index.jsp\" class=\"active\">Home</a></li>\r\n");
+      out.write("\t\t\t\t\t\t\t\t<li><a href=\"index.do\" class=\"active\">Home</a></li>\r\n");
       out.write("\t\t\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\">Shop<i class=\"fa fa-angle-down\"></i></a>\r\n");
       out.write("                                    <ul role=\"menu\" class=\"sub-menu\">\r\n");
-      out.write("                                        <li><a href=\"shop.jsp\">Products</a></li>\r\n");
-      out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"product_details.jsp\">Product Details</a></li> \r\n");
+      out.write("                                        <li><a href=\"allProductView.do\">상품전체보기</a></li>\r\n");
       out.write("                                    </ul>\r\n");
       out.write("                                </li> \r\n");
       out.write("\t\t\t\t\t\t\t\t<!-- <li class=\"dropdown\"><a href=\"#\">Blog<i class=\"fa fa-angle-down\"></i></a>\r\n");
@@ -169,7 +170,7 @@ public final class contact_005fus_jsp extends org.apache.jasper.runtime.HttpJspB
       out.write("                                    </ul>\r\n");
       out.write("                                </li>  -->\r\n");
       out.write("\t\t\t\t\t\t\t\t<!-- <li><a href=\"404.jsp\">404</a></li> -->\r\n");
-      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.jsp\">Contact-us</a></li>\r\n");
+      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.do\">Contact-us</a></li>\r\n");
       out.write("\t\t\t\t\t\t\t</ul>\r\n");
       out.write("\t\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t</div>\r\n");
@@ -460,7 +461,7 @@ public final class contact_005fus_jsp extends org.apache.jasper.runtime.HttpJspB
       do {
         out.write("\r\n");
         out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"cart.jsp\"><i class=\"fa fa-shopping-cart\"></i> Cart</a></li>\r\n");
-        out.write("\t\t\t\t\t\t\t\t\t\t<li><a href= \"#\"><i class=\"fa fa-user\"></i>");
+        out.write("\t\t\t\t\t\t\t\t\t\t<li><a href= \"userManagement.do\"><i class=\"fa fa-user\"></i>");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.userLoginInfo.name}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
         out.write("님</a></li>\r\n");
         out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"logoutProcess.do\"><i class=\"fa fa-crosshairs\"></i> Logout</a></li>\r\n");
@@ -490,7 +491,7 @@ public final class contact_005fus_jsp extends org.apache.jasper.runtime.HttpJspB
     if (_jspx_eval_c_005fotherwise_005f0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
         out.write("\r\n");
-        out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"login.jsp\"><i class=\"fa fa-lock\"></i> Login</a></li>\r\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"login.do\"><i class=\"fa fa-lock\"></i> Login</a></li>\r\n");
         out.write("\t\t\t\t\t\t\t\t\t");
         int evalDoAfterBody = _jspx_th_c_005fotherwise_005f0.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)

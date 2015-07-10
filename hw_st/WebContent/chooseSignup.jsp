@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -115,7 +115,7 @@
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="allProductView.do">Products</a></li>
-										<li><a href="product_details.jsp">Product Details</a></li> 
+										<li><a href="product_details.do">Product Details</a></li> 
                                     </ul>
                                 </li> 
 								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>

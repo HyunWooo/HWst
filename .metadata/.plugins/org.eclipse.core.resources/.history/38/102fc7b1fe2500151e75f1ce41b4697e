@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+	<resultMap type="productVo" id="cResultMap">
+		<result column="productNo" property="productNo" />
+		<result column="userNo" property="userNo" />
+		<result column="categoryNo" property="categoryNo" />
+	</resultMap>
+
+	<select id="selectCategory" resultMap="cResultMap">
+		select * from product
+		where stat=3 
+		order by regisTime desc
+	</select>
+	
+	<select id="selectUpCategory" resultMap="cResultMap">
+		select * from product
+		where stat=3 
+		order by regisTime desc
+	</select>
+	
+	
+</mapper>

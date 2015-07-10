@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	private int categoryNo;
+	private int upCategoryNo;
+	private String categoryName;
+	private String recentUpdateTime;
+	private int recentUpdateUserNo;
+	private String upCategoryName;
+<mapper namespace="category">
+	<resultMap type="categoryVo" id="cResultMap">
+		<result column="productNo" property="productNo" />
+		<result column="userNo" property="userNo" />
+		<result column="categoryNo" property="categoryNo" />
+		<result column="categoryNo" property="categoryNo" />
+		<result column="categoryNo" property="categoryNo" />
+		<result column="categoryNo" property="categoryNo" />
+	</resultMap>
+
+	<select id="selectCategory" resultMap="cResultMap">
+		select * from product
+		where stat=3 
+		order by regisTime desc
+	</select>
+	
+	<select id="selectUpCategory" resultMap="cResultMap">
+		select * from product
+		where stat=3 
+		order by regisTime desc
+	</select>
+	
+	
+</mapper>

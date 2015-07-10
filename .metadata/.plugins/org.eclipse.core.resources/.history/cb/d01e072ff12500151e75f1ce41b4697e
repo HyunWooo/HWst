@@ -1,0 +1,80 @@
+package hwst.domain;
+
+public class CategoryVo {
+
+	private int categoryNo;
+	private int upCategoryNo;
+	private String categoryName;
+	private String recentUpdateTime;
+	private int recentUpdateUserNo;
+	private String upCategoryName;
+	
+	
+	public CategoryVo(){}
+	public CategoryVo(int categoryNo, int upCategoryNo, String categoryName,
+			String recentUpdateTime, int recentUpdateUserNo, String upCategoryName) {
+		super();
+		this.categoryNo = categoryNo;
+		this.upCategoryNo = upCategoryNo;
+		this.categoryName = categoryName;
+		this.recentUpdateTime = recentUpdateTime;
+		this.recentUpdateUserNo = recentUpdateUserNo;
+		this.upCategoryName = upCategoryName;
+	}
+	public int getCategoryNo() {
+		return categoryNo;
+	}
+	public void setCategoryNo(int categoryNo) {
+		this.categoryNo = categoryNo;
+	}
+	public int getUpCategoryNo() {
+		return upCategoryNo;
+	}
+	public void setUpCategoryNo(int upCategoryNo) {
+		this.upCategoryNo = upCategoryNo;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getRecentUpdateTime() {
+		return recentUpdateTime;
+	}
+	public void setRecentUpdateTime(String recentUpdateTime) {
+		this.recentUpdateTime = recentUpdateTime;
+	}
+	public int getRecentUpdateUserNo() {
+		return recentUpdateUserNo;
+	}
+	public void setRecentUpdateUserNo(int recentUpdateUserNo) {
+		this.recentUpdateUserNo = recentUpdateUserNo;
+	}
+	public String getUpCategoryName() {
+		return upCategoryName;
+	}
+	public void setUpCategoryName(String upCategoryName) {
+		this.upCategoryName = upCategoryName;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CategoryVo [categoryNo=");
+		builder.append(categoryNo);
+		builder.append(", upCategoryNo=");
+		builder.append(upCategoryNo);
+		builder.append(", categoryName=");
+		builder.append(categoryName);
+		builder.append(", recentUpdateTime=");
+		builder.append(recentUpdateTime);
+		builder.append(", recentUpdateUserNo=");
+		builder.append(recentUpdateUserNo);
+		builder.append(", upCategoryName=");
+		builder.append(upCategoryName);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+}

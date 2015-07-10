@@ -121,8 +121,11 @@ session.removeAttribute("loginFail");
             do {
               out.write("\r\n");
               out.write("\t\t\t<script>\r\n");
-              out.write("\t\t\t\talert(\"회원정보 수정이 완료되었습니다.\");\r\n");
-              out.write("\t\t\t\t location.href = \"index.do\";\r\n");
+              out.write("\t\t\t\talert(\"회원정보 수정이 완료되었습니다. 다시 로그인해주세요.\");\r\n");
+              out.write("\t\t\t\t location.href = \"login.do\";\r\n");
+              out.write("\t\t\t\t ");
+session.removeAttribute("userLoginInfo");
+              out.write("\r\n");
               out.write("\t\t\t\t ");
 session.removeAttribute("uUpdateProcess");
               out.write("\r\n");
@@ -148,7 +151,7 @@ session.removeAttribute("uUpdateProcess");
           org.apache.taglibs.standard.tag.rt.core.WhenTag _jspx_th_c_005fwhen_005f3 = (org.apache.taglibs.standard.tag.rt.core.WhenTag) _005fjspx_005ftagPool_005fc_005fwhen_0026_005ftest.get(org.apache.taglibs.standard.tag.rt.core.WhenTag.class);
           _jspx_th_c_005fwhen_005f3.setPageContext(_jspx_page_context);
           _jspx_th_c_005fwhen_005f3.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_005fchoose_005f0);
-          // /userManagement.jsp(29,2) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+          // /userManagement.jsp(30,2) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
           _jspx_th_c_005fwhen_005f3.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.deleteUsersProcess eq 'Y'}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null, false)).booleanValue());
           int _jspx_eval_c_005fwhen_005f3 = _jspx_th_c_005fwhen_005f3.doStartTag();
           if (_jspx_eval_c_005fwhen_005f3 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
@@ -161,7 +164,7 @@ session.removeAttribute("uUpdateProcess");
 session.removeAttribute("userLoginInfo");
               out.write("\r\n");
               out.write("\t\t\t\t ");
-session.removeAttribute("uDeleteProcess");
+session.removeAttribute("deleteUsersProcess");
               out.write("\r\n");
               out.write("\t\t\t</script>\r\n");
               out.write("\t\t");
@@ -300,15 +303,17 @@ session.removeAttribute("uDeleteProcess");
       out.write("\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t<div class=\"col-sm-8\">\r\n");
       out.write("\t\t\t\t\t\t<div class=\"search_box pull-right\">\r\n");
-      out.write("\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"Search\"/>\r\n");
+      out.write("\t\t\t\t\t\t\t<form action=\"selectProductByKeyword.do\"  name=\"selectProductByKeyword.do\" method=\"post\">\r\n");
+      out.write("\t                             <input type=\"text\" placeholder=\"Search\" id=\"keyword\"  name = \"keyword\" autocomplete=\"off\"/>\r\n");
+      out.write("                             </form>\r\n");
       out.write("\t\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t\t<div class=\"mainmenu pull-right\">\r\n");
       out.write("\t\t\t\t\t\t\t<ul class=\"nav navbar-nav collapse navbar-collapse\">\r\n");
       out.write("\t\t\t\t\t\t\t\t<li><a href=\"index.do\" class=\"active\">Home</a></li>\r\n");
       out.write("\t\t\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\">Shop<i class=\"fa fa-angle-down\"></i></a>\r\n");
       out.write("                                    <ul role=\"menu\" class=\"sub-menu\">\r\n");
-      out.write("                                        <li><a href=\"shop.jsp\">Products</a></li>\r\n");
-      out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"product_details.jsp\">Product Details</a></li> \r\n");
+      out.write("                                        <li><a href=\"allProductView.do\">Products</a></li>\r\n");
+      out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"product_details.do\">Product Details</a></li> \r\n");
       out.write("                                    </ul>\r\n");
       out.write("                                </li> \r\n");
       out.write("\t\t\t\t\t\t\t\t<!-- <li class=\"dropdown\"><a href=\"#\">Blog<i class=\"fa fa-angle-down\"></i></a>\r\n");
@@ -318,7 +323,7 @@ session.removeAttribute("uDeleteProcess");
       out.write("                                    </ul>\r\n");
       out.write("                                </li>  -->\r\n");
       out.write("\t\t\t\t\t\t\t\t<!-- <li><a href=\"404.jsp\">404</a></li> -->\r\n");
-      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.jsp\">Contact-us</a></li>\r\n");
+      out.write("\t\t\t\t\t\t\t\t<li><a href=\"contact_us.do\">Contact-us</a></li>\r\n");
       out.write("\t\t\t\t\t\t\t</ul>\r\n");
       out.write("\t\t\t\t\t\t</div>\r\n");
       out.write("\t\t\t\t\t</div>\r\n");
@@ -337,13 +342,24 @@ session.removeAttribute("uDeleteProcess");
       out.write("\t\t\t\t\t\t\t\t\t<input type=\"hidden\" placeholder=\"회원번호\" name=\"userNo\" value=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.userLoginInfo.userNo}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
       out.write("\" />\r\n");
+      out.write("\t\t\t\t\t\t\t\t\t<input type=\"hidden\" placeholder=\"아이디\" name=\"id\" value=\"");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.userLoginInfo.id}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
+      out.write("\" />\r\n");
       out.write("\t\t\t\t\t\t\t\t\t<input type=\"password\" placeholder=\"비밀번호\" name=\"pw\" />\r\n");
       out.write("\t\t\t\t\t\t\t\t\t<input type=\"password\" placeholder=\"비밀번호확인\" name=\"pw2\" />\r\n");
-      out.write("\t\t\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"전화번호\" name=\"phone\" />\r\n");
-      out.write("\t\t\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"우편번호\" name=\"postCode\" />\r\n");
-      out.write("\t\t\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"주소\" name=\"address\"/>\r\n");
+      out.write("\t\t\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"전화번호 : ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.userLoginInfo.phone}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
+      out.write("\" name=\"phone\" />\r\n");
+      out.write("\t\t\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"우편번호 : ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.userLoginInfo.postCode}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
+      out.write("\" name=\"postCode\" />\r\n");
+      out.write("\t\t\t\t\t\t\t\t\t<input type=\"text\" placeholder=\"주소 : ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.userLoginInfo.address}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
+      out.write("\" name=\"address\"/>\r\n");
       out.write("\t\t\t\t\t\t\t\t\t<button type=\"submit\" value=\"수정하기\" class=\"btn btn-default\" id=\"btn\">회원정보 수정</button>\r\n");
       out.write("\t\t\t\t\t\t\t\t</form>\r\n");
+      out.write("\t\t\t\t\t\t\t\t<br><br>\r\n");
+      out.write("\t\t\t\t\t\t\t\t<button type=\"submit\" value=\"뒤로가기\" class=\"btn btn-default\" id=\"btn\" onClick=\"history.back(-1);\">뒤로가기</button>\r\n");
       out.write("\t\t\t\t\t\t\t\t<br><br>\r\n");
       out.write("\t\t\t\t\t\t\t\t<form  action=\"deleteUsersProcess.do?userNo=");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.userLoginInfo.userNo}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
@@ -405,7 +421,7 @@ session.removeAttribute("uDeleteProcess");
     org.apache.taglibs.standard.tag.rt.core.WhenTag _jspx_th_c_005fwhen_005f2 = (org.apache.taglibs.standard.tag.rt.core.WhenTag) _005fjspx_005ftagPool_005fc_005fwhen_0026_005ftest.get(org.apache.taglibs.standard.tag.rt.core.WhenTag.class);
     _jspx_th_c_005fwhen_005f2.setPageContext(_jspx_page_context);
     _jspx_th_c_005fwhen_005f2.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_005fchoose_005f0);
-    // /userManagement.jsp(23,2) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /userManagement.jsp(24,2) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_c_005fwhen_005f2.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${empty sessionScope.userLoginInfo.name}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null, false)).booleanValue());
     int _jspx_eval_c_005fwhen_005f2 = _jspx_th_c_005fwhen_005f2.doStartTag();
     if (_jspx_eval_c_005fwhen_005f2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
@@ -488,7 +504,7 @@ session.removeAttribute("uDeleteProcess");
     org.apache.taglibs.standard.tag.rt.core.WhenTag _jspx_th_c_005fwhen_005f4 = (org.apache.taglibs.standard.tag.rt.core.WhenTag) _005fjspx_005ftagPool_005fc_005fwhen_0026_005ftest.get(org.apache.taglibs.standard.tag.rt.core.WhenTag.class);
     _jspx_th_c_005fwhen_005f4.setPageContext(_jspx_page_context);
     _jspx_th_c_005fwhen_005f4.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_005fchoose_005f1);
-    // /userManagement.jsp(122,9) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /userManagement.jsp(123,9) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_c_005fwhen_005f4.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${not empty sessionScope.userLoginInfo}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null, false)).booleanValue());
     int _jspx_eval_c_005fwhen_005f4 = _jspx_th_c_005fwhen_005f4.doStartTag();
     if (_jspx_eval_c_005fwhen_005f4 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {

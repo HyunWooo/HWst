@@ -147,7 +147,7 @@
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="allProductView.do">Products</a></li>
-										<li><a href="product_details.jsp">Product Details</a></li> 
+										<li><a href="product_details.do">Product Details</a></li> 
                                     </ul>
                                 </li> 
 								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -174,7 +174,7 @@
 								<h2>구매자 회원가입</h2>
 								<form  action="signupBuyerProcess.do" method="post" name="userinput" onSubmit="return checkIt()">
 									<td>
-									<input type="text" placeholder="아이디(이메일)" name="id" />
+									<input type="email" placeholder="아이디(이메일)" name="id" />
 									<input type="button" placeholder="id" name="confirm_id" value="중복확인" OnClick="openConfirmid(this.form)" />
 									</td>
 									<input type="password" placeholder="비밀번호" name="pw" />

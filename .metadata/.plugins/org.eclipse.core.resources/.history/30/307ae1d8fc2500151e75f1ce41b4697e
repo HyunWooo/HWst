@@ -1,0 +1,8 @@
+package hwst.dao;
+
+import hwst.domain.CategoryVo;
+
+public interface CategoryDao {
+	CategoryVo selectCategory();
+	CategoryVo selectUpCategory();
+}

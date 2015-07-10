@@ -1,0 +1,11 @@
+package hwst.dao;
+
+import hwst.domain.CategoryVo;
+import hwst.domain.ProductVo;
+
+import java.util.List;
+
+public interface CategoryDao {
+	CategoryVo selectCategory();
+	CategoryVo selectUpCategory();
+}

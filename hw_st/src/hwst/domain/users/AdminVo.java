@@ -29,9 +29,26 @@ public class AdminVo extends UsersVo{
 		StringBuilder builder = new StringBuilder();
 		builder.append("AdminVo [adminName=");
 		builder.append(adminName);
+		builder.append(", getId()=");
+		builder.append(getId());
+		builder.append(", getPw()=");
+		builder.append(getPw());
+		builder.append(", getName()=");
+		builder.append(getName());
+		builder.append(", getPhone()=");
+		builder.append(getPhone());
+		builder.append(", getPostCode()=");
+		builder.append(getPostCode());
+		builder.append(", getUserNo()=");
+		builder.append(getUserNo());
+		builder.append(", getAddress()=");
+		builder.append(getAddress());
+		builder.append(", getUserSection()=");
+		builder.append(getUserSection());
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 	
 

@@ -1,0 +1,209 @@
+package hwst.dao.users;
+
+import hwst.domain.users.AdminVo;
+import hwst.domain.users.BuyerVo;
+import hwst.domain.users.SellerVo;
+import hwst.domain.users.UsersVo;
+import hwst.util.DBUtil;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+@Repository("usersDao")
+public class UsersDaoImpl implements UsersDao {
+
+	@Override
+	public List<UsersVo> usersSelect() {
+		SqlSession session = null;
+		List<UsersVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("users.selectAll");
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+
+
+
+	
+//id로 userNo만 추출
+	@Override
+	public int selectOneUserNo(String id){
+		SqlSession session = null;
+		int userNo = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			System.out.println(id + " id");
+			userNo = session.selectOne("users.selectOneUserNo", id);
+			System.out.println(userNo + " userNo");
+		} catch(Exception e){
+			System.out.println("null Exception");
+		}
+		finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return userNo;
+	}
+	@Override
+	public UsersVo selectOneUser(UsersVo vo){
+		SqlSession session = null;
+		UsersVo uVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			System.out.println("쿼리들어가기전 :" + vo);
+			uVo = session.selectOne("users.loginUsers",vo);
+			System.out.println(uVo);
+		} catch(Exception e){
+			System.out.println("public UsersVo selectOneUser(UsersVo vo) null Exception");
+			System.out.println(uVo + "예외uVo");
+		}
+		finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return uVo;
+	}
+	
+	@Override
+	public BuyerVo selectOneBuyer(UsersVo vo){
+		SqlSession session = null;
+		BuyerVo bVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			bVo = session.selectOne("users.selectOneBuyer", vo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return bVo;
+	}
+	
+	@Override
+	public SellerVo selectOneSeller(int userNo){
+		SqlSession session = null;
+		SellerVo sVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			sVo = session.selectOne("users.selectOneSeller", userNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return sVo;
+	}
+	
+	@Override
+	public AdminVo selectOneAdmin(UsersVo vo){
+		SqlSession session = null;
+		AdminVo aVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			aVo = session.selectOne("users.loginAdmin", vo);
+		} catch(Exception e){
+			System.out.println("exception");
+		}
+		finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return aVo;
+	}
+	
+	//회원가입
+	@Override
+	public int insertUsers(UsersVo vo) {
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.insert("users.insertUsers", vo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+	
+	@Override
+	public int insertBuyer(int userNo){
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.insert("users.insertBuyer", userNo);
+		} catch(Exception e){
+			System.out.println("buyer insert Exception");
+		}finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+	
+	@Override
+	public int insertSeller(SellerVo sVo){
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.insert("users.insertSeller", sVo);
+		} catch(Exception e){
+			System.out.println("buyer insert Exception");
+		}finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+		
+	//회원공통정보 수정
+	@Override
+	public int updateUsers(UsersVo vo) {
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.update("users.updateUsers", vo);
+
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+	
+	//회원 탈퇴
+	@Override
+	public int updateBuyerLog(int userNo){
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.update("users.updateBuyerLog", userNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+	@Override
+	public int updateSellerLog(int userNo){
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.update("users.updateSellerLog", userNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+	@Override
+	public int updateUsersLog(int userNo){
+		SqlSession session = null;
+		int result = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			result = session.update("users.updateUsersLog", userNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return result;
+	}
+	
+}

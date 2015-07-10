@@ -18,18 +18,13 @@ public class UsersServiceImpl implements UsersService {
 
 
 	@Override
-	public List<UsersVo> uSelect() {
-		return usersDao.usersSelect();
-	}
-
-	@Override
 	public String checkUsersId(String id) {
 		int chkNo = 0;
-		String chk = "1";
+		String chk = "아이디 사용가능";//아이디 사용가능
 
 		chkNo = usersDao.selectOneUserNo(id);
 		if (chkNo > 0) {
-			chk = "2";//아이디 중복
+			chk = "이미 사용하고있는 아이디입니다";//아이디 중복
 		}
 
 		return chk;
@@ -45,12 +40,17 @@ public class UsersServiceImpl implements UsersService {
 		} else if (uVo.getUserSection() == 1) {
 			return usersDao.selectOneBuyer(vo);
 		} else if (uVo.getUserSection() == 2) {
-			return usersDao.selectOneSeller(vo);
+			return usersDao.selectOneSeller(uVo.getUserNo());
 		} else if (uVo.getUserSection() == 3) {
 			return usersDao.selectOneAdmin(vo);
 		} else {
 			return null;
 		}
+	}
+	
+	@Override
+	public UsersVo selectUserOne(int userNo) {
+			return usersDao.selectOneSeller(userNo);
 	}
 
 	@Override

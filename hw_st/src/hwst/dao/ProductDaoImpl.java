@@ -22,4 +22,44 @@ public class ProductDaoImpl  implements ProductDao {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<ProductVo> selectProductByKeyword(String keyword) {
+		SqlSession session = null;
+		List<ProductVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("product.selectProductByKeyword", keyword);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<ProductVo> selectProductByCategory(int categoryNo) {
+		SqlSession session = null;
+		List<ProductVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("product.selectProductByCategory", categoryNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+	
+	@Override
+	public ProductVo selectProductDetails(int productNo) {
+		SqlSession session = null;
+		ProductVo productVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			productVo = session.selectOne("product.selectProductDetails", productNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return productVo;
+	}
+	
 }

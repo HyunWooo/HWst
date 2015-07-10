@@ -1,0 +1,26 @@
+package hwst.controller;
+
+import hwst.domain.CategoryVo;
+import hwst.service.CategoryService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class CategoryController {
+
+	@Resource(name="categoryService")
+    private CategoryService categoryService;
+	
+	
+	 @RequestMapping(value="index.do")
+	    public String index(HttpSession session){
+	    	 CategoryVo categoryList = categoryService.selectCategory();
+	    	 CategoryVo upCategoryList = categoryService.selectUpCategory();
+	    	return "index";
+	    }
+
+}

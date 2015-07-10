@@ -15,8 +15,9 @@
 		</c:when>
 		<c:when test="${sessionScope.uUpdateProcess eq 'Y'}">
 			<script>
-				alert("회원정보 수정이 완료되었습니다.");
-				 location.href = "index.do";
+				alert("회원정보 수정이 완료되었습니다. 다시 로그인해주세요.");
+				 location.href = "login.do";
+				 <%session.removeAttribute("userLoginInfo");%>
 				 <%session.removeAttribute("uUpdateProcess");%>
 			</script>
 		</c:when>
@@ -31,7 +32,7 @@
 				alert("회원탈퇴가 완료되었습니다.");
 				 location.href = "index.do";
 				 <%session.removeAttribute("userLoginInfo");%>
-				 <%session.removeAttribute("uDeleteProcess");%>
+				 <%session.removeAttribute("deleteUsersProcess");%>
 			</script>
 		</c:when>
 	<c:otherwise/>
@@ -148,7 +149,9 @@
 					</div>
 					<div class="col-sm-8">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
+	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
+                             </form>
 						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
@@ -156,7 +159,7 @@
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="allProductView.do">Products</a></li>
-										<li><a href="product_details.jsp">Product Details</a></li> 
+										<li><a href="product_details.do">Product Details</a></li> 
                                     </ul>
                                 </li> 
 								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -166,7 +169,7 @@
                                     </ul>
                                 </li>  -->
 								<!-- <li><a href="404.jsp">404</a></li> -->
-								<li><a href="contact_us.jsp">Contact-us</a></li>
+								<li><a href="contact_us.do">Contact-us</a></li>
 							</ul>
 						</div>
 					</div>
@@ -183,13 +186,16 @@
 								<h2>회원정보수정</h2>
 								<form  action="updateUsersInfoProcess.do" method="post" name="userinput" onSubmit="return checkIt()">
 									<input type="hidden" placeholder="회원번호" name="userNo" value="${sessionScope.userLoginInfo.userNo}" />
+									<input type="hidden" placeholder="아이디" name="id" value="${sessionScope.userLoginInfo.id}" />
 									<input type="password" placeholder="비밀번호" name="pw" />
 									<input type="password" placeholder="비밀번호확인" name="pw2" />
-									<input type="text" placeholder="전화번호" name="phone" />
-									<input type="text" placeholder="우편번호" name="postCode" />
-									<input type="text" placeholder="주소" name="address"/>
+									<input type="text" placeholder="전화번호 : ${sessionScope.userLoginInfo.phone}" name="phone" />
+									<input type="text" placeholder="우편번호 : ${sessionScope.userLoginInfo.postCode}" name="postCode" />
+									<input type="text" placeholder="주소 : ${sessionScope.userLoginInfo.address}" name="address"/>
 									<button type="submit" value="수정하기" class="btn btn-default" id="btn">회원정보 수정</button>
 								</form>
+								<br><br>
+								<button type="submit" value="뒤로가기" class="btn btn-default" id="btn" onClick="history.back(-1);">뒤로가기</button>
 								<br><br>
 								<form  action="deleteUsersProcess.do?userNo=${sessionScope.userLoginInfo.userNo}&userSection=${sessionScope.userLoginInfo.userSection}" method="post" name="userdelete" onSubmit="return checkAgain()">
 									<button type="submit" value="회원탈퇴" class="btn btn-default" id="userDelete">회원 탈퇴</button>

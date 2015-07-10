@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	private int productOptionNo;
+	private int productNo;
+	private int optionProcedure;
+	private int addPrice;
+	private int productAmount;
+	private String productOptionName;
+	private int optionStat;
+	private String recentUpdateTime;
+	private int recentUpdateUserNo;
+<mapper namespace="productOption">
+	<resultMap type="productOptionVo" id="pResultMap">
+		<result column="productOptionNo" property="productOptionNo" />
+		<result column="productNo" property="productNo" />
+		<result column="optionProcedure" property="optionProcedure" />
+		<result column="addPrice" property="addPrice" />
+		<result column="productAmount" property="productAmount" />
+		<result column="productOptionName" property="productOptionName" />
+		<result column="optionStat" property="optionStat" />
+		<result column="recentUpdateTime" property="recentUpdateTime" />
+		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
+	</resultMap>
+
+	<select id="selectProductAll" resultMap="pResultMap">
+		select * from product
+		where stat=3 
+		order by regisTime desc
+	</select>
+	
+	<select id="selectProductByCategory" parameterType="int" resultMap="pResultMap">
+		select * 
+		from product 
+		where categoryNo = #{categoryNo}
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,26 @@
+package hwst.service;
+
+import hwst.dao.CategoryDao;
+import hwst.domain.CategoryVo;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+@Service("productService")
+public class CategoryServiceImpl implements CategoryService {
+
+	@Resource(name="categoryDao")
+	private CategoryDao categoryDao;
+	
+	@Override
+	public CategoryVo selectCategory(){
+		return categoryDao.selectCategory()
+	}
+	
+	@Override
+	public CategoryVo selectUpCategory(){
+		return categoryDao.selectCategory()
+	}
+	
+}

@@ -1,0 +1,45 @@
+package hwst.dao;
+
+import hwst.domain.CategoryVo;
+import hwst.domain.ProductVo;
+import hwst.util.DBUtil;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+@Repository("productDao")
+public class CategoryDaoImpl  implements ProductDao {
+	@Override
+	public List<ProductVo> selectProductAll() {
+		SqlSession session = null;
+		List<ProductVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("product.selectProductAll");
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<ProductVo> selectProductByKeyword(String keyword) {
+		SqlSession session = null;
+		List<ProductVo> list = null;
+		try {
+			session = DBUtil.getSqlSession();
+			list = session.selectList("product.selectProductByKeyword", keyword);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<CategoryVo> selectCategory(){}
+	
+	@Override
+	public List<CategoryVo> selectUpCategory(){}
+}

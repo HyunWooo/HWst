@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <!-- 외부 db연결 가져오기 -->
+  
+  <properties resource="hwst/conf/dbMySQL.properties" />
+    <settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings> 
+   
+	
+   <!-- 클래스들의 전체경로에 이름(별칭) 만들기 -->
+   <typeAliases>
+     <typeAlias type="hwst.dao.users.UsersVo" alias="usersVo"/>
+     <typeAlias type="hwst.dao.users.BuyerVo" alias="buyerVo"/>
+     <typeAlias type="hwst.dao.users.SellerVo" alias="sellerVo"/>
+     <typeAlias type="hwst.dao.users.AdminVo" alias="adminVo"/>
+      <typeAlias type="hwst.dao.ProductVo" alias="productVo"/>
+   </typeAliases>
+   
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+				<property name="poolMaximumActiveConnections" value="10"/>
+				<property name="poolMaximumIdleConnections" value="5"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<mapper resource="hwst/dao/users/UsersMapper.xml"/>
+		<mapper resource="hwst/dao/ProductMapper.xml"/>
+		<mapper resource="hwst/dao/CategoryMapper.xml"/>
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+

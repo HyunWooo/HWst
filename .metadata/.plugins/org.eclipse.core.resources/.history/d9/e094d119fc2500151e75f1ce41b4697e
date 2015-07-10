@@ -1,0 +1,11 @@
+package hwst.service;
+
+import hwst.domain.ProductVo;
+
+import java.util.List;
+
+public interface CategoryService {
+
+	List<ProductVo> selectProductAll();
+	List<ProductVo> selectProductByKeyword(String keyword);
+}

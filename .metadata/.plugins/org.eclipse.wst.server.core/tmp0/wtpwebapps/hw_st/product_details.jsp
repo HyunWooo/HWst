@@ -1,10 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@page import="hwst.domain.ProductVo"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%request.setCharacterEncoding("UTF-8");%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -28,6 +33,22 @@
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
+<script type="text/javascript">
+function getSelectValue(frm)
+{
+	if(frm.selectBox.options[frm.selectBox.selectedIndex].id == 0){
+		alert("품절된 상품옵션은 구매하실 수 없습니다.");
+		frm.totalPrice.value = null;
+	}else if(frm.selectBox.options[frm.selectBox.selectedIndex].id == -1){
+		frm.totalPrice.value = null;
+	}
+	 else{
+		 frm.totalPrice.value = (parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))+"원";
+	 }
+}
+
+</script>
+
 <body>
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
@@ -37,8 +58,8 @@
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
 								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
-								<li><a href="contact_us.jsp"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
-								<li><a href="contact_us.jsp"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
 						</div>
 					</div>
@@ -49,12 +70,13 @@
  								<!--<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
 								<c:choose>
 									<c:when test="${not empty sessionScope.userLoginInfo}">
-										<li><a href="cart.jsp"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-										<li><a href= "#"><i class="fa fa-user"></i>${sessionScope.userLoginInfo.name}님</a></li>
+										<li><a href="cart.do"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+										<li><a href= "userManagement.do"><i class="fa fa-user"></i>${sessionScope.userLoginInfo.name}님</a></li>
 										<li><a href="logoutProcess.do"><i class="fa fa-crosshairs"></i> Logout</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="login.jsp"><i class="fa fa-lock"></i> Login</a></li>
+										<li><a href="chooseSignup.do"><i class="fa fa-pencil"></i> Sign Up</a></li>
+										<li><a href="login.do"><i class="fa fa-lock"></i> Login</a></li>
 									</c:otherwise>
 								</c:choose>
 							</ul>
@@ -69,7 +91,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.jsp"><img src="images/home/logo.png" alt="" /></a>
+							<a href="index.do"><img src="images/home/logo.png" alt="" /></a>
 						</div>
 						<!-- 안쓰는 버튼그룹 -->
 						<div class="btn-group pull-right">
@@ -98,15 +120,16 @@
 					</div>
 					<div class="col-sm-8">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							 <form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
+	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
+                             </form>
 						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.jsp" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+								<li><a href="index.do" class="active">Home</a></li>
+								<li class="dropdown"><a href="allProductView.do">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.jsp">Products</a></li>
-										<li><a href="product_details.jsp">Product Details</a></li> 
+                                        <li><a href="allProductView.do">상품전체보기</a></li>
                                     </ul>
                                 </li> 
 								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -116,7 +139,7 @@
                                     </ul>
                                 </li>  -->
 								<!-- <li><a href="404.jsp">404</a></li> -->
-								<li><a href="contact_us.jsp">Contact-us</a></li>
+								<li><a href="contact_us.do">Contact-us</a></li>
 							</ul>
 						</div>
 					</div>
@@ -147,6 +170,15 @@
 		</div> --><!--/header-bottom-->
 	</header><!--/header-->
 	
+	<section id="advertisement">
+		<div class="container">
+			<!-- <img src="images/product/advertisement.jpg" alt="" /> -->
+			<img src="http://i.011st.com/browsing/banner/2015/06/22/11641/2015062209092255388_8674945_1.jpg" alt="" />
+			
+		</div>
+	</section>
+	
+	<!-- 카테고리 jstl -->
 	<section>
 		<div class="container">
 			<div class="row">
@@ -154,110 +186,34 @@
 					<div class="left-sidebar">
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+						<c:forEach items="${sessionScope.upCategoryList}" var="list" varStatus="status">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+									<c:if test="${status.last eq false}" >
+										<a data-toggle="collapse" data-parent="#accordian" href="#<c:out value="${list.categoryName}"/>">
 											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Sportswear
+											<c:out value="${list.categoryName}"/>
 										</a>
+									</c:if>
+									<c:if test="${status.last eq true}" >
+										<a href="#"><c:out value="${list.categoryName}"/></a>
+									</c:if>
 									</h4>
 								</div>
-								<div id="sportswear" class="panel-collapse collapse">
+								<div id="<c:out value="${list.categoryName}"/>" class="panel-collapse collapse">
 									<div class="panel-body">
+										<c:forEach items="${sessionScope.categoryList}" var="list2" >
+										<c:if test="${list.categoryNo eq list2.upCategoryNo}" >
 										<ul>
-											<li><a href="">Nike </a></li>
-											<li><a href="">Under Armour </a></li>
-											<li><a href="">Adidas </a></li>
-											<li><a href="">Puma</a></li>
-											<li><a href="">ASICS </a></li>
+											<li><a href="selectProductByCategory.do?categoryNo=<c:out value="${list2.categoryNo}"/>"><c:out value="${list2.categoryName}"/></a></li>
 										</ul>
+										</c:if>
+										</c:forEach>
 									</div>
 								</div>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Mens
-										</a>
-									</h4>
-								</div>
-								<div id="mens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="">Fendi</a></li>
-											<li><a href="">Guess</a></li>
-											<li><a href="">Valentino</a></li>
-											<li><a href="">Dior</a></li>
-											<li><a href="">Versace</a></li>
-											<li><a href="">Armani</a></li>
-											<li><a href="">Prada</a></li>
-											<li><a href="">Dolce and Gabbana</a></li>
-											<li><a href="">Chanel</a></li>
-											<li><a href="">Gucci</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Womens
-										</a>
-									</h4>
-								</div>
-								<div id="womens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="">Fendi</a></li>
-											<li><a href="">Guess</a></li>
-											<li><a href="">Valentino</a></li>
-											<li><a href="">Dior</a></li>
-											<li><a href="">Versace</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Kids</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Fashion</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Households</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Interiors</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Clothing</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Bags</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Shoes</a></h4>
-								</div>
-							</div>
+						</c:forEach>
 						</div><!--/category-products-->
 					
 						<!-- <div class="brands_products">brands_products
@@ -294,8 +250,7 @@
 					<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
 							<div class="view-product">
-								<img src="images/product-details/1.jpg" alt="" />
-								<h3>ZOOM</h3>
+								<img src="images/product/<c:out value="${product.categoryNo}"/>/<c:out value="${product.productNo}"/>_1.jpg" alt="" />
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
@@ -332,22 +287,45 @@
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
 								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
-								<h2>Anne Klein Sleeveless Colorblock Scuba</h2>
-								<p>Web ID: 1089772</p>
-								<img src="images/product-details/rating.png" alt="" />
+								<h2>${product.name}</h2>
+								<p>상품번호: ${product.productNo}</p>
+								<img src="images/product-details/rating.png" alt="" /><br>
 								<span>
-									<span>US $59</span>
-									<label>Quantity:</label>
-									<input type="text" value="3" />
-									<button type="button" class="btn btn-fefault cart">
-										<i class="fa fa-shopping-cart"></i>
-										Add to cart
-									</button>
+									<span>${product.basicPrice}원</span>
+									<!-- <label>수량:</label>
+									<input type="text" value="3" /> -->
 								</span>
-								<p><b>Availability:</b> In Stock</p>
-								<p><b>Condition:</b> New</p>
-								<p><b>Brand:</b> E-SHOPPER</p>
+								<form action="">
+									<button type="button" class="btn btn-fefault cart">
+											<i class="fa fa-shopping-cart"></i>
+											장바구니 담기
+									</button>
+									<button type="button" class="btn btn-fefault cart">
+											<i class="fa fa-won"></i>
+											주문하기
+									</button>
+								</form>	
 								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
+								<ul class="user_info">
+									<li class="single_field">
+										<form name="form">
+											<label>옵션 선택:</label>
+											<select name="selectBox" onchange="getSelectValue(this.form);">
+													<option id="-1">선택하세요</option>
+												<c:forEach items="${productOptionList}" var="productOptionList" >
+													<option id="${productOptionList.productAmount}" value="${productOptionList.addPrice}">${productOptionList.optionProcedure}.${productOptionList.productOptionName}(+${productOptionList.addPrice}원)
+													<c:if test="${productOptionList.productAmount > 0}">_재고수량: ${productOptionList.productAmount}개</c:if>
+													<c:if test="${productOptionList.productAmount eq 0}">_재고수량: 품절</c:if>
+													</option>
+												</c:forEach>
+											</select>
+											<input type="hidden" name="basicPrice" value="${product.basicPrice}"/>
+											<span>
+												<span>총가격: <input type="text" name="totalPrice"></span>
+											</span>
+										</form>
+									</li>
+								</ul>
 							</div><!--/product-information-->
 						</div>
 					</div><!--/product-details-->
@@ -355,167 +333,28 @@
 					<div class="category-tab shop-details-tab"><!--category-tab-->
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs">
-								<li><a href="#details" data-toggle="tab">Details</a></li>
-								<li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
-								<li><a href="#tag" data-toggle="tab">Tag</a></li>
-								<li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
+								<li class="active"><a href="#details" data-toggle="tab">상품상세정보</a></li>
+								<li><a href="#companyprofile" data-toggle="tab">판매자정보</a></li>
+								<li><a href="#tag" data-toggle="tab">Q&A</a></li>
+								<li><a href="#reviews" data-toggle="tab">상품평 (5)</a></li>
 							</ul>
 						</div>
 						<div class="tab-content">
-							<div class="tab-pane fade" id="details" >
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery1.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery2.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery3.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery4.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
+							<div class="tab-pane fade active in" id="details" >
+								${product.details}
+							</div>							
 							<div class="tab-pane fade" id="companyprofile" >
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery1.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery3.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery2.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery4.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
+								<div class="total_area">
+									<ul>
+										<li>판매자명 : <span>${sellerInfo.name}</span></li>
+										<li>판매자 연락처 : <span>${sellerInfo.phone}</span></li>
+										<li>우편번호 : <span>${sellerInfo.postCode}</span></li>
+										<li>주소 : <span>${sellerInfo.address}</span></li>
+									</ul>
 								</div>
 							</div>
 							
 							<div class="tab-pane fade" id="tag" >
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery1.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery2.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery3.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery4.jpg" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="tab-pane fade active in" id="reviews" >
 								<div class="col-sm-12">
 									<ul>
 										<li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
@@ -523,6 +362,30 @@
 										<li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
 									</ul>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+									<p><b>Write Your Review</b></p>
+									
+									<form action="#">
+										<span>
+											<input type="text" placeholder="Your Name"/>
+											<input type="email" placeholder="Email Address"/>
+										</span>
+										<textarea name="" ></textarea>
+										<b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
+										<button type="button" class="btn btn-default pull-right">
+											Submit
+										</button>
+									</form>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="reviews" >
+								<div class="col-sm-12">
+									<ul>
+										<li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
+										<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
+										<li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+									</ul>
+									<p>짱 좋아요</p>
 									<p><b>Write Your Review</b></p>
 									
 									<form action="#">

@@ -1,0 +1,15 @@
+package hwst.domain;
+
+public class CategoryVo {
+
+	private int categoryNo;
+	private int upCategoryNo;
+	private String categoryName;
+	private String recentUpdateTime;
+	private int recentUpdateUserNo;
+	
+	
+	public CategoryVo(){}
+
+	
+}

@@ -1,0 +1,36 @@
+package hwst.controller;
+
+import hwst.domain.ProductOptionVo;
+import hwst.service.ProductOptionService;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class ProductOptionController {
+	@Resource(name="productOptionService")
+	private ProductOptionService productOptionService;
+	
+	
+	 List<ProductOptionVo> selectProductOptionAll(int productNo);
+	    
+
+//상품전체보기(현재는 최근등록순 정렬)
+	@RequestMapping(value="allProductView.do", method = RequestMethod.GET)
+	public ModelAndView selectProductAll(HttpSession session, HttpServletRequest request){
+		List<ProductOptionVo> list =  productOptionService.selectProductOptionAll(int productNo);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("list", list);	
+		mv.setViewName("product");
+		session.setAttribute("productViewStat", "all");
+		return mv;
+	}
+}

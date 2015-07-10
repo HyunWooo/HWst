@@ -13,7 +13,7 @@ public interface UsersDao {
 	
 	UsersVo selectOneUser(UsersVo vo);
 	BuyerVo selectOneBuyer(UsersVo vo);
-	SellerVo selectOneSeller(UsersVo vo);
+	SellerVo selectOneSeller(int i);
 	AdminVo selectOneAdmin(UsersVo vo);
 	int insertBuyer(int userNo);
 	int insertSeller(SellerVo sVo);

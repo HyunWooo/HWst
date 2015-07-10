@@ -1,34 +1,15 @@
 <%@page import="hwst.domain.ProductVo"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	request.setCharacterEncoding("euc-kr");
-%>
-<%
-	final int ROWSIZE = 6;
-   final int BLOCK = 5;
-
-   int pg = 1;
-   
-   if(request.getParameter("pg")!=null) {
-      pg = Integer.parseInt(request.getParameter("pg"));
-   }
-   
-   int start = (pg*ROWSIZE) - (ROWSIZE-1);
-   int end = (pg*ROWSIZE);
-   
-   int allPage = 0;
-   
-   int startPage = ((pg-1)/BLOCK*BLOCK)+1;
-   int endPage = ((pg-1)/BLOCK*BLOCK)+BLOCK;
-%>
+<%request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -123,15 +104,16 @@
 					</div>
 					<div class="col-sm-8">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							 <form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
+	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
+                             </form>
 						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="index.do" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="allProductView.do">Products</a></li>
-										<li><a href="product_details.jsp">Product Details</a></li> 
+                                        <li><a href="allProductView.do">전체상품보기</a></li>
                                     </ul>
                                 </li> 
 								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -180,6 +162,7 @@
 		</div>
 	</section>
 	
+	<!-- 카테고리 jstl -->
 	<section>
 		<div class="container">
 			<div class="row">
@@ -187,68 +170,34 @@
 					<div class="left-sidebar">
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+						<c:forEach items="${sessionScope.upCategoryList}" var="list" varStatus="status">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+									<c:if test="${status.last eq false}" >
+										<a data-toggle="collapse" data-parent="#accordian" href="#<c:out value="${list.categoryName}"/>">
 											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											의류
+											<c:out value="${list.categoryName}"/>
 										</a>
+									</c:if>
+									<c:if test="${status.last eq true}" >
+										<a href="#"><c:out value="${list.categoryName}"/></a>
+									</c:if>
 									</h4>
 								</div>
-								<div id="sportswear" class="panel-collapse collapse">
+								<div id="<c:out value="${list.categoryName}"/>" class="panel-collapse collapse">
 									<div class="panel-body">
+										<c:forEach items="${sessionScope.categoryList}" var="list2" >
+										<c:if test="${list.categoryNo eq list2.upCategoryNo}" >
 										<ul>
-											<li><a href="#">남성의류 </a></li>
-											<li><a href="#">여성의류 </a></li>
-											<li><a href="#">유아의류 </a></li>
-											<li><a href="#">스포츠용</a></li>
+											<li><a href="selectProductByCategory.do?categoryNo=<c:out value="${list2.categoryNo}"/>"><c:out value="${list2.categoryName}"/></a></li>
 										</ul>
+										</c:if>
+										</c:forEach>
 									</div>
 								</div>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											악세사리
-										</a>
-									</h4>
-								</div>
-								<div id="mens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">귀걸이</a></li>
-											<li><a href="#">목걸이</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											디지털
-										</a>
-									</h4>
-								</div>
-								<div id="womens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">가전제품</a></li>
-											<li><a href="#">컴퓨터</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">기타 잡화</a></h4>
-								</div>
-							</div>
+						</c:forEach>
 						</div><!--/category-products-->
 					
 						<!-- <div class="brands_products">brands_products
@@ -285,120 +234,45 @@
 				
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">All New Item</h2>
-						<%
-							List<ProductVo> list = (List<ProductVo>)(session.getAttribute("productList"));
-							                               allPage = (int)Math.ceil(list.size()/(double)ROWSIZE);
-							                             
-							                             if(endPage > allPage) {
-							                                endPage = allPage;
-							                             }
-							                             
-							                               int pageNum = 1;
-							                               if(request.getParameter("pg") != null){
-							                                  if(request.getParameter("pg").equals("0")){
-							                                     pageNum = 1;
-							                                  }
-							                                  else{
-							                                     pageNum = Integer.parseInt(request.getParameter("pg"));
-							                                  }
-							                               }
-							                               
-							                               ProductVo tempPro = null;
-							                               if(list.size()>20){
-							                                   for(int i = (pageNum - 1) * 10; i < (pageNum * 10) - 1; i++)
-							                                   {
-							                                      tempPro = list.get(i);
-						%>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/product/product12.jpg" alt="" />
-										<h2><%= tempPro.getBasicPrice() %></h2>
-										<p>$<%= tempPro.getName() %></p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2><%=tempPro.getBasicPrice() %></h2>
-											<p><%= tempPro.getName() %></p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-										</div>
-									</div>
-								</div>
-								 <div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<% 
-                                   }} else if(list.size()>7){
-                               for(int i = (pageNum - 1) * 9; i < list.size() ; i++)
-                               {
-                                  tempPro = list.get(i);
-                                  %>
-						<!-- 여기까지가 상품 하나부분 -->
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/product/product12.jpg" alt="" />
-										<h2><%= tempPro.getBasicPrice()%></h2>
-										<p><%= tempPro.getName() %></p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2><%= tempPro.getBasicPrice()%></h2>
-											<p><%= tempPro.getName() %></p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<% 
-                               }}else{
-                                  for(int i = (pageNum - 1) * 10; i < list.size() ; i++)
-                                  {
-                                  tempPro = list.get(i);
-                        %>
+						<c:choose>
+							<c:when test="${sessionScope.productViewStat eq 'all'}">
+								<h2 class="title text-center">상품 전체보기</h2>
+							</c:when>
+							<c:when test="${sessionScope.productViewStat eq 'searchKeyword'}">
+								<h2 class="title text-center">검색된 상품보기</h2>
+							</c:when>
+							<c:when test="${sessionScope.productViewStat eq 'searchCategory'}">
+								<h2 class="title text-center">해당 카테고리 상품보기</h2>
+							</c:when>
+						</c:choose>
+						
+                        <c:forEach items="${list}" var="list" > 
+						<%-- <c:forEach items="${sessionScope.productList}" var="list" >   --%>
                         <div class="col-sm-4">
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
-										<img src="images/product/<%= tempPro.getCategoryNo() %>/<%= tempPro.getProductNo() %>_1.jpg" alt="" />
-										<h2><%= tempPro.getBasicPrice() %>원</h2>
-										<p><%= tempPro.getName() %></p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>장바구니 담기</a>
+										<img src="images/product/<c:out value="${list.categoryNo}"/>/<c:out value="${list.productNo}"/>_1.jpg" alt="" />
+										<h2><c:out value="${list.basicPrice}"/>원</h2>
+										<p><c:out value="${list.name}"/></p>
+										<a href="viewProductDetails.do?productNo=<c:out value="${list.productNo}"/>" class="btn btn-default add-to-cart"><i class="fa fa-search"></i>상품상세보기</a>
 									</div>
 									<div class="product-overlay">
 										<div class="overlay-content">
-											<p><%= tempPro.getDetails() %></p>
-											<h2><%= tempPro.getBasicPrice() %>원</h2>
-											<p><%= tempPro.getName() %></p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>장바구니 담기</a>
+											<p><c:out value="${list.details}"/></p>
+											<h2><c:out value="${list.basicPrice}"/>원</h2>
+											<p><c:out value="${list.name}"/></p>
+											<a href="viewProductDetails.do?productNo=<c:out value="${list.productNo}"/>" class="btn btn-default add-to-cart"><i class="fa fa-search"></i>상품상세보기</a>
 										</div>
 									</div>
+									<img src="images/home/new.png" class="new" alt="" />
 								</div>
 							</div>
 						</div>
-						<% 
-                               }
-                               }
-                        %>
-						
-						
+						</c:forEach>
+						<c:if test="${empty list}">
+							<img src="https://www.harimmarket.com/user/images/common/object_ing.gif">
+						</c:if>
 						
 						<!-- <ul class="pagination">
 							<li class="active"><a href="">1</a></li>
@@ -406,6 +280,37 @@
 							<li><a href="">3</a></li>
 							<li><a href="">&raquo;</a></li>
 						</ul> -->
+						<%
+						   final int ROWSIZE = 6;
+						   final int BLOCK = 5;
+						   int pg = 1;
+						   if(request.getParameter("pg")!=null) {
+						      pg = Integer.parseInt(request.getParameter("pg"));
+						   }
+						  /*  int start = (pg*ROWSIZE) - (ROWSIZE-1);
+						   int end = (pg*ROWSIZE); */
+						   int allPage = 0;
+						   int startPage = ((pg-1)/BLOCK*BLOCK)+1;
+						   int endPage = ((pg-1)/BLOCK*BLOCK)+BLOCK;
+					
+							List<ProductVo> list = (List<ProductVo>)(session.getAttribute("productList"));
+							allPage = (int)Math.ceil(list.size()/(double)ROWSIZE);
+							                             
+	                       if(endPage > allPage) {
+	                          endPage = allPage;
+	                       }
+                       
+                           int pageNum = 1;
+	                       if(request.getParameter("pg") != null){
+	                          if(request.getParameter("pg").equals("0")){
+	                             pageNum = 1;
+	                          }
+	                          else{
+	                             pageNum = Integer.parseInt(request.getParameter("pg"));
+	                          }
+	                       }
+						%>
+						<c:if test="${not empty list}">
 						<ul class="pagination pagination-lg">
                        <li><a href="product.do?pg=<%=startPage-1%>"><!-- <i class="fa fa-long-arrow-left"> --></i>Previous Page</a></li>
 		                  <%
@@ -423,6 +328,7 @@
 		                  %>
 	                   <li><a href="product.do?pg=<%=endPage+1%>">Next Page<!-- <i class="fa fa-long-arrow-right"></i> --></a></li>
                     </ul><!--/.pagination-->
+                    </c:if>
 					</div><!--features_items-->
 				</div>
 			</div>

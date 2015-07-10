@@ -1,0 +1,35 @@
+package hwst.domain;
+
+
+public class ProductOptionVo{
+	private int productOptionNo;
+	private int productNo;
+	private int optionProcedure;
+	private int addPrice;
+	private int productAmount;
+	private String productOptionName;
+	private int optionStat;
+	private String recentUpdateTime;
+	private int recentUpdateUserNo;
+	
+	
+	public ProductOptionVo(){};
+	public ProductOptionVo(int productOptionNo, int productNo,
+			int optionProcedure, int addPrice, int productAmount,
+			String productOptionName, int optionStat, String recentUpdateTime,
+			int recentUpdateUserNo) {
+		super();
+		this.productOptionNo = productOptionNo;
+		this.productNo = productNo;
+		this.optionProcedure = optionProcedure;
+		this.addPrice = addPrice;
+		this.productAmount = productAmount;
+		this.productOptionName = productOptionName;
+		this.optionStat = optionStat;
+		this.recentUpdateTime = recentUpdateTime;
+		this.recentUpdateUserNo = recentUpdateUserNo;
+	}
+
+	
+	
+}

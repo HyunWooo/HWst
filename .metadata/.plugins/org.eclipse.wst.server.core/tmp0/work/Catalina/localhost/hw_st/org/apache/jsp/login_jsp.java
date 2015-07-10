@@ -53,7 +53,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
 
 
     try {
-      response.setContentType("text/html; charset=EUC-KR");
+      response.setContentType("text/html; charset=utf-8");
       pageContext = _jspxFactory.getPageContext(this, request, response,
       			null, true, 8192, true);
       _jspx_page_context = pageContext;
@@ -225,8 +225,7 @@ session.removeAttribute("loginFail");
       out.write("\t\t\t\t\t\t\t\t<li><a href=\"index.do\" class=\"active\">Home</a></li>\r\n");
       out.write("\t\t\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\">Shop<i class=\"fa fa-angle-down\"></i></a>\r\n");
       out.write("                                    <ul role=\"menu\" class=\"sub-menu\">\r\n");
-      out.write("                                        <li><a href=\"allProductView.do\">Products</a></li>\r\n");
-      out.write("\t\t\t\t\t\t\t\t\t\t<li><a href=\"product_details.jsp\">Product Details</a></li> \r\n");
+      out.write("                                        <li><a href=\"allProductView.do\">상품전체보기</a></li>\r\n");
       out.write("                                    </ul>\r\n");
       out.write("                                </li> \r\n");
       out.write("\t\t\t\t\t\t\t\t<!-- <li class=\"dropdown\"><a href=\"#\">Blog<i class=\"fa fa-angle-down\"></i></a>\r\n");
