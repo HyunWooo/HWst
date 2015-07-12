@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="address" property="address" />
 		<result column="userSection" property="userSection" />
 		<result column="grade" property="grade" />
+		<result column="discountPercent" property="discountPercent" />
 		<result column="udtGradeTime" property="udtGradeTime" />
 	</resultMap>
 	
@@ -63,9 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectOneBuyer" parameterType="buyerVo" resultMap="bResultMap">
-		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, b.grade, b.udtGradeTime 
-		from users u, buyer b 
-		where u.id=#{id} and u.pw=#{pw} and u.userNo=b.userNo
+		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, b.grade, d.discountPercent, b.udtGradeTime 
+		from users u, buyer b, grade d
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=b.userNo and d.gradeNo = b.grade
 	</select>
 	
 	<select id="selectOneSeller" parameterType="int" resultMap="sResultMap">
@@ -98,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertBuyer" parameterType="String">
 		insert into buyer
-		values(#{userNo}, 0, now());
+		values(#{userNo}, 1, now());
 	</insert>
 	
 	<insert id="insertSeller" parameterType="sellerVo">

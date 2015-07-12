@@ -1,82 +1,82 @@
--- È¸¿ø
-ALTER TABLE Users
-	DROP PRIMARY KEY; -- È¸¿ø ±âº»Å°
 
--- È¸¿ø
+ALTER TABLE Users
+	DROP PRIMARY KEY; 
+
+
 DROP TABLE IF EXISTS Users RESTRICT;
 
 TRUNCATE TABLE Users;
 drop table users;
 
--- È¸¿ø
+
 CREATE TABLE Users (
-	userNo      int AUTO_INCREMENT primary key, -- È¸¿ø¹øÈ£
-	id          varchar(30) not NULL,     -- ¾ÆÀÌµğ
-	pw          varchar(20) not NULL,     -- ºñ¹Ğ¹øÈ£
-	name        varchar(10) not NULL,     -- ÀÌ¸§
-	phone       varchar(20) not NULL,     -- ÀüÈ­¹øÈ£
-	postCode    varchar(10) not NULL,     -- ¿ìÆí¹øÈ£
-	address     varchar(50) not NULL,     -- ÁÖ¼Ò
-	userSection int not NULL      -- È¸¿ø±¸ºĞ
+	userNo      int AUTO_INCREMENT primary key, 
+	id          varchar(30) not NULL,     
+	pw          varchar(20) not NULL,     
+	name        varchar(10) not NULL,     
+	phone       varchar(20) not NULL,     
+	postCode    varchar(10) not NULL,    
+	address     varchar(50) not NULL,    
+	userSection int not NULL      
 );
 
--- ±¸¸ÅÀÚ
+
 CREATE TABLE Buyer (
-	userNo        int primary key, -- ±¸¸ÅÀÚ_È¸¿ø¹øÈ£
-	grade        int not NULL,  -- µî±Ş¹øÈ£
-	udtGradeTime date not NULL      -- µî±Şº¯°æÀÏ½Ã
+	userNo        int primary key, 
+	grade        int not NULL,  
+	udtGradeTime date not NULL      
 );
 
--- ÆÇ¸ÅÀÚ
+
 CREATE TABLE Seller (
-	userNo    int primary key,  -- ÆÇ¸ÅÀÚ_È¸¿ø¹øÈ£
-	bankName  varchar(10) not NULL,     -- ÀÔ±İ°èÁÂÀºÇà¸í
-	accountNo varchar(20) not NULL      -- °èÁÂ¹øÈ£
+	userNo    int primary key,  
+	bankName  varchar(10) not NULL,     
+	accountNo varchar(20) not NULL     
 );
 
 CREATE TABLE Admin (
-	userNo     int primary key, -- °ü¸®ÀÚ¹øÈ£
-	adminName varchar(10) not NULL      -- °ü¸®´ã´ãÀÚ¸í
+	userNo     int primary key,
+	adminName varchar(10) not NULL   
 );
 
 
 
--- ±¸¸ÅÀÚ
+
 ALTER TABLE Buyer
-	ADD CONSTRAINT FK_Users_TO_Buyer -- È¸¿ø -> ±¸¸ÅÀÚ
+	ADD CONSTRAINT FK_Users_TO_Buyer 
 		FOREIGN KEY (
-			userNo -- ±¸¸ÅÀÚ_È¸¿ø¹øÈ£
+			userNo 
 		)
-		REFERENCES Users ( -- È¸¿ø
-			userNo -- È¸¿ø¹øÈ£
+		REFERENCES Users ( 
+			userNo
 		);
 		
--- ÆÇ¸ÅÀÚ
+
 ALTER TABLE Seller
-	ADD CONSTRAINT FK_Users_TO_Seller -- È¸¿ø -> ÆÇ¸ÅÀÚ
+	ADD CONSTRAINT FK_Users_TO_Seller
 		FOREIGN KEY (
-			userNo -- ÆÇ¸ÅÀÚ_È¸¿ø¹øÈ£
+			userNo
 		)
-		REFERENCES Users ( -- È¸¿ø
-			userNo -- È¸¿ø¹øÈ£
+		REFERENCES Users (
+			userNo 
 		);
 		
--- °ü¸®ÀÚ
+
 ALTER TABLE Admin
-	ADD CONSTRAINT FK_Users_TO_Admin -- È¸¿ø -> °ü¸®ÀÚ
+	ADD CONSTRAINT FK_Users_TO_Admin 
 		FOREIGN KEY (
-			userNo -- °ü¸®ÀÚ¹øÈ£
+			userNo
 		)
-		REFERENCES Users ( -- È¸¿ø
-			userNo -- È¸¿ø¹øÈ£
+		REFERENCES Users ( 
+			userNo 
 		);
 		
 commit;
 
-insert into users values(null, 'gusdn@sk.com' , '123123' , '±èÇö¿ì' , '010-3341-3855' , '158-092', '¼­¿ï½Ã ¾çÃµ±¸ ½Å¿ù2µ¿ 467-1 ¶óº¥ÇÏÀÓ 502È£',0);
-insert into users values(null, 'sellerKing@sk.com' , '123123' , 'ÆÇ¸Å¿Õ' , '010-6295-3855' ,'152-823','¼­¿ï½Ã ¿©ÀÇµµ±¸ ¿©ÀÇµµµ¿ 523¹øÁö',1);
-insert into users values(null, 'admin@sk.com' , '123123' , '°ü¸®ÀÚ' , '010-3341-3855' ,'123-456','°æ±âµµ ºÎÃµ½Ã ¼Ò»ç±¸ ¼Ò»çº»µ¿ 13¹øÁö', 2);
+insert into users values(null, 'gusdn@sk.com' , '123123' , 'ê¹€í˜„ìš°' , '010-3341-3855' , '158-092', 'ì„œìš¸ì‹œ ì–‘ì²œêµ¬ ì‹ ì›”2ë™ 467-1 ë¼ë²¤í•˜ì„ 502í˜¸',1);
+insert into users values(null, 'sellerKing@sk.com' , '123123' , 'íŒë§¤ì™•' , '010-6295-3855' ,'152-823','ì„œìš¸ì‹œ ë™ì‘êµ¬ ë³´ë¼ë§¤ì—­',2);
+insert into users values(null, 'admin@sk.com' , '123123' , 'ê´€ë¦¬ì' , '010-3341-3855' ,'123-456','ì¢…ë¡œíƒ€ì›Œ', 3);
 
 insert into Buyer values((select userNo from users where id='gusdn@sk.com'),0,now());
-insert into Seller values((select userNo from users where id='sellerKing@sk.com'),'¿ì¸®','1002-389-901006');
-insert into Admin values((select userNo from users where id='admin@sk.com'),'±èÇö¿ì');
+insert into Seller values((select userNo from users where id='sellerKing@sk.com'),'ìš°ë¦¬','1002-389-901006');
+insert into Admin values((select userNo from users where id='admin@sk.com'),'ë¦¬ìŠ¤íŒ…ê°œë°œíŒ€');

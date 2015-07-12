@@ -33,18 +33,115 @@
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
-<script type="text/javascript">
+<script type="text/javascript" charset='utf-8'>
 function getSelectValue(frm)
 {
 	if(frm.selectBox.options[frm.selectBox.selectedIndex].id == 0){
 		alert("품절된 상품옵션은 구매하실 수 없습니다.");
 		frm.totalPrice.value = null;
+		frm.discountedTotalPrice.value = null;
 	}else if(frm.selectBox.options[frm.selectBox.selectedIndex].id == -1){
 		frm.totalPrice.value = null;
+		frm.discountedTotalPrice.value = null;
 	}
 	 else{
-		 frm.totalPrice.value = (parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))+"원";
+		 var obj = document.getElementsByName('productOne'); //'productOne' 을 포함한 Tag들을 찾아서 배열로 만들어준다.
+	     //alert(obj[0].id);
+	     var i= obj.length ;
+	     var optionText = $("#list option:selected").text();
+	     for(j=0; j<obj.length; j++){
+	    	 alert(obj[j].value);
+		     if(optionText == obj[j].value){
+		    	alert("이미 선택된 상품이 존재합니다."); 
+		     }
+	     }
+	     
+	     document.getElementById('myTable').innerHTML += "<input type='text' size='40' name='productOne' value='" +optionText+"'>"
+	       	+ "<div class='cart_quantity_button'>"
+		   	+ "<button type='button'  name='cart_quantity_down' id='cart_quantity_down' value='"+i+"' onclick='minusQuantity(this.form);''> - </button>"
+		   	+"<label class='cart_quantity_input' type='text' name='quantity' value='"+i+"' readonly>1</label>"
+			+"<button type='button' name='cart_quantity_up' id='cart_quantity_up' value='"+i+"' onclick='plusQuantity(this.form);''> + </button></div>"
+			+"<button type='button' name='delButton' value='"+i+"' onClick='del(this.value);'>x</button>";
+		 
+		 frm.totalPrice.value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(frm.quantity.value))+"원";
+		 
+		 if(frm.discountPercent.value != null){
+			frm.discountPrice.value = -(parseInt(frm.totalPrice.value)*((parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
+			frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*((100-parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
+		 }
+		 else{
+			 frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*parseInt(frm.quantity.value))+"원";
+		 }
 	 }
+}
+
+function del(id){
+	 	var obj = document.getElementsByName('productOne');
+	   var button = document.getElementsByName('delButton');
+	   var quantity = document.getElementsByName('quantity');
+	   var cart_quantity_down = document.getElementsByName('cart_quantity_down');
+	   var cart_quantity_up = document.getElementsByName('cart_quantity_up');
+	   obj[id].outerHTML="";
+	   button[id].outerHTML="";
+	   quantity[id].outerHTML="";
+	   cart_quantity_down[id].outerHTML="";
+	   cart_quantity_up[id].outerHTML="";
+	   
+	 
+	 //삭제한뒤 다시한번 현재 남은 inputbox의 값을 읽어서 다시 재설정 해준다.
+	    button = document.getElementsByName('delButton'); 
+	    quantity = document.getElementsByName('quantity');
+		cart_quantity_down = document.getElementsByName('cart_quantity_down');
+		cart_quantity_up = document.getElementsByName('cart_quantity_up');
+	    for(var k=0; k < button.length ;k++){
+	      button[k].value= k;
+	      quantity[k].value= k;
+	      cart_quantity_down[k].value= k;
+	      cart_quantity_up[k].value= k;
+	    }
+	}
+
+function plusQuantity(frm){
+	if(frm.selectBox.options[frm.selectBox.selectedIndex].id == -1){
+		alert("상품옵션을 먼저 선택해주세요");
+	}
+	else{
+		frm.quantity.value = parseInt(frm.quantity.value) +1;
+		
+		frm.totalPrice.value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(frm.quantity.value))+"원";
+		 
+		 if(frm.discountPercent.value != null){
+			frm.discountPrice.value = -(parseInt(frm.totalPrice.value)*((parseInt(frm.discountPercent.value))/100))+"원";
+			frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*((100-parseInt(frm.discountPercent.value))/100))+"원";
+		 }
+		 else{
+			 frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*parseInt(frm.quantity.value))+"원";
+		 }
+	}
+}
+
+function minusQuantity(frm){
+	if(frm.selectBox.options[frm.selectBox.selectedIndex].id == -1){
+		alert("상품옵션을 먼저 선택해주세요");
+	}
+	else{
+		if(frm.quantity.value >1){
+			frm.quantity.value = parseInt(frm.quantity.value) -1;
+			
+			frm.totalPrice.value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(frm.quantity.value))+"원";
+			 
+			 if(frm.discountPercent.value != null){
+				frm.discountPrice.value = -(parseInt(frm.totalPrice.value)*((parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
+				frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*((100-parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
+			 }
+			 else{
+				 frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*parseInt(frm.quantity.value))+"원";
+			 }
+		}
+		else{
+			alert("수량은 0 이하일 수 없습니다.");
+		}
+	}
 }
 
 </script>
@@ -309,19 +406,34 @@ function getSelectValue(frm)
 								<ul class="user_info">
 									<li class="single_field">
 										<form name="form">
-											<label>옵션 선택:</label>
-											<select name="selectBox" onchange="getSelectValue(this.form);">
-													<option id="-1">선택하세요</option>
-												<c:forEach items="${productOptionList}" var="productOptionList" >
-													<option id="${productOptionList.productAmount}" value="${productOptionList.addPrice}">${productOptionList.optionProcedure}.${productOptionList.productOptionName}(+${productOptionList.addPrice}원)
-													<c:if test="${productOptionList.productAmount > 0}">_재고수량: ${productOptionList.productAmount}개</c:if>
-													<c:if test="${productOptionList.productAmount eq 0}">_재고수량: 품절</c:if>
-													</option>
-												</c:forEach>
-											</select>
+													<label>옵션 선택</label>
+													<select name="selectBox" id="list" onchange="getSelectValue(this.form);" >
+															<option id="-1">선택하세요</option>
+														<c:forEach items="${productOptionList}" var="productOptionList" >
+															<option id="${productOptionList.productAmount}" value="${productOptionList.addPrice}">${productOptionList.optionProcedure}.${productOptionList.productOptionName}(+${productOptionList.addPrice}원)
+															<c:if test="${productOptionList.productAmount > 0}">_재고수량: ${productOptionList.productAmount}개</c:if>
+															<c:if test="${productOptionList.productAmount eq 0}">_재고수량: 품절</c:if>
+															</option>
+														</c:forEach>
+													</select>
 											<input type="hidden" name="basicPrice" value="${product.basicPrice}"/>
+											<input type="hidden" name="discountPercent" value="${sessionScope.userLoginInfo.discountPercent}"/>
+											
+											<!-- <label>수량 선택</label>
+											<div class="cart_quantity_button">
+												<button type="button"  id="cart_quantity_down" onclick="minusQuantity(this.form);"> - </button>
+												<input class="cart_quantity_input" type="text" name="quantity" value="1" readonly>
+												<button type="button" id="cart_quantity_up" onclick="plusQuantity(this.form);"> + </button>
+											</div> -->
+												
+											<span id="myTable" style="border:5 dotted #ff0000;">
+											</span>
 											<span>
-												<span>총가격: <input type="text" name="totalPrice"></span>
+											<span>총금액 <input type="text" name="totalPrice" readonly></span>
+												<c:if test="${not empty sessionScope.userLoginInfo}">
+														<span>등급 할인금액 <input type="text" name="discountPrice" readonly></span>
+														<span>할인된 총금액 <input type="text" name="discountedTotalPrice" readonly></span>
+												</c:if>
 											</span>
 										</form>
 									</li>

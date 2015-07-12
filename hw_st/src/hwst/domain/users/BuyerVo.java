@@ -3,6 +3,7 @@ package hwst.domain.users;
 public class BuyerVo extends UsersVo{
 
 	int grade;
+	int discountPercent;
 	String udtGradeTime;
 	
 	
@@ -28,10 +29,22 @@ public class BuyerVo extends UsersVo{
 	public void setUdtGradeTime(String udtGradeTime) {
 		this.udtGradeTime = udtGradeTime;
 	}
+	public int getDiscountPercent() {
+		return discountPercent;
+	}
+	public void setDiscountPercent(int discountPercent) {
+		this.discountPercent = discountPercent;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BuyerVo [getId()=");
+		builder.append("BuyerVo [grade=");
+		builder.append(grade);
+		builder.append(", discountPercent=");
+		builder.append(discountPercent);
+		builder.append(", udtGradeTime=");
+		builder.append(udtGradeTime);
+		builder.append(", getId()=");
 		builder.append(getId());
 		builder.append(", getPw()=");
 		builder.append(getPw());
@@ -47,15 +60,8 @@ public class BuyerVo extends UsersVo{
 		builder.append(getAddress());
 		builder.append(", getUserSection()=");
 		builder.append(getUserSection());
-		builder.append(", grade=");
-		builder.append(grade);
-		builder.append(", udtGradeTime=");
-		builder.append(udtGradeTime);
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
-	
-	
+
 }
