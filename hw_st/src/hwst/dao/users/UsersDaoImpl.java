@@ -10,11 +10,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository("usersDao")
 public class UsersDaoImpl implements UsersDao {
+	
+	Logger logger = Logger.getLogger(this.getClass());
 
 	@Override
 	public List<UsersVo> usersSelect() throws SQLException{
@@ -56,6 +59,7 @@ public class UsersDaoImpl implements UsersDao {
 		UsersVo uVo = null;
 		try {
 			session = DBUtil.getSqlSession();
+			  logger.info("안녕하세요!"+ vo + "입니다.");
 			System.out.println("쿼리들어가기전 :" + vo);
 			uVo = session.selectOne("users.loginUsers",vo);
 			System.out.println(uVo);
