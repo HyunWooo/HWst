@@ -4,11 +4,12 @@ import hwst.dao.users.UsersDao;
 import hwst.domain.users.SellerVo;
 import hwst.domain.users.UsersVo;
 
-import java.util.List;
+import java.sql.SQLException;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("usersService")
 public class UsersServiceImpl implements UsersService {
@@ -18,7 +19,7 @@ public class UsersServiceImpl implements UsersService {
 
 
 	@Override
-	public String checkUsersId(String id) {
+	public String checkUsersId(String id) throws SQLException{
 		int chkNo = 0;
 		String chk = "아이디 사용가능";//아이디 사용가능
 
@@ -31,7 +32,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public UsersVo loginUsers(UsersVo vo) {
+	public UsersVo loginUsers(UsersVo vo) throws SQLException{
 		UsersVo uVo = null;
 		uVo = usersDao.selectOneUser(vo);
 
@@ -49,21 +50,25 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	@Override
-	public UsersVo selectUserOne(int userNo) {
+	public UsersVo selectUserOne(int userNo) throws SQLException{
 			return usersDao.selectOneSeller(userNo);
 	}
 
+	@Transactional
 	@Override
-	public boolean signupBuyer(UsersVo vo) {
+	public boolean signupBuyer(UsersVo vo) throws SQLException{
 		boolean flag1 = false;
 		boolean flag2 = false;
 		int result1 = 0;
 		int result2 = 0;
 		int result3 = 0;
-
+		
+		
 		result1 = usersDao.insertUsers(vo);
 		result3 = usersDao.selectOneUserNo(vo.getId());
-		result2 = usersDao.insertBuyer(result3);
+		result2 = usersDao.insertBuyer(result3);  
+		
+		
 
 		flag1 = result1 > 0 ? true : false;
 		flag2 = result2 > 0 ? true : false;
@@ -76,7 +81,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public boolean signupSeller(SellerVo vo) {
+	public boolean signupSeller(SellerVo vo) throws SQLException{
 		boolean flag1 = false;
 		boolean flag2 = false;
 		int result1 = 0;
@@ -103,7 +108,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public boolean updateUsers(UsersVo vo) {
+	public boolean updateUsers(UsersVo vo) throws SQLException{
 		boolean flag = false;
 		int result = 0;
 		result = usersDao.updateUsers(vo);
@@ -118,7 +123,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public boolean deleteUsers(int userNo, int userSection) {
+	public boolean deleteUsers(int userNo, int userSection) throws SQLException{
 		boolean flag1 = false;
 		boolean flag2 = false;
 		int result1 = 0;

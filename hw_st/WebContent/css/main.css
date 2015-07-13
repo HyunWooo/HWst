@@ -1676,7 +1676,7 @@ h2.title {
 	width : 35%;
 }
 
-.cart_quantity_button a {
+.cart_quantity_button button {
   background:#F0F0E9;
   color: #696763;
   display: inline-block;
@@ -1685,7 +1685,6 @@ h2.title {
   overflow: hidden;
   text-align: center;
   width: 35px;
-  float: left;
 }
 
 
@@ -1773,6 +1772,14 @@ h2.title {
   overflow: hidden;
 }
 
+.user_info text{
+  display: block;
+  margin-bottom: 5px;
+  margin-top: 20px;
+  overflow: hidden;
+  border:1px solid#F0F0E9
+}
+
 .user_info label {
   color: #696763;
   display: block;
@@ -1782,20 +1789,32 @@ h2.title {
 }
 
 .user_info .single_field {
-  width: 95%
+  float: left;
+  width: 95%;
 }
 
 .user_info .single_field.zip-field input {
   background: transparent;
-  border: 1px solid#F0F0E9
+  border: 1px solid#00F0E9;
 }
 
 .user_info > li {
-  float: left;
-  margin-right: 20px
+  margin-right: 20px;
 }
 
-.user_info > li > span {
+.user_info > li span{
+  float: left;
+  margin-right: 20px;
+}
+.user_info > li span span input{
+  font-size: 16px;
+  float: left;
+  margin-right: 10px;
+  width: 95%;
+}
+
+.user_info > li span span button{
+  float: center;
 }
 
 .user_info input, select, textarea {

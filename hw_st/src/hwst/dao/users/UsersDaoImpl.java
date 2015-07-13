@@ -6,16 +6,18 @@ import hwst.domain.users.SellerVo;
 import hwst.domain.users.UsersVo;
 import hwst.util.DBUtil;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("usersDao")
 public class UsersDaoImpl implements UsersDao {
 
 	@Override
-	public List<UsersVo> usersSelect() {
+	public List<UsersVo> usersSelect() throws SQLException{
 		SqlSession session = null;
 		List<UsersVo> list = null;
 		try {
@@ -110,6 +112,7 @@ public class UsersDaoImpl implements UsersDao {
 	}
 	
 	//회원가입
+	@Transactional
 	@Override
 	public int insertUsers(UsersVo vo) {
 		SqlSession session = null;
@@ -123,6 +126,7 @@ public class UsersDaoImpl implements UsersDao {
 		return result;
 	}
 	
+	@Transactional
 	@Override
 	public int insertBuyer(int userNo){
 		SqlSession session = null;

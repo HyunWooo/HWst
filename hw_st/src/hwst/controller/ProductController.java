@@ -7,6 +7,7 @@ import hwst.service.ProductOptionService;
 import hwst.service.ProductService;
 import hwst.service.UsersService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -48,7 +49,13 @@ public class ProductController {
 	@RequestMapping(value="viewProductDetails.do", method = RequestMethod.GET)
 	public ModelAndView selectProductDetails(int productNo, HttpSession session, HttpServletRequest request){
 		ProductVo productVo =  productService.selectProductDetails(productNo);
-		UsersVo sellerInfo = usersService.selectUserOne(productVo.getUserNo());
+		UsersVo sellerInfo = null;
+		try {
+			sellerInfo = usersService.selectUserOne(productVo.getUserNo());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<ProductOptionVo> productOptionList =  productOptionService.selectProductOptionAll(productVo.getProductNo());
 		System.out.println("productOptionList"+productOptionList);
 		

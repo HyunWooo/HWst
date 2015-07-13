@@ -38,10 +38,8 @@ function getSelectValue(frm)
 {
 	if(frm.selectBox.options[frm.selectBox.selectedIndex].id == 0){
 		alert("품절된 상품옵션은 구매하실 수 없습니다.");
-		frm.totalPrice.value = null;
 		frm.discountedTotalPrice.value = null;
 	}else if(frm.selectBox.options[frm.selectBox.selectedIndex].id == -1){
-		frm.totalPrice.value = null;
 		frm.discountedTotalPrice.value = null;
 	}
 	 else{
@@ -49,94 +47,129 @@ function getSelectValue(frm)
 	     //alert(obj[0].id);
 	     var i= obj.length ;
 	     var optionText = $("#list option:selected").text();
-	     for(j=0; j<obj.length; j++){
-	    	 alert(obj[j].value);
-		     if(optionText == obj[j].value){
-		    	alert("이미 선택된 상품이 존재합니다."); 
-		     }
+	     var optionNum = frm.selectBox.selectedIndex;
+	     var eachPrice = document.getElementsByName('eachPrice');
+	     var quantity = document.getElementsByName('quantity');
+	     var productOne = document.getElementsByName('productOne');
+	     var eachPrice2 = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value)))+"원";
+	     var span = document.createElement('span');
+	     var pass;
+	     alert(productOne.length);
+	     for(var k=0; k <= productOne.length ;k++){
+	    	 if(productOne[k].id==frm.selectBox.selectedIndex){
+	    		alert("이미 선택된 옵션항목입니다.");
+	    		pass='false';
+	    	 }else{
+	    		pass='true';
+	    	 }
+		 }
+	     alert(pass);
+	     if(pass=='true'){
+	     span.innerHTML =document.getElementById('myTable').innerHTML
+	     	+ "<input type='text' size='40' name='productOne' id='"+optionNum+"' value='" +optionText+"'>"
+		   	+ "<button type='button'  name='cart_quantity_down' id='cart_quantity_down' value='"+i+"' onclick='minusQuantity(this.form,this.value);''> - </button>"
+		   	+"<input class='cart_quantity_input' type='text' name='quantity' value='1' readonly>"
+			+"<button type='button' name='cart_quantity_up' id='cart_quantity_up' value='"+i+"' onclick='plusQuantity(this.form,this.value);''> + </button>"
+			+ "<input type='text' name='eachPrice' value='"+eachPrice2+"'readonly>"
+			+"<button type='button' name='delButton' value='"+i+"' onClick='del(this.form,this.value);'>x</button>";
+	        document.getElementById('field').appendChild(span);
+	       frm.totalPrice.value = parseInt(frm.totalPrice.value) + parseInt(eachPrice2) +"원";	
 	     }
-	     
-	     document.getElementById('myTable').innerHTML += "<input type='text' size='40' name='productOne' value='" +optionText+"'>"
-	       	+ "<div class='cart_quantity_button'>"
-		   	+ "<button type='button'  name='cart_quantity_down' id='cart_quantity_down' value='"+i+"' onclick='minusQuantity(this.form);''> - </button>"
-		   	+"<label class='cart_quantity_input' type='text' name='quantity' value='"+i+"' readonly>1</label>"
-			+"<button type='button' name='cart_quantity_up' id='cart_quantity_up' value='"+i+"' onclick='plusQuantity(this.form);''> + </button></div>"
-			+"<button type='button' name='delButton' value='"+i+"' onClick='del(this.value);'>x</button>";
-		 
-		 frm.totalPrice.value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(frm.quantity.value))+"원";
-		 
-		 if(frm.discountPercent.value != null){
+	        
+	   /*   document.getElementById('myTable').innerHTML = document.getElementById('myTable').innerHTML
+	     	+ "<input type='text' size='40' name='productOne' value='" +optionText+"'>"
+		   	+ "<button type='button'  name='cart_quantity_down' id='cart_quantity_down' value='"+i+"' onclick='minusQuantity(this.form,this.value);''> - </button>"
+		   	+"<input class='cart_quantity_input' type='text' name='quantity' value='1' readonly>"
+			+"<button type='button' name='cart_quantity_up' id='cart_quantity_up' value='"+i+"' onclick='plusQuantity(this.form,this.value);''> + </button>"
+			+ "<input type='text' name='eachPrice' value='"+eachPrice2+"'readonly>"
+			+"<button type='button' name='delButton' value='"+i+"' onClick='del(this.form,this.value);'>x</button>"; */
+		
+		
+		/* frm.totalPrice.value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(frm.quantity.value))+"원"; */
+		/*  if(frm.discountPercent.value != null){
 			frm.discountPrice.value = -(parseInt(frm.totalPrice.value)*((parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
 			frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*((100-parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
 		 }
 		 else{
 			 frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*parseInt(frm.quantity.value))+"원";
-		 }
+		 } */
 	 }
 }
 
-function del(id){
+function del(frm,id){
 	 	var obj = document.getElementsByName('productOne');
-	   var button = document.getElementsByName('delButton');
+	   var delButton = document.getElementsByName('delButton');
 	   var quantity = document.getElementsByName('quantity');
 	   var cart_quantity_down = document.getElementsByName('cart_quantity_down');
 	   var cart_quantity_up = document.getElementsByName('cart_quantity_up');
+	   var eachPrice = document.getElementsByName('eachPrice');
+	   var eachPrice3 = eachPrice[id].value;
+	   frm.totalPrice.value = parseInt(frm.totalPrice.value) - parseInt(eachPrice3) +"원";
 	   obj[id].outerHTML="";
-	   button[id].outerHTML="";
+	   delButton[id].outerHTML="";
 	   quantity[id].outerHTML="";
 	   cart_quantity_down[id].outerHTML="";
 	   cart_quantity_up[id].outerHTML="";
-	   
+	   eachPrice[id].outerHTML="";
 	 
 	 //삭제한뒤 다시한번 현재 남은 inputbox의 값을 읽어서 다시 재설정 해준다.
-	    button = document.getElementsByName('delButton'); 
-	    quantity = document.getElementsByName('quantity');
+	    delButton = document.getElementsByName('delButton'); 
 		cart_quantity_down = document.getElementsByName('cart_quantity_down');
 		cart_quantity_up = document.getElementsByName('cart_quantity_up');
-	    for(var k=0; k < button.length ;k++){
-	      button[k].value= k;
-	      quantity[k].value= k;
+	    for(var k=0; k < delButton.length ;k++){
+	      delButton[k].value= k;
 	      cart_quantity_down[k].value= k;
 	      cart_quantity_up[k].value= k;
 	    }
 	}
 
-function plusQuantity(frm){
+function plusQuantity(frm,id){
+/* 	alert($("#list option:selected").text());
+	alert($("#list option:selected").val()); */
+	var quantity = document.getElementsByName('quantity');
+	var eachPrice = document.getElementsByName('eachPrice');
+/* 	alert(frm);
+	alert(frm.productOne.value);
+	alert(frm.quantity.value); */
 	if(frm.selectBox.options[frm.selectBox.selectedIndex].id == -1){
 		alert("상품옵션을 먼저 선택해주세요");
 	}
 	else{
-		frm.quantity.value = parseInt(frm.quantity.value) +1;
+		quantity[id].value = parseInt(quantity[id].value) +1;
+		eachPrice[id].value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(quantity[id].value))+"원";
+		frm.totalPrice.value = parseInt(frm.totalPrice.value) + (parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value)) +"원";
 		
-		frm.totalPrice.value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(frm.quantity.value))+"원";
-		 
-		 if(frm.discountPercent.value != null){
+		/*  if(frm.discountPercent.value != null){
 			frm.discountPrice.value = -(parseInt(frm.totalPrice.value)*((parseInt(frm.discountPercent.value))/100))+"원";
 			frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*((100-parseInt(frm.discountPercent.value))/100))+"원";
 		 }
 		 else{
 			 frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*parseInt(frm.quantity.value))+"원";
-		 }
+		 } */
 	}
 }
 
-function minusQuantity(frm){
+function minusQuantity(frm,id){
+	var quantity = document.getElementsByName('quantity');
+	var eachPrice = document.getElementsByName('eachPrice');
+	
 	if(frm.selectBox.options[frm.selectBox.selectedIndex].id == -1){
 		alert("상품옵션을 먼저 선택해주세요");
 	}
 	else{
-		if(frm.quantity.value >1){
-			frm.quantity.value = parseInt(frm.quantity.value) -1;
+		if(quantity[id].value >1){
+			quantity[id].value = parseInt(quantity[id].value) -1;
+			eachPrice[id].value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(quantity[id].value))+"원";
 			
-			frm.totalPrice.value = ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value))*parseInt(frm.quantity.value))+"원";
+			frm.totalPrice.value = parseInt(frm.totalPrice.value) - ((parseInt(frm.selectBox.options[frm.selectBox.selectedIndex].value) + parseInt(frm.basicPrice.value)))+"원";
 			 
-			 if(frm.discountPercent.value != null){
+			/*  if(frm.discountPercent.value != null){
 				frm.discountPrice.value = -(parseInt(frm.totalPrice.value)*((parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
 				frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*((100-parseInt(frm.discountPercent.value))/100)*parseInt(frm.quantity.value))+"원";
 			 }
 			 else{
 				 frm.discountedTotalPrice.value = (parseInt(frm.totalPrice.value)*parseInt(frm.quantity.value))+"원";
-			 }
+			 } */
 		}
 		else{
 			alert("수량은 0 이하일 수 없습니다.");
@@ -428,8 +461,10 @@ function minusQuantity(frm){
 												
 											<span id="myTable" style="border:5 dotted #ff0000;">
 											</span>
+											
+											<span id="field"></span>
 											<span>
-											<span>총금액 <input type="text" name="totalPrice" readonly></span>
+												<span>총금액 <input type="text" name="totalPrice" value="0원" readonly></span>
 												<c:if test="${not empty sessionScope.userLoginInfo}">
 														<span>등급 할인금액 <input type="text" name="discountPrice" readonly></span>
 														<span>할인된 총금액 <input type="text" name="discountedTotalPrice" readonly></span>

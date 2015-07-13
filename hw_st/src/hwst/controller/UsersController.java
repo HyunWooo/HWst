@@ -1,5 +1,7 @@
 package hwst.controller;
 
+import java.sql.SQLException;
+
 import hwst.domain.users.SellerVo;
 import hwst.domain.users.UsersVo;
 import hwst.service.UsersService;
@@ -56,7 +58,13 @@ public class UsersController {
 	@RequestMapping("checkId.do")
 	@ResponseBody
 	public ResponseEntity<String> usersIdCheck(String id){
-		String checkMsg = usersService.checkUsersId(id);
+		String checkMsg = null;
+		try {
+			checkMsg = usersService.checkUsersId(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		HttpHeaders resHeader = new HttpHeaders();
 		resHeader.add("Content-Type", "text/html;charset=UTF-8");
 		ResponseEntity<String> resultMsg = new ResponseEntity<String>(checkMsg, resHeader, HttpStatus.OK);
@@ -68,7 +76,13 @@ public class UsersController {
     public ModelAndView loginProcess(UsersVo user, HttpSession session, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
         System.out.println("Controller" + user);
-        UsersVo loginUser = usersService.loginUsers(user);
+        UsersVo loginUser = null;
+		try {
+			loginUser = usersService.loginUsers(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         System.out.println(loginUser + "@@");
         if (loginUser != null) {
             session.setAttribute("userLoginInfo", loginUser);
@@ -99,7 +113,13 @@ public class UsersController {
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("redirect:signupBuyer.do");
     	System.out.println(vo + " controller User");
-    	boolean flag = usersService.signupBuyer(vo);
+    	boolean flag = false;
+		try {
+			flag = usersService.signupBuyer(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         if (flag != false) {
             session.setAttribute("signupProcess", "Y");
         }else{
@@ -114,7 +134,13 @@ public class UsersController {
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("redirect:signupSeller.do");
     	System.out.println(sVo + " controller User");
-    	boolean flag = usersService.signupSeller(sVo);
+    	boolean flag = false;
+		try {
+			flag = usersService.signupSeller(sVo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         if (flag != false) {
             session.setAttribute("signupProcess", "Y");
         }else{
@@ -129,7 +155,13 @@ public class UsersController {
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("redirect:userManagement.do");
     	System.out.println(vo + " controller User");
-    	boolean flag = usersService.updateUsers(vo);
+    	boolean flag = false;
+		try {
+			flag = usersService.updateUsers(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         if (flag != false) {
             session.setAttribute("uUpdateProcess", "Y");
         }else{
@@ -144,7 +176,13 @@ public class UsersController {
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("redirect:userManagement.do");
     	System.out.println(vo);
-    	boolean flag = usersService.deleteUsers(vo.getUserNo(),vo.getUserSection());
+    	boolean flag = false;
+		try {
+			flag = usersService.deleteUsers(vo.getUserNo(),vo.getUserSection());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         if (flag != false) {
             session.setAttribute("deleteUsersProcess", "Y");
         }else{

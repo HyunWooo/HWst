@@ -6,8 +6,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <configuration>
   <!-- 외부 db연결 가져오기 -->
-  
   <properties resource="hwst/conf/dbMySQL.properties" />
+  
+  
     <settings>
 		<setting name="logImpl" value="LOG4J"/>
 	</settings> 
