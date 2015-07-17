@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+	<resultMap type="cartVo" id="cResultMap">
+		<result column="cartNo" property="cartNo" />
+		<result column="productOptionNo" property="productOptionNo" />
+		<result column="userNo" property="userNo" />
+		<result column="buyAmount" property="buyAmount" />
+		<result column="cartTime" property="cartTime" />
+		<result column="categoryNo" property="categoryNo" />
+		<result column="productNo" property="productNo" />
+		<result column="name" property="name" />
+		<result column="productOptionName" property="productOptionName" />
+		<result column="productAmount" property="productAmount" />
+		<result column="addPrice" property="addPrice" />
+		<result column="basicPrice" property="basicPrice" />
+	</resultMap>
+
+	<select id="selectCartAll" resultMap="cResultMap">
+		select c.cartNo, c.productOptionNo, c.userNo, c.buyAmount, c.cartTime, p.categoryNo, p.productNo, p.name, po.productOptionName,  po.productAmount, po.addPrice, p.basicPrice , po.addPrice+p.basicPrice as eachPrice
+		from cart c, productOption po, product p
+		where c.userNo=#{userNo} and c.productOptionNo = po.productOptionNo and p.productNo=(select productNo from productOption where productOptionNo= c.productOptionNo)
+        order by (select productNo from productOption where productOptionNo= c.productOptionNo), productOptionNo asc ,buyAmount desc
+	</select>
+	
+	<select id="selectCartBySelectedCartList" resultMap="cResultMap" parameterType="java.util.List">
+		select c.cartNo, c.productOptionNo, c.userNo, c.buyAmount, c.cartTime, p.categoryNo, p.productNo, p.name, po.productOptionName,  po.productAmount, po.addPrice, p.basicPrice , po.addPrice+p.basicPrice as eachPrice
+		from cart c, productOption po, product p
+		where c.cartNo in
+		<foreach item="cartNo"  collection="list"  open="(" separator="," close=")">
+			#{cartNo}
+		</foreach>
+		and c.productOptionNo = po.productOptionNo and p.productNo=(select productNo from productOption where productOptionNo= c.productOptionNo)
+        order by (select productNo from productOption where productOptionNo= c.productOptionNo), productOptionNo asc ,buyAmount desc
+	</select>
+	
+	<insert id = "insertCart" parameterType="cartVo">
+		insert into cart(productOptionNo, userNo, buyAmount, cartTime)
+		values(#{productOptionNo}, #{userNo}, #{buyAmount}, now())
+	</insert>
+	
+	<delete id="deleteCart" parameterType="int">
+		delete from cart
+		where cartNo = #{cartNo}
+	</delete>
+	
+	<update id="updateCartAmountByCartNo" parameterType="cartVo">
+		update cart
+		set buyAmount = #{buyAmount}
+		where cartNo = #{cartNo}
+	</update>
+</mapper>

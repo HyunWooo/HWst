@@ -1627,6 +1627,7 @@ h2.title {
 }
 
 #cart_items .cart_info .table.table-condensed thead tr {
+  text-align: center;
   height: 51px;
 }
 
@@ -1645,9 +1646,6 @@ h2.title {
 }
 
 
-#cart_items .cart_info .image {
-  padding-left: 30px;
-}
 
 
 #cart_items .cart_info .cart_description h4 {
@@ -1663,31 +1661,67 @@ h2.title {
 }
 
 #cart_items .cart_info .cart_description p {
-  color:#696763
+  color:#4374D9
 }
 
 
 #cart_items .cart_info .cart_price p {
-  color:#696763;
-  font-size: 18px
+  color:#696C63;
+  font-size: 18px;
+  text-align: center;
 }
 
 
 #cart_items .cart_info .cart_total_price {
-  color: #FE980F;
-  font-size: 24px;
+  color: #F15F5F;
+  font-size: 21px;
+  text-align: center;
 }
 
-.cart_product {
+#cart_items .cart_info .cart_quantity_input {
+   color: #696763;
+  font-size: 15px;
+  margin-left : 10px;
+  margin-right : -30px;
+  text-align: center;
+  vertical-align:middle;
+  font-family: 'Roboto',sans-serif;
+}
+
+#cart_items .cart_info .cart_delete_button {
+  color: #696763;
+  font-size: 15px;
+  margin-left : 10px;
+  margin-right : -30px;
+  text-align: center;
+  vertical-align:middle;
+  font-family: 'Roboto',sans-serif;
+}
+
+.cart_check {
+  overflow: hidden;
+}
+.cart_items .cart_info .cart_check_input {
+  padding: 5px 7px;
+  margin-left : 10px;
+  margin-right : -10px;
+  vertical-align:middle;
+  size: 50px;
+}
+
+.cart_image {
   display: block;
-  margin: 15px -70px 10px 25px;
+  margin: 15px -50px 10px 10px;
 }
 
-.cart_quantity_button{
-	width : 35%;
+/* 장바구니목록 이미지 */
+#cart_items .cart_info .cart_image img {
+	
+  width:100px;
 }
 
-.cart_quantity_button button {
+
+.cart_quantity_button {
   background:#F0F0E9;
   color: #696763;
   display: inline-block;
@@ -1699,15 +1733,16 @@ h2.title {
 }
 
 
-.cart_quantity_input {
+/* .cart_quantity input {
   color: #696763;
-  float: left;
   font-size: 15px;
+  float: center;
+  margin-left : 10px;
   text-align: center;
   font-family: 'Roboto',sans-serif;
-}
+} */
 
-
+/* 여기 */
 .cart_delete  {
   display: block;
   margin-right: -12px;
@@ -1715,14 +1750,14 @@ h2.title {
 }
 
 
-.cart_delete a {
+.cart_delete button {
   background:#F0F0E9;
-  color: #FFFFFF;
+  color: #000000;
   padding: 5px 7px;
   font-size: 16px
 }
 
-.cart_delete a:hover {
+.cart_delete button:hover {
   background:#FE980F
 }
 
@@ -1884,6 +1919,15 @@ h2.title {
 }
 
 .register-req, .step-one .heading {
+  background: none repeat scroll 0 0 #C3C3C3;
+  color: #363432;
+  font-size: 20px;
+  margin-bottom: 35px;
+  padding: 10px 25px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.register-req {
   background: none repeat scroll 0 0 #F0F0E9;
   color: #363432;
   font-size: 20px;
@@ -1984,7 +2028,7 @@ h2.title {
 }
 
 
-.shopper-info > form > input, 
+.shopper-info > input, 
 .form-two > form > select, 
 .form-two > form > input, 
 .form-one > form > input {
@@ -2007,8 +2051,8 @@ h2.title {
 
 .order-message textarea {
   font-size: 12px;
-  height: 335px;
-  margin-bottom: 20px;
+  height: 135px;
+  margin-bottom: 10px;
   padding: 15px 20px;
 }
 

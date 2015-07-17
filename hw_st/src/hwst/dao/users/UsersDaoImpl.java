@@ -19,6 +19,8 @@ public class UsersDaoImpl implements UsersDao {
 	
 	Logger logger = Logger.getLogger(this.getClass());
 
+	
+	//전체회원 조회
 	@Override
 	public List<UsersVo> usersSelect() throws SQLException{
 		SqlSession session = null;
@@ -35,7 +37,7 @@ public class UsersDaoImpl implements UsersDao {
 
 
 	
-//id로 userNo만 추출
+	//id로 userNo만 추출
 	@Override
 	public int selectOneUserNo(String id){
 		SqlSession session = null;
@@ -53,13 +55,15 @@ public class UsersDaoImpl implements UsersDao {
 		}
 		return userNo;
 	}
+	
+	//id,pw로 해당회원의 회원정보 조회
 	@Override
 	public UsersVo selectOneUser(UsersVo vo){
 		SqlSession session = null;
 		UsersVo uVo = null;
 		try {
 			session = DBUtil.getSqlSession();
-			  logger.info("안녕하세요!"+ vo + "입니다.");
+			logger.info("안녕하세요!"+ vo + "입니다.");
 			System.out.println("쿼리들어가기전 :" + vo);
 			uVo = session.selectOne("users.loginUsers",vo);
 			System.out.println(uVo);
@@ -73,6 +77,7 @@ public class UsersDaoImpl implements UsersDao {
 		return uVo;
 	}
 	
+	//해당회원의 구매자정보 조회
 	@Override
 	public BuyerVo selectOneBuyer(UsersVo vo){
 		SqlSession session = null;
@@ -86,6 +91,7 @@ public class UsersDaoImpl implements UsersDao {
 		return bVo;
 	}
 	
+	//해당회원의 판매자정보 조회
 	@Override
 	public SellerVo selectOneSeller(int userNo){
 		SqlSession session = null;
@@ -99,6 +105,7 @@ public class UsersDaoImpl implements UsersDao {
 		return sVo;
 	}
 	
+	//해당회원의 관리자정보 조회
 	@Override
 	public AdminVo selectOneAdmin(UsersVo vo){
 		SqlSession session = null;
@@ -130,6 +137,7 @@ public class UsersDaoImpl implements UsersDao {
 		return result;
 	}
 	
+	//구매자정보 입력
 	@Transactional
 	@Override
 	public int insertBuyer(int userNo){
@@ -146,6 +154,7 @@ public class UsersDaoImpl implements UsersDao {
 		return result;
 	}
 	
+	//판매자정보 입력
 	@Override
 	public int insertSeller(SellerVo sVo){
 		SqlSession session = null;
@@ -177,6 +186,7 @@ public class UsersDaoImpl implements UsersDao {
 	}
 	
 	//회원 탈퇴
+	//구매자 회원탈퇴(정보변경)
 	@Override
 	public int updateBuyerLog(int userNo){
 		SqlSession session = null;
@@ -189,6 +199,8 @@ public class UsersDaoImpl implements UsersDao {
 		}
 		return result;
 	}
+	
+	//판매자 회원탈퇴(정보변경)
 	@Override
 	public int updateSellerLog(int userNo){
 		SqlSession session = null;
@@ -201,6 +213,8 @@ public class UsersDaoImpl implements UsersDao {
 		}
 		return result;
 	}
+	
+	//공통회원 회원탈퇴(정보변경)
 	@Override
 	public int updateUsersLog(int userNo){
 		SqlSession session = null;

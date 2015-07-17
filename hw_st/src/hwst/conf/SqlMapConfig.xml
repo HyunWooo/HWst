@@ -20,9 +20,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
      <typeAlias type="hwst.domain.users.BuyerVo" alias="buyerVo"/>
      <typeAlias type="hwst.domain.users.SellerVo" alias="sellerVo"/>
      <typeAlias type="hwst.domain.users.AdminVo" alias="adminVo"/>
-     <typeAlias type="hwst.domain.ProductVo" alias="productVo"/>
-     <typeAlias type="hwst.domain.ProductOptionVo" alias="productOptionVo"/>
-     <typeAlias type="hwst.domain.CategoryVo" alias="categoryVo"/>
+     <typeAlias type="hwst.domain.product.ProductVo" alias="productVo"/>
+     <typeAlias type="hwst.domain.product.ProductOptionVo" alias="productOptionVo"/>
+     <typeAlias type="hwst.domain.category.CategoryVo" alias="categoryVo"/>
+     <typeAlias type="hwst.domain.cart.CartVo" alias="cartVo"/>
+     <typeAlias type="hwst.domain.order.OrderVo" alias="orderVo"/>
    </typeAliases>
    
 	<environments default="development">
@@ -41,16 +43,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<mappers>
 		<mapper resource="hwst/dao/users/UsersMapper.xml"/>
-		<mapper resource="hwst/dao/ProductMapper.xml"/>
-		<mapper resource="hwst/dao/CategoryMapper.xml"/>
-		<mapper resource="hwst/dao/ProductOptionMapper.xml"/>
+		<mapper resource="hwst/dao/product/ProductMapper.xml"/>
+		<mapper resource="hwst/dao/category/CategoryMapper.xml"/>
+		<mapper resource="hwst/dao/product/ProductOptionMapper.xml"/>
+		<mapper resource="hwst/dao/cart/CartMapper.xml"/>
+		<mapper resource="hwst/dao/order/OrderMapper.xml"/>
 	</mappers>
 </configuration>
-
-
-
-
-
-
-
-

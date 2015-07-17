@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="productOption">
+	<resultMap type="productOptionVo" id="pResultMap">
+		<result column="productOptionNo" property="productOptionNo" />
+		<result column="productNo" property="productNo" />
+		<result column="optionProcedure" property="optionProcedure" />
+		<result column="addPrice" property="addPrice" />
+		<result column="productAmount" property="productAmount" />
+		<result column="productOptionName" property="productOptionName" />
+		<result column="optionStat" property="optionStat" />
+		<result column="recentUpdateTime" property="recentUpdateTime" />
+		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
+	</resultMap>
+
+	<select id="selectProductOptionAll" resultMap="pResultMap">
+		select * 
+		from productOption 
+		where productNo = #{productNo} and optionStat=1
+		order by optionProcedure asc
+	</select>
+	
+	
+	
+</mapper>

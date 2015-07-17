@@ -18,8 +18,7 @@
 	</context:component-scan>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<!-- <property name="prefix" value="/WEB-INF/hw_st/"/> -->
-		<property name="prefix" value="/"/>
+		<property name="prefix" value="/WEB-INF/jsp/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
@@ -79,8 +78,8 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>	
-<tx:annotation-driven/>
-
+<tx:annotation-driven  transaction-manager="transactionManager" />
+	<context:annotation-config/>
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
@@ -99,8 +98,7 @@
 		</tx:attributes>
 	</tx:advice>
 	
-	
-	
-	
-	
+	<aop:aspectj-autoproxy/>
+ 	<aop:config proxy-target-class="true"/>
+	<bean class="hwst.aop.CommonAop"/>
 </beans>
