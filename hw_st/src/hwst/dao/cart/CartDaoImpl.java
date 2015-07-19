@@ -1,6 +1,7 @@
 package hwst.dao.cart;
 
 import hwst.domain.cart.CartVo;
+import hwst.domain.product.ProductOptionVo;
 import hwst.util.DBUtil;
 
 import java.sql.SQLException;
@@ -87,5 +88,17 @@ public class CartDaoImpl implements CartDao {
 		return stat;
 	}
 	
+	@Override
+	public int deleteCartByOrderComplete(ProductOptionVo productOptionVo)throws Exception{
+		SqlSession session = null;
+		int stat = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			stat = session.delete("cart.deleteCartByOrderComplete",productOptionVo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return stat;
+	}
 	
 }

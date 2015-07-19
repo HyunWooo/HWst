@@ -221,7 +221,7 @@ function mySubmit(frm,index){
 		}
 		if(index==2){
 			if(frm.userNo.value != -1){
-				document.productDetailsForm.action='insertOrder.do';
+				document.productDetailsForm.action='insertOrders.do';
 				document.productDetailsForm.submit();
 			}
 			else{

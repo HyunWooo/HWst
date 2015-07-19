@@ -79,7 +79,7 @@ public class CartController {
 		logger.info("안녕하세요!"+ list + "입니다.");
 		
 		mv.addObject("list", list);	
-		mv.setViewName("order/order");
+		mv.setViewName("orders/order");
 		return mv;
 	}
 	

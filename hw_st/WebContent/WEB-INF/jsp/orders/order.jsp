@@ -13,7 +13,7 @@ function doOrder(){
 	var fm = document.createElement("form");//스크립트 내 폼 생성
 	
 	fm.setAttribute("method", "post");
-	fm.setAttribute("action", "insertOrder.do");
+	fm.setAttribute("action", "insertOrders.do");
 	document.body.appendChild(fm);
 	
 	$("input[name=productOptionNo]").each(function() {
@@ -514,7 +514,7 @@ function commaNum(num) {
 					<div class="register-req">
 						<ul class="nav">
 							<li>
-								<input type="radio" name="checkout_Info"checked="checked" value="무통장입금"/>무통장입금
+								<input type="radio" name="checkout_Info"checked="checked" value="1"/>무통장입금
 							</li>
 						</ul>
 					</div><!--/register-req-->

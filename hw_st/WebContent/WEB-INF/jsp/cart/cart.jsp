@@ -264,7 +264,7 @@ function mySubmit(frm,index,countNo){
 										<li><a href="logoutProcess.do"><i class="fa fa-crosshairs"></i> Logout</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="login.jsp"><i class="fa fa-lock"></i> Login</a></li>
+										<li><a href="login.do"><i class="fa fa-lock"></i> Login</a></li>
 									</c:otherwise>
 								</c:choose>
 							</ul>

@@ -11,9 +11,15 @@ public class ProductOptionVo{
 	private int optionStat;
 	private String recentUpdateTime;
 	private int recentUpdateUserNo;
+	private int userNo;
 	
+	public ProductOptionVo(){}
 	
-	public ProductOptionVo(){};
+	public ProductOptionVo(int productOptionNo, int userNo){
+		this.productOptionNo = productOptionNo;
+		this.userNo = userNo;
+	}
+	
 	public ProductOptionVo(int productOptionNo, int productNo,
 			int optionProcedure, int addPrice, int productAmount,
 			String productOptionName, int optionStat, String recentUpdateTime,
@@ -83,6 +89,15 @@ public class ProductOptionVo{
 	public void setRecentUpdateUserNo(int recentUpdateUserNo) {
 		this.recentUpdateUserNo = recentUpdateUserNo;
 	}
+	
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

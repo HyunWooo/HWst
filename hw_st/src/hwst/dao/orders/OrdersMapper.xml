@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orders">
+	<resultMap type="ordersVo" id="oResultMap">
+		<result column="orderNo" property="orderNo" />
+		<result column="userNo" property="userNo" />
+		<result column="orderTime" property="orderTime" />
+		<result column="receiverName" property="receiverName" />
+		<result column="phone" property="phone" />
+		<result column="postCode" property="postCode" />
+		<result column="address" property="address" />
+		<result column="message" property="message" />
+		<result column="grade" property="grade" />
+		<result column="orderStat" property="orderStat" />
+		<result column="allTotalPrice" property="allTotalPrice" />
+		<result column="discountPrice" property="discountPrice" />
+		<result column="discountedTotalPrice" property="discountedTotalPrice" />
+		<result column="recentUpdateTime" property="recentUpdateTime" />
+		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
+	</resultMap>
+	
+	<resultMap type="orderProductVo" id="opResultMap">
+		<result column="orderNo" property="orderNo"/>
+		<result column="productOptionNo" property="productOptionNo"/>
+		<result column="buyAmount" property="buyAmount"/>
+		<result column="totalPrice" property="totalPrice"/>
+		<result column="productStat" property="productStat"/>
+		<result column="deliveryStat" property="deliveryStat"/>
+		<result column="deliveryDate" property="deliveryDate"/>
+		<result column="recentUpdateTime" property="recentUpdateTime"/>
+		<result column="recentUpdateUserNo" property="recentUpdateUserNo"/>
+	</resultMap>
+	
+	<resultMap type="paymentVo" id="payResultMap">
+		<result column="orderNo" property="orderNo"/>
+		<result column="checkoutInfo" property="checkoutInfo"/>
+		<result column="depositYN" property="depositYN"/>
+		<result column="refundBankName" property="refundBankName"/>
+		<result column="refundAccountNo" property="refundAccountNo"/>
+	</resultMap>
+
+	<!-- 주문정보 insert 쿼리 -->
+	<insert id="insertOrders" parameterType="ordersVo">
+		insert into orders
+		values(null, #{userNo}, now(), #{receiverName}, #{phone}, #{postCode}, #{address},#{message},#{grade},1,#{allTotalPrice},#{discountPrice},#{discountedTotalPrice},now(), #{userNo})
+	</insert>
+	
+	<!-- 주문의 각 상품정보 insert쿼리 -->
+	<insert id="insertOrderProduct" parameterType="orderProductVo">
+		insert into orderProduct
+		values(#{orderNo}, #{productOptionNo},#{buyAmount},#{totalPrice},1,1,null,now(),#{recentUpdateUserNo})
+	</insert>
+	
+		<!-- 주문의 각 상품정보 insert쿼리 -->
+	<insert id="insertPayment" parameterType="paymentVo">
+		insert into payment
+		values(#{orderNo}, #{checkoutInfo},1,null,null)
+	</insert>
+	
+	
+	
+	
+	<!-- 가장최근에 insert한 유저번호의 주문번호 select -->
+	<select id="selectOneOrderNoByUserNoAndTime" parameterType="int" resultType="int">
+		select orderNo 
+		from orders 
+		where userNo=#{userNo}
+		order by orderTime desc limit 1;
+	
+	</select>
+</mapper>

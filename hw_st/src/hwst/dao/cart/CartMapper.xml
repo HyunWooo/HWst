@@ -47,6 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where cartNo = #{cartNo}
 	</delete>
 	
+	<delete id="deleteCartByOrderComplete" parameterType="productOptionVo">
+		delete from cart
+		where userNo = #{userNo} and productOptionNo = #{productOptionNo}
+		
+	</delete>
+	
 	<update id="updateCartAmountByCartNo" parameterType="cartVo">
 		update cart
 		set buyAmount = #{buyAmount}
