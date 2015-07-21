@@ -221,7 +221,7 @@ function mySubmit(frm,index){
 		}
 		if(index==2){
 			if(frm.userNo.value != -1){
-				document.productDetailsForm.action='insertOrders.do';
+				document.productDetailsForm.action='selectProductOptionByPoNo.do';
 				document.productDetailsForm.submit();
 			}
 			else{
@@ -337,6 +337,7 @@ function mySubmit(frm,index){
 								<li><a href="index.do" class="active">Home</a></li>
 								<li class="dropdown"><a href="allProductView.do">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
+                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
                                         <li><a href="allProductView.do">상품전체보기</a></li>
                                     </ul>
                                 </li> 
@@ -423,29 +424,6 @@ function mySubmit(frm,index){
 							</div>
 						</c:forEach>
 						</div><!--/category-products-->
-					
-						<!-- <div class="brands_products">brands_products
-							<h2>Brands</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href=""> <span class="pull-right">(50)</span>Acne</a></li>
-									<li><a href=""> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-									<li><a href=""> <span class="pull-right">(27)</span>Albiro</a></li>
-									<li><a href=""> <span class="pull-right">(32)</span>Ronhill</a></li>
-									<li><a href=""> <span class="pull-right">(5)</span>Oddmolly</a></li>
-									<li><a href=""> <span class="pull-right">(9)</span>Boudestijn</a></li>
-									<li><a href=""> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
-								</ul>
-							</div>
-						</div>/brands_products
-						
-						<div class="price-range">price-range
-							<h2>Price Range</h2>
-							<div class="well">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b>$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div>/price-range -->
 						
 						<div class="shipping text-center"><!--shipping-->
 							<img src="images/home/shipping.jpg" alt="" />
@@ -497,7 +475,7 @@ function mySubmit(frm,index){
 								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
 								<h2>${product.name}</h2>
 								<p>상품번호: ${product.productNo}</p>
-								<img src="images/product-details/rating.png" alt="" /><br>
+								<!-- <img src="images/product-details/rating.png" alt="" /> --><br>
 								<span>
 									<span><fmt:formatNumber value="${product.basicPrice}"/>원</span>
 									<!-- <label>수량:</label>
@@ -512,7 +490,7 @@ function mySubmit(frm,index){
 											<i class="fa fa-won"></i>
 											주문하기
 									</button>
-									<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
+									<!-- <a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a> -->
 									<ul class="user_info">
 										<li class="single_field">
 											<label>옵션 선택</label>

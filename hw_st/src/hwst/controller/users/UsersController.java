@@ -80,9 +80,13 @@ public class UsersController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        if (loginUser != null) {
+        if (loginUser.getUserSection() == 1) {
             session.setAttribute("userLoginInfo", loginUser);
             mav.setViewName("redirect:index.do");
+        }
+        else if(loginUser.getUserSection() == 2){
+        	session.setAttribute("userLoginInfo", loginUser);
+            mav.setViewName("redirect:orderManagement.do");
         }
         else{
         	session.setAttribute("loginFail", "Y");

@@ -10,7 +10,7 @@ CREATE TABLE Orders (
 	phone       varchar(20)  NOT NULL, -- 전화번호
 	postCode    varchar(10)  NOT NULL, -- 우편번호
 	address    varchar(50)   NOT NULL, -- 주소
-	messasge    varchar(50)   NOT NULL, -- 배송시요구사항
+	message    varchar(50)   NOT NULL, -- 배송시요구사항
 	grade    int   NOT NULL, -- 등급번호
 	orderStat  int   NOT NULL, -- 주문상태
 	allTotalPrice   varchar(10)    NOT NULL, -- 총가격

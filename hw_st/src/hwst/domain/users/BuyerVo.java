@@ -1,10 +1,12 @@
 package hwst.domain.users;
 
+import java.util.Date;
+
 public class BuyerVo extends UsersVo{
 
 	int grade;
 	int discountPercent;
-	String udtGradeTime;
+	Date udtGradeTime;
 	
 	
 	public BuyerVo() {
@@ -23,10 +25,10 @@ public class BuyerVo extends UsersVo{
 	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-	public String getUdtGradeTime() {
+	public Date getUdtGradeTime() {
 		return udtGradeTime;
 	}
-	public void setUdtGradeTime(String udtGradeTime) {
+	public void setUdtGradeTime(Date udtGradeTime) {
 		this.udtGradeTime = udtGradeTime;
 	}
 	public int getDiscountPercent() {

@@ -4,7 +4,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
-
+<c:if test="${sessionScope.fromCart ne null}">
+		<script>
+			<%session.removeAttribute("fromCart");%>
+			window.location.reload();
+		</script>
+	</c:if>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,13 +82,16 @@
 					</div>
 					<div class="col-sm-8">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
+	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
+                             </form>
 						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="index.do" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
+                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
                                         <li><a href="allProductView.do">전체상품보기</a></li> 
                                     </ul>
                                 </li> 
@@ -97,7 +105,7 @@
 	</header><!--/header-->
 	
 			<section id="form"><!--form-->
-			<h2>주문이 완료되었습니다. 무통장입금을 해주시기 바랍니다.</h2>
+			<img src="images/order/mutongjang.jpg" class="img-responsive" alt=""  align="middle" />
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-4">

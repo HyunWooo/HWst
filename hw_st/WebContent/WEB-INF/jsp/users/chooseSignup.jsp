@@ -107,7 +107,9 @@
 					</div>
 					<div class="col-sm-8">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
+	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
+                             </form>
 						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">

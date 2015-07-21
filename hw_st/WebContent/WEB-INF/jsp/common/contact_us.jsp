@@ -105,6 +105,7 @@
 								<li><a href="index.do" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
+                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
                                         <li><a href="allProductView.do">상품전체보기</a></li>
                                     </ul>
                                 </li> 

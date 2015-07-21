@@ -8,10 +8,36 @@
 <html>
 
 <script type="text/javascript" charset="utf-8">
-
-function doOrder(){
+function cancel(){
+	<%session.removeAttribute("fromCart");%>
+	javascript:history.back(-1);
+}
+function doOrder(frm){
 	var fm = document.createElement("form");//스크립트 내 폼 생성
+	if($("#bankKind option:selected").val()=='-1'){
+		alert("은행을 선택해주세요");
+		return false;
+	}
 	
+	if($(':radio[name="deliver_info"]:checked').val()=="directInput"){
+		if(!document.directInput.receiverName.value){
+			alert("수령인을 입력하세요");
+			return false;
+		}	
+		if(!document.directInput.phone.value){
+			alert("전화번호를 입력하세요");
+			return false;
+		}
+		if(!document.directInput.postCode.value){
+			alert("우편번호를 입력하세요");
+			return false;
+		}
+		if(!document.directInput.address.value){
+			alert("주소를 입력하세요");
+			return false;
+		}
+	}
+		
 	fm.setAttribute("method", "post");
 	fm.setAttribute("action", "insertOrders.do");
 	document.body.appendChild(fm);
@@ -178,8 +204,6 @@ function chooseBank(frm,bankNo){
 	else if(bankNo==2){
 		$("#accountNo").text("신한은행_110-272-000257");	
 	}
-	else{
-	}
 }
 
 function commaNum(num) {  
@@ -329,13 +353,16 @@ function commaNum(num) {
 					</div>
 					<div class="col-sm-8">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
+	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
+                             </form>
 						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="index.do" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
+                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
                                         <li><a href="allProductView.do">전체상품보기</a></li>
                                     </ul>
                                 </li> 
@@ -428,7 +455,6 @@ function commaNum(num) {
 							</td>
 							<td class="cart_total">
 								<p class="cart_total_price"><fmt:formatNumber value="${orderList.eachPrice * orderList.buyAmount}"/>원</p>
-								<input type="hidden" name="cartNo" value="${orderList.cartNo}">
 								<input type="hidden" name="totalPrice" value="${orderList.eachPrice * orderList.buyAmount}">
 								<input type="hidden" name="productOptionNo" value="${orderList.productOptionNo}">
 								<input type="hidden" name="productAmount" value="${orderList.productAmount}"/>
@@ -472,7 +498,6 @@ function commaNum(num) {
 			</div><!--/register-req-->
 			<div class="shopper-informations">
 				<div class="row">
-					<form>
 					<div class="col-sm-3">
 						<div class="shopper-info" id="basicInput">
 							<p>주문자 정보</p>
@@ -482,14 +507,15 @@ function commaNum(num) {
 								<label>주소</label><input type="text"  id="basicInputAddress" name="address" value="${sessionScope.userLoginInfo.address}" readonly style="width:620px;">
 						</div>
 						<div class="shopper-info" id="directInput" style="display:none">
+						<form name="directInput">
 							<p>주문자 정보</p>
 								<label>받는사람명</label><input type="text" id="directInputReceiverName" name="receiverName" placeholder="받는사람명" maxlength="10">
 								<label>전화번호</label><input type="text" id="directInputPhone" name="phone" placeholder="전화번호" maxlength="20">
 								<label>우편번호</label><input type="text" id="directInputPostCode" name="postCode" placeholder="우편번호" maxlength="10">
-								<label>주소</label><input type="text" id="directInputAddress" name="address" placeholder="주소" maxlength="50"  style="width:420px;">
+								<label>주소</label><input type="text" id="directInputAddress" name="address" placeholder="주소" maxlength="50"  style="width:620px;">
+						</form>
 						</div>
 					</div>
-					</form>
 					<input type="hidden" name="userNo" value="${sessionScope.userLoginInfo.userNo}">
 					<input type="hidden" name="grade" value="${sessionScope.userLoginInfo.grade}">
 					<div class="col-sm-5 clearfix">
@@ -524,6 +550,7 @@ function commaNum(num) {
 								<col style="width:109px;">
 								<col>
 							</colgroup>
+							
 							<tbody>
 								<tr id="NOACCOUNT_TABLE" name="NOACCOUNT_TABLE">
 									<th scope="row">
@@ -531,7 +558,6 @@ function commaNum(num) {
 									</th>
 									<td>
 										<div id="BankKindDiv">
-										<form>
 											<select name="bankKind" id="bankKind" onchange="chooseBank(this.form,this.value)" style="width: 140px;">
 												<option value="-1">은행선택</option>
 												<option value="0">국민은행</option>
@@ -539,7 +565,6 @@ function commaNum(num) {
 												<option value="2">신한은행</option>
 											</select>
 											<label id = "accountNo" name="accountNo"></label>
-										</form>
 										</div>
 										<span id="bankInfo"></span>
 									</td>
@@ -557,8 +582,8 @@ function commaNum(num) {
 								</tr>
 								<tr>
 									<td>
-										<a class="btn btn-primary" onclick="doOrder()">결제하기</a>
-										<a class="btn btn-primary" href="">취소하기</a>
+										<a class="btn btn-primary" onclick="doOrder(this.form)">결제하기</a>
+										<a class="btn btn-primary" onclick="cancel()">취소하기</a>
 									</td>
 								</tr>
 								<!-- 무통장입금안내:E -->

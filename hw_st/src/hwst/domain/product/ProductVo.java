@@ -1,5 +1,7 @@
 package hwst.domain.product;
 
+import java.util.Date;
+
 
 public class ProductVo{
 	private int productNo;
@@ -10,14 +12,14 @@ public class ProductVo{
 	private int stat;
 	private String details;
 	private int opTotalNum;
-	private String regisTime;
-	private String recentUpdateTime;
+	private Date regisTime;
+	private Date recentUpdateTime;
 	private int recentUpdateUserNo;
 	
 	public ProductVo(){}
 	public ProductVo(int productNo, int userNo, int categoryNo, String name,
 			int basicPrice, int stat, String details, int opTotalNum,
-			String regisTime, String recentUpdateTime, int recentUpdateUserNo) {
+			Date regisTime, Date recentUpdateTime, int recentUpdateUserNo) {
 		super();
 		this.productNo = productNo;
 		this.userNo = userNo;
@@ -79,16 +81,16 @@ public class ProductVo{
 	public void setOpTotalNum(int opTotalNum) {
 		this.opTotalNum = opTotalNum;
 	}
-	public String getRegisTime() {
+	public Date getRegisTime() {
 		return regisTime;
 	}
-	public void setRegisTime(String regisTime) {
+	public void setRegisTime(Date regisTime) {
 		this.regisTime = regisTime;
 	}
-	public String getRecentUpdateTime() {
+	public Date getRecentUpdateTime() {
 		return recentUpdateTime;
 	}
-	public void setRecentUpdateTime(String recentUpdateTime) {
+	public void setRecentUpdateTime(Date recentUpdateTime) {
 		this.recentUpdateTime = recentUpdateTime;
 	}
 	public int getRecentUpdateUserNo() {

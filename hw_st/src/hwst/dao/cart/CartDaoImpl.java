@@ -32,12 +32,12 @@ public class CartDaoImpl implements CartDao {
 	
 	//장바구니에서 선택된 장바구니 or 전체선택된 장바구니의 정보 select 
 	@Override
-	public List<CartVo> selectCartBySelectedCartList(List<Integer> cartNo)throws SQLException{
+	public List<CartVo> selectCartByCartList(List<Integer> cartNo)throws SQLException{
 		SqlSession session = null;
 		List<CartVo> list = null;
 		try {
 			session = DBUtil.getSqlSession();
-			list = session.selectList("cart.selectCartBySelectedCartList", cartNo);
+			list = session.selectList("cart.selectCartByCartList", cartNo);
 			System.out.println(list);
 		} finally {
 			DBUtil.closeSqlSession(session);

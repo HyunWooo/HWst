@@ -23,5 +23,33 @@ public class OrderProductDaoImpl  implements OrderProductDao {
 		return stat;
 	}
 	
+	//주문정보 delete
+	@Override
+	public int deleteOrderProduct(int orderNo){
+		SqlSession session = null;
+		int stat = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			stat = session.update("orders.deleteOrderProduct",orderNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return stat;
+	}
 	
+	
+	//주문의 각 상품의 deliveryStat 갱신
+	@Override
+	public int udtDeliveryStat(OrderProductVo orderProductVo){
+		SqlSession session = null;
+		int stat = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			stat = session.update("orders.udtDeliveryStat",orderProductVo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return stat;
+	}
+
 }

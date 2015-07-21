@@ -11,7 +11,7 @@ public class PaymentDaoImpl  implements PaymentDao {
 	
 	//주문정보 insert
 	@Override
-	public int insertPayment(PaymentVo payVo){
+	public int insertPayment(PaymentVo payVo)throws Exception{
 		SqlSession session = null;
 		int stat = 0;
 		try {
@@ -22,6 +22,5 @@ public class PaymentDaoImpl  implements PaymentDao {
 		}
 		return stat;
 	}
-	
 	
 }

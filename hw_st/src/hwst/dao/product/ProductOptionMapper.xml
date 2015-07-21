@@ -14,6 +14,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="optionStat" property="optionStat" />
 		<result column="recentUpdateTime" property="recentUpdateTime" />
 		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
+		<result column="categoryNo" property="categoryNo" />
+		<result column="name" property="name" />
+		<result column="basicPrice" property="basicPrice" />
+		<result column="eachPrice" property="eachPrice" />
 	</resultMap>
 
 	<select id="selectProductOptionAll" resultMap="pResultMap">
@@ -23,6 +27,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by optionProcedure asc
 	</select>
 	
+	<select id="selectPOByPoNo" resultMap="pResultMap" parameterType="java.util.List">
+		select po.productOptionNo, p.categoryNo, p.productNo, p.name, po.productOptionName,  po.productAmount, po.addPrice, p.basicPrice , po.addPrice+p.basicPrice as eachPrice 
+		from productOption po, product p
+		where po.productOptionNo in 
+		<foreach item="productOptionNo"  collection="list"  open="(" separator="," close=")">
+		#{productOptionNo} 
+		</foreach>
+		AND p.productNo = po.productNo
+	</select>
 	
+	<update id="udtPrdAmount" parameterType="int">
+		update productOption
+		set productAmount = #{userNo}
+		where productOptionNo = #{productOptionNo}
+	</update>
 	
 </mapper>

@@ -11,7 +11,7 @@ public interface CartDao {
 	int insertCart(CartVo cVo) throws SQLException;
 	int deleteCart(int cartNo) throws SQLException;
 	int updateCartAmountByCartNo(CartVo cartVo) throws SQLException;
-	List<CartVo> selectCartBySelectedCartList(List<Integer> cartNo) throws SQLException;
+	List<CartVo> selectCartByCartList(List<Integer> cartNo) throws SQLException;
 	int deleteCartByOrderComplete(ProductOptionVo productOptionVo) throws Exception;
 	
 	

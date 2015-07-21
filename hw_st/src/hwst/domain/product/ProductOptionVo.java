@@ -1,5 +1,7 @@
 package hwst.domain.product;
 
+import java.util.Date;
+
 
 public class ProductOptionVo{
 	private int productOptionNo;
@@ -9,9 +11,15 @@ public class ProductOptionVo{
 	private int productAmount;
 	private String productOptionName;
 	private int optionStat;
-	private String recentUpdateTime;
+	private Date recentUpdateTime;
 	private int recentUpdateUserNo;
 	private int userNo;
+	private int categoryNo;
+	private int buyAmount;
+	private String name;
+	private int basicPrice;
+	private int eachPrice;
+	
 	
 	public ProductOptionVo(){}
 	
@@ -22,8 +30,8 @@ public class ProductOptionVo{
 	
 	public ProductOptionVo(int productOptionNo, int productNo,
 			int optionProcedure, int addPrice, int productAmount,
-			String productOptionName, int optionStat, String recentUpdateTime,
-			int recentUpdateUserNo) {
+			String productOptionName, int optionStat, Date recentUpdateTime,
+			int recentUpdateUserNo, int buyAmount, int categoryNo, String name, int basicPrice, int eachPrice) {
 		super();
 		this.productOptionNo = productOptionNo;
 		this.productNo = productNo;
@@ -34,6 +42,11 @@ public class ProductOptionVo{
 		this.optionStat = optionStat;
 		this.recentUpdateTime = recentUpdateTime;
 		this.recentUpdateUserNo = recentUpdateUserNo;
+		this.buyAmount = buyAmount;
+		this.categoryNo = categoryNo;
+		this.name = name;
+		this.basicPrice = basicPrice;
+		this.eachPrice = eachPrice;
 	}
 	public int getProductOptionNo() {
 		return productOptionNo;
@@ -77,10 +90,10 @@ public class ProductOptionVo{
 	public void setOptionStat(int optionStat) {
 		this.optionStat = optionStat;
 	}
-	public String getRecentUpdateTime() {
+	public Date getRecentUpdateTime() {
 		return recentUpdateTime;
 	}
-	public void setRecentUpdateTime(String recentUpdateTime) {
+	public void setRecentUpdateTime(Date recentUpdateTime) {
 		this.recentUpdateTime = recentUpdateTime;
 	}
 	public int getRecentUpdateUserNo() {
@@ -96,6 +109,49 @@ public class ProductOptionVo{
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+
+	
+	public int getBuyAmount() {
+		return buyAmount;
+	}
+
+	public void setBuyAmount(int buyAmount) {
+		this.buyAmount = buyAmount;
+	}
+	
+	
+
+	public int getCategoryNo() {
+		return categoryNo;
+	}
+
+	public void setCategoryNo(int categoryNo) {
+		this.categoryNo = categoryNo;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getBasicPrice() {
+		return basicPrice;
+	}
+
+	public void setBasicPrice(int basicPrice) {
+		this.basicPrice = basicPrice;
+	}
+
+	public int getEachPrice() {
+		return eachPrice;
+	}
+
+	public void setEachPrice(int eachPrice) {
+		this.eachPrice = eachPrice;
 	}
 
 	@Override
@@ -119,9 +175,22 @@ public class ProductOptionVo{
 		builder.append(recentUpdateTime);
 		builder.append(", recentUpdateUserNo=");
 		builder.append(recentUpdateUserNo);
+		builder.append(", userNo=");
+		builder.append(userNo);
+		builder.append(", categoryNo=");
+		builder.append(categoryNo);
+		builder.append(", buyAmount=");
+		builder.append(buyAmount);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", basicPrice=");
+		builder.append(basicPrice);
+		builder.append(", eachPrice=");
+		builder.append(eachPrice);
 		builder.append("]");
 		return builder.toString();
 	}
+
 
 	
 	

@@ -20,6 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="discountedTotalPrice" property="discountedTotalPrice" />
 		<result column="recentUpdateTime" property="recentUpdateTime" />
 		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
+		<!-- <result column="orderNoCount" property="orderNoCount" />
+		<result column="productStat" property="productStat" />
+		<result column="deliveryStat" property="deliveryStat" /> -->
 	</resultMap>
 	
 	<resultMap type="orderProductVo" id="opResultMap">
@@ -41,6 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="refundBankName" property="refundBankName"/>
 		<result column="refundAccountNo" property="refundAccountNo"/>
 	</resultMap>
+
+
 
 	<!-- 주문정보 insert 쿼리 -->
 	<insert id="insertOrders" parameterType="ordersVo">
@@ -64,11 +69,84 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- 가장최근에 insert한 유저번호의 주문번호 select -->
-	<select id="selectOneOrderNoByUserNoAndTime" parameterType="int" resultType="int">
+	<select id="selectOrderNoByUserNo" parameterType="int" resultType="int">
 		select orderNo 
 		from orders 
 		where userNo=#{userNo}
-		order by orderTime desc limit 1;
-	
+		order by orderTime desc limit 1
 	</select>
+	
+	<!-- 해당 userNo의 전체주문 조회 -->
+	<select id="selectOrdersAll" parameterType="int" resultType="ordersVo">
+		select o.orderTime, o.orderNo, op.productOptionNo, po.productOptionName, po.productNo, p.name, op.buyAmount, po.productAmount, op.totalPrice, o.orderStat, p.categoryNo, o.discountedTotalPrice, op.productStat, op.deliveryStat
+		from orders o, orderProduct op, productOption po, product p
+		where o.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo
+		order by o.orderNo, orderTime desc
+	</select>
+	
+	<!-- userNo의 주문목록을 orderNo로 그룹하여 그룹별 count 조회 -->
+	<select id="selectOrderNoGroupCount" parameterType="int" resultType="ordersVo">
+	select o.orderNo, count(o.orderNo)as orderNoCount
+	from orders o, orderProduct op, productOption po, product p
+	where o.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo
+	group by orderNo
+	order by o.orderNo, orderTime desc
+	</select>
+	
+		<!-- 해당 seller의 주문받은 전체주문 조회 -->
+	<select id="selectSellerOrdersAll" parameterType="int" resultType="ordersVo">
+	select o.orderTime, o.orderNo, op.productOptionNo, po.productOptionName, po.productNo, p.name, op.buyAmount, po.productAmount, op.totalPrice, o.orderStat, p.categoryNo, o.discountedTotalPrice, o.userNo, op.productStat, op.deliveryStat, u.name as userName, u.id
+	from orders o, orderProduct op, productOption po, product p, users u
+	where p.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo and o.userNo>0 and o.userNo= u.userNo
+	order by o.orderNo, orderTime, o.userNo desc
+	</select>
+	
+	<!-- 해당 seller의 주문목록을 orderNo로 그룹하여 그룹별 count 조회 -->
+	<select id="selectSellerGroupCount" parameterType="int" resultType="ordersVo">
+	select o.orderNo, count(o.orderNo)as orderNoCount
+	from orders o, orderProduct op, productOption po, product p
+	where p.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo and o.userNo>0
+	group by orderNo
+	order by o.orderNo, orderTime, o.userNo desc
+	</select>
+	
+	<!-- orderNo에 속해있는 productOptionNo와 buyAmount, productAmount를 받아옴-->
+	<select id="selectByPrdOpNo" parameterType="int" resultType="ordersVo">
+	select op.productOptionNo, op.buyAmount, po.productAmount
+	from orderProduct op, productOption po
+	where op.orderNo=#{orderNo} and op.productOptionNo=po.productOptionNo
+	</select>
+	
+	
+	
+	
+	
+	<update id="updateOrderStat" parameterType="ordersVo">
+	update orders
+	set orderStat = #{orderStat}, recentUpdateTime=now()
+	where orderNo = #{orderNo}
+	</update>
+	
+	<update id="udtDeliveryStat" parameterType="ordersVo">
+	update orderProduct
+	set deliveryStat = #{deliveryStat}, deliveryDate=now()
+	where orderNo = #{orderNo} and productOptionNo = #{productOptionNo}
+	</update>
+	
+	
+	
+	<update id="deleteOrder" parameterType="int">
+	update orders
+	set userNo = 0, receiverName="삭제", phone="삭제", postCode="삭제",address="삭제", message = "", grade=0 ,orderStat=0 , allTotalPrice="0" , discountPrice="0" , discountedTotalPrice="0" , recentUpdateTime=now()
+	where orderNo = #{orderNo}
+	</update>
+	
+	<update id="deleteOrderProduct" parameterType="int">
+	update orderProduct
+	set recentUpdateTime=now()
+	where orderNo = #{orderNo}
+	</update>
+	
+	
+	
 </mapper>

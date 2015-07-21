@@ -136,6 +136,10 @@ a#scrollUp i{
 	background:#CE3C2D;
 }
 
+.header-middle .img{
+	 float: center;
+}
+
 .header-middle .container .row {
   border-bottom: 1px solid #f5f5f5;
   margin-left: 0;
@@ -1633,7 +1637,7 @@ h2.title {
 
 
 #cart_items .cart_info .table.table-condensed tr {
-  border-bottom: 1px solid#F7F7F0
+  border-bottom: 1px solid#BDBDBD
 }
 
 #cart_items .cart_info .table.table-condensed tr:last-child {
@@ -1711,7 +1715,25 @@ h2.title {
 
 .cart_image {
   display: block;
-  margin: 15px -50px 10px 10px;
+  margin: 15px 0px 10px 10px;
+}
+
+.cart_info {
+ text-align: center;
+ margin: 15px -50px 10px 10px;
+}
+
+.cart_info button{
+ float: center;
+ margin: 15px -50px 10px -50px;
+}
+
+.cart_stat {
+text-align: center;
+color: #0100FF;
+font-size: 15px;
+font-weight:bold;	
+margin: 15px -50px 10px 0px;
 }
 
 /* 장바구니목록 이미지 */
@@ -1744,9 +1766,9 @@ h2.title {
 
 /* 여기 */
 .cart_delete  {
-  display: block;
   margin-right: -12px;
-  overflow: hidden;
+  margin-left: -12px;
+  text-align : left;
 }
 
 
@@ -1754,6 +1776,7 @@ h2.title {
   background:#F0F0E9;
   color: #000000;
   padding: 5px 7px;
+  float: left;
   font-size: 16px
 }
 
@@ -2029,6 +2052,7 @@ h2.title {
 
 
 .shopper-info > input, 
+.shopper-info > form > input, 
 .form-two > form > select, 
 .form-two > form > input, 
 .form-one > form > input {

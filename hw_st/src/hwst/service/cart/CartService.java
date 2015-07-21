@@ -10,7 +10,7 @@ public interface CartService {
 	boolean insertCart(List<Integer> productOptionNo,int userNo,List<Integer> buyAmount)throws Exception;
 	boolean deleteCart(int cartNo) throws Exception;
 	boolean updateCartAmountByCartNo(List<Integer> cartNo, List<Integer> buyAmount, int updateBuyAmountStat) throws Exception;
-	List<CartVo> selectCartBySelectedCartList(List<Integer> cartNo) throws Exception;
+	List<CartVo> selectCartInfo(List<Integer> cartNo) throws Exception;
 
 	
 }

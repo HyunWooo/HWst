@@ -148,9 +148,17 @@ function mySubmit(frm,index,countNo){
          
          var discountPercent =$("input[name=discountPercent]").val();
          var discountPrice= ((parseInt(discountPercent)/100) *parseInt(allTotalPrice));
-         $("input[name=discountPrice]").val(commaNum(discountPrice)+"원");
-         var discountedTotalPrice= (((100-parseInt(discountPercent))/100) *parseInt(allTotalPrice));
-         $("input[name=discountedTotalPrice]").val(commaNum(discountedTotalPrice)+"원");
+         if(allTotalPrice==0){
+        	 $("input[name=discountPrice]").val("0원");
+        	 $("input[name=discountedTotalPrice]").val("0원");
+         }
+         else{
+        	 $("input[name=discountPrice]").val(commaNum(discountPrice)+"원");
+        	 var discountedTotalPrice= (((100-parseInt(discountPercent))/100) *parseInt(allTotalPrice));
+             $("input[name=discountedTotalPrice]").val(commaNum(discountedTotalPrice)+"원");
+         }
+         
+         
          
          
 		// 체크 박스 모두 체크
@@ -284,13 +292,16 @@ function mySubmit(frm,index,countNo){
 					</div>
 					<div class="col-sm-8">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
+	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
+                             </form>
 						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="index.do" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
+                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
                                         <li><a href="allProductView.do">상품전체보기</a></li>
                                     </ul>
                                 </li> 
@@ -336,50 +347,50 @@ function mySubmit(frm,index,countNo){
 					
 					<tbody>
 					<!-- 장바구니 리스트 출력 -->
-					<c:forEach items="${list}" var="cartList" varStatus="status">
-						<tr>
-							<td class="cart_check">
-							<c:if test="${cartList.productAmount ne 0}">
-								<input class="cart_check_input" type="checkbox" name="box" id="${cartList.cartNo}"  onclick="clickCheck();" checked="checked" value="${cartList.eachPrice * cartList.buyAmount}"/>
-							</c:if>
-							</td>
-							<td class="cart_image">
-								<a href="viewProductDetails.do?productNo=<c:out value="${cartList.productNo}"/>"><img src="images/product/<c:out value="${cartList.categoryNo}"/>/<c:out value="${cartList.productNo}"/>_1.jpg" alt="" /></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="viewProductDetails.do?productNo=<c:out value="${cartList.productNo}"/>">${cartList.name}</a></h4>
-								<p></p>
-								<p>/${cartList.productOptionName}_재고 : ${cartList.productAmount}개</p>
-							</td>
-							<td class="cart_price">
-								<p><fmt:formatNumber value="${cartList.eachPrice}"/>원</p>
-							</td>
-							<td class="cart_quantity">
-								&nbsp;&nbsp;&nbsp;&nbsp;<input class="cart_quantity_input" type="number" name="buyAmount" id="${cartList.categoryNo}" value="${cartList.buyAmount}" autocomplete="off"  min="1" max="${cartList.productAmount}">
+						<c:forEach items="${list}" var="cartList" varStatus="status">
+							<tr>
+								<td class="cart_check">
 								<c:if test="${cartList.productAmount ne 0}">
-								<hr>
-								<button type="button" class="btn btn-fefault cart" name="updateButton"value="${status.count}"onclick="mySubmit(this.form,1,this.value);">변경</button>
+									<input class="cart_check_input" type="checkbox" name="box" id="${cartList.cartNo}"  onclick="clickCheck();" checked="checked" value="${cartList.eachPrice * cartList.buyAmount}"/>
 								</c:if>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price"><fmt:formatNumber value="${cartList.eachPrice * cartList.buyAmount}"/>원</p>
-							</td>
-							<td class="cart_delete">
-								<c:if test="${cartList.productAmount eq 0}">
-								&nbsp;&nbsp;&nbsp;&nbsp;품절
-								</c:if>
-								<c:if test="${cartList.productAmount ne 0}">
-								<button class="cart_delete_button" type='button' name='delButton' value='"+i+"' onClick='del(this.form,this.value);'>주문하기</button>
-								</c:if>
-								<br>
-								<input type="hidden" name="cartNo" value="${cartList.cartNo}">
-								<input type="hidden" name="totalPrice" value="${cartList.eachPrice * cartList.buyAmount}">
-								<input type="hidden" name="discountPercent" value="${sessionScope.userLoginInfo.discountPercent}"/>
-								<input type="hidden" name="productAmount" value="${cartList.productAmount}"/>
-								<button class="cart_delete_button" type='button' name='delButton' value='i' onClick='location.href="deleteCart.do?cartNo=${cartList.cartNo}"'>삭제</button>
-							</td>
-						</tr>
-					</c:forEach>
+								</td>
+								<td class="cart_image">
+									<a href="viewProductDetails.do?productNo=<c:out value="${cartList.productNo}"/>"><img src="images/product/<c:out value="${cartList.categoryNo}"/>/<c:out value="${cartList.productNo}"/>_1.jpg" alt="" /></a>
+								</td>
+								<td class="cart_description">
+									<h4><a href="viewProductDetails.do?productNo=<c:out value="${cartList.productNo}"/>">${cartList.name}</a></h4>
+									<p></p>
+									<p>/${cartList.productOptionName}_재고 : ${cartList.productAmount}개</p>
+								</td>
+								<td class="cart_price">
+									<p><fmt:formatNumber value="${cartList.eachPrice}"/>원</p>
+								</td>
+								<td class="cart_quantity">
+									&nbsp;&nbsp;&nbsp;&nbsp;<input class="cart_quantity_input" type="number" name="buyAmount" id="${cartList.categoryNo}" value="${cartList.buyAmount}" autocomplete="off"  min="1" max="${cartList.productAmount}">
+									<c:if test="${cartList.productAmount ne 0}">
+									<hr>
+									<button type="button" class="btn btn-fefault cart" name="updateButton"value="${status.count}"onclick="mySubmit(this.form,1,this.value);">변경</button>
+									</c:if>
+								</td>
+								<td class="cart_total">
+									<p class="cart_total_price"><fmt:formatNumber value="${cartList.eachPrice * cartList.buyAmount}"/>원</p>
+								</td>
+								<td class="cart_delete">
+									<c:if test="${cartList.productAmount eq 0}">
+									&nbsp;&nbsp;&nbsp;&nbsp;품절
+									</c:if>
+									<c:if test="${cartList.productAmount ne 0}">
+									<button class="cart_delete_button" type='button' name='delButton' value='"+i+"' onClick='del(this.form,this.value);'>주문하기</button>
+									</c:if>
+									<hr>
+									<input type="hidden" name="cartNo" value="${cartList.cartNo}">
+									<input type="hidden" name="totalPrice" value="${cartList.eachPrice * cartList.buyAmount}">
+									<input type="hidden" name="discountPercent" value="${sessionScope.userLoginInfo.discountPercent}"/>
+									<input type="hidden" name="productAmount" value="${cartList.productAmount}"/>
+									<button class="cart_delete_button" type='button' name='delButton' value='i' onClick='location.href="deleteCart.do?cartNo=${cartList.cartNo}"'>삭제</button>
+								</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 				<input type="hidden" name="updateBuyAmountStat" />

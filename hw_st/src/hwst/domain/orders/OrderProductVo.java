@@ -1,17 +1,25 @@
 package hwst.domain.orders;
 
-public class OrderProductVo {
+import java.util.Date;
+
+public class OrderProductVo extends OrdersVo{
 	private int orderNo;
 	private int productOptionNo;
 	private int buyAmount;
 	private int totalPrice;
 	private int productStat;
 	private int deliveryStat;
-	private String deliveryDate;
-	private String recentUpdateTime;
+	private Date deliveryDate;
+	private Date recentUpdateTime;
 	private int recentUpdateUserNo;
 	
 	public OrderProductVo(){}
+	
+	public OrderProductVo(int orderNo, int productOptionNo, int deliveryStat){
+		this.orderNo = orderNo;
+		this.productOptionNo = productOptionNo;
+		this.deliveryStat = deliveryStat;
+	}
 	
 	public OrderProductVo(int orderNo, int productOptionNo, int buyAmount, int totalPrice, int recentUpdateUserNo){
 		this.orderNo = orderNo;
@@ -23,7 +31,7 @@ public class OrderProductVo {
 
 	public OrderProductVo(int orderNo, int productOptionNo, int buyAmount,
 			int totalPrice, int productStat, int deliveryStat,
-			String deliveryDate, String recentUpdateTime, int recentUpdateUserNo) {
+			Date deliveryDate, Date recentUpdateTime, int recentUpdateUserNo) {
 		super();
 		this.orderNo = orderNo;
 		this.productOptionNo = productOptionNo;
@@ -84,19 +92,19 @@ public class OrderProductVo {
 		this.deliveryStat = deliveryStat;
 	}
 
-	public String getDeliveryDate() {
+	public Date getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	public void setDeliveryDate(String deliveryDate) {
+	public void setDeliveryDate(Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public String getRecentUpdateTime() {
+	public Date getRecentUpdateTime() {
 		return recentUpdateTime;
 	}
 
-	public void setRecentUpdateTime(String recentUpdateTime) {
+	public void setRecentUpdateTime(Date recentUpdateTime) {
 		this.recentUpdateTime = recentUpdateTime;
 	}
 

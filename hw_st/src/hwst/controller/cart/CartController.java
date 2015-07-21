@@ -71,7 +71,7 @@ public class CartController {
 		logger.info("안녕하세요! cartNo "+ cartNo + "입니다.");
 		
 		try {
-			list = cartService.selectCartBySelectedCartList(cartNo);
+			list = cartService.selectCartInfo(cartNo);//메소드명 줄이기
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,6 +80,7 @@ public class CartController {
 		
 		mv.addObject("list", list);	
 		mv.setViewName("orders/order");
+		session.setAttribute("fromCart", "Y");
 		return mv;
 	}
 	

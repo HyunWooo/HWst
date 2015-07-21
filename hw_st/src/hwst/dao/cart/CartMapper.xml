@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by (select productNo from productOption where productOptionNo= c.productOptionNo), productOptionNo asc ,buyAmount desc
 	</select>
 	
-	<select id="selectCartBySelectedCartList" resultMap="cResultMap" parameterType="java.util.List">
+	<select id="selectCartByCartList" resultMap="cResultMap" parameterType="java.util.List">
 		select c.cartNo, c.productOptionNo, c.userNo, c.buyAmount, c.cartTime, p.categoryNo, p.productNo, p.name, po.productOptionName,  po.productAmount, po.addPrice, p.basicPrice , po.addPrice+p.basicPrice as eachPrice
 		from cart c, productOption po, product p
 		where c.cartNo in
