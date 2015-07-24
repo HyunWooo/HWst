@@ -88,8 +88,28 @@ function mySubmit(frm,index,countNo){
 			
 		}
 		else{
-			document.cartDetailsForm.action='updateCartAmountByCartNo.do';
-			document.cartDetailsForm.submit();
+			/* document.cartDetailsForm.action='updateCartAmountByCartNo.do';
+			document.cartDetailsForm.submit(); */
+			
+			var fm = document.createElement("form");
+			
+			fm.setAttribute("method", "post");
+			fm.setAttribute("action", "updateCartAmount.do");
+			document.body.appendChild(fm);
+			
+			var i = document.createElement("input");
+			i.setAttribute("type", "hidden");
+			i.setAttribute("name", "cartNo");
+			i.setAttribute("value", frm.updateBuyAmountStat.value);
+			fm.appendChild(i);
+			
+			var i = document.createElement("input");
+			i.setAttribute("type", "hidden");
+			i.setAttribute("name", "buyAmount");
+			i.setAttribute("value", buyAmount[parseInt(division)].value);
+			fm.appendChild(i);
+			
+			fm.submit();
 		}
 	}
 	
@@ -126,6 +146,22 @@ function mySubmit(frm,index,countNo){
 			i.setAttribute("value",  $(this).attr("id") );
 			fm.appendChild(i);
 		});
+		fm.submit();
+	}
+	
+	//개별상품 주문하기버튼 클릭시 주문실행
+	if(index==4){
+		var fm = document.createElement("form");
+		
+		fm.setAttribute("method", "post");
+		fm.setAttribute("action", "selectBySelectedCartList.do");
+		document.body.appendChild(fm);
+		
+		var i = document.createElement("input");
+		i.setAttribute("type", "hidden");
+		i.setAttribute("name", "cartNo");
+		i.setAttribute("value", cartNo[parseInt(division)].value);
+		fm.appendChild(i);
 		fm.submit();
 	}
 }
@@ -254,7 +290,7 @@ function mySubmit(frm,index,countNo){
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-star"></i> 관리자 문의</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
@@ -380,7 +416,7 @@ function mySubmit(frm,index,countNo){
 									&nbsp;&nbsp;&nbsp;&nbsp;품절
 									</c:if>
 									<c:if test="${cartList.productAmount ne 0}">
-									<button class="cart_delete_button" type='button' name='delButton' value='"+i+"' onClick='del(this.form,this.value);'>주문하기</button>
+									<button class="cart_delete_button" type='button' name='eachOrder' value='${status.count}' onClick='mySubmit(this.form,4,this.value);'>주문하기</button>
 									</c:if>
 									<hr>
 									<input type="hidden" name="cartNo" value="${cartList.cartNo}">

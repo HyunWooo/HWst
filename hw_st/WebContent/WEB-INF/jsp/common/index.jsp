@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <%request.setCharacterEncoding("UTF-8");%>
 
 
@@ -40,7 +41,7 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-star"></i> 관리자 문의</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
@@ -131,93 +132,14 @@
 			</div>
 		</div><!--/header-middle-->
 	
-		<!-- <div class="header-bottom">header-bottom
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --><!--/header-bottom-->
 	</header><!--/header-->
-	
-	<!-- <section id="slider">slider
+	<section id="advertisement">
 		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
-						<ol class="carousel-indicators">
-							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-							<li data-target="#slider-carousel" data-slide-to="1"></li>
-							<li data-target="#slider-carousel" data-slide-to="2"></li>
-						</ol>
-						
-						<div class="carousel-inner">
-							<div class="item active">
-								<div class="col-sm-6">
-									<h1><span>현우</span>-SHOPPER</h1>
-									<h2>Free E-Commerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="images/home/girl1.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png"  class="pricing" alt="" />
-								</div>
-							</div>
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>100% Responsive Design</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="images/home/girl2.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png"  class="pricing" alt="" />
-								</div>
-							</div>
-							
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free Ecommerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="images/home/girl3.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png" class="pricing" alt="" />
-								</div>
-							</div>
-							
-						</div>
-						
-						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
-							<i class="fa fa-angle-left"></i>
-						</a>
-						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
-							<i class="fa fa-angle-right"></i>
-						</a>
-					</div>
-					
-				</div>
-			</div>
+			<!-- <img src="images/product/advertisement.jpg" alt="" /> -->
+			<img src="http://i.011st.com/browsing/banner/2015/06/22/11641/2015062209092255388_8674945_1.jpg" alt="" />
+			
 		</div>
-	</section> --><!--/slider-->
+	</section>
 	
 	<section>
 		<div class="container">
@@ -293,10 +215,30 @@
 				
 				<div class="col-sm-9 padding-right">
 					<div class="recommended_items"><!--recommended_items-->
-						<h2 class="title text-center"> 오늘의 추천 상품</h2>
+						<h2 class="title text-center"> 실시간 최저가 상품</h2>
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner">
 								<div class="item active">	
+								<c:forEach items="${sessionScope.lowPriceList}" var="list" begin="0" end="5">
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="images/product/<c:out value="${list.categoryNo}"/>/<c:out value="${list.productNo}"/>_1.jpg" alt="" />
+													<h2><fmt:formatNumber value="${list.basicPrice}"/>원</h2>
+													<p>${list.name}</p>
+													<a href="viewProductDetails.do?productNo=<c:out value="${list.productNo}"/>" class="btn btn-default add-to-cart"><i class="fa fa-search"></i>상품상세보기</a>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+								</c:forEach>	
+								</div>
+								
+								
+								
+								<!-- <div class="item">	
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
@@ -336,74 +278,33 @@
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="item">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-								</div>
+								</div> -->
 							</div>
-							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+							 <!-- <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 								<i class="fa fa-angle-left"></i>
 							  </a>
 							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
 								<i class="fa fa-angle-right"></i>
-							  </a>			
+							  </a>	 -->		
 						</div>
 					</div><!--/recommended_items-->
 					<br>
 					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">All New Items</h2>
+						<h2 class="title text-center">따끈따끈한 신상</h2>
 							<c:forEach items="${sessionScope.productList}" var="list" begin="0" end="5">  
 	                        <div class="col-sm-4">
 								<div class="product-image-wrapper">
 									<div class="single-products">
 										<div class="productinfo text-center">
 											<img src="images/product/<c:out value="${list.categoryNo}"/>/<c:out value="${list.productNo}"/>_1.jpg" alt="" />
-											<h2><c:out value="${list.basicPrice}"/>원</h2>
+											<h2><fmt:formatNumber value="${list.basicPrice}"/>원</h2>
 											<p><c:out value="${list.name}"/></p>
 											<a href="viewProductDetails.do?productNo=<c:out value="${list.productNo}"/>" class="btn btn-default add-to-cart"><i class="fa fa-search"></i>상품상세보기</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
 												<p><c:out value="${list.details}"/></p>
-												<h2><c:out value="${list.basicPrice}"/>원</h2>
+												<h2><fmt:formatNumber value="${list.basicPrice}"/>원</h2>
 												<p><c:out value="${list.name}"/></p>
 												<a href="viewProductDetails.do?productNo=<c:out value="${list.productNo}"/>" class="btn btn-default add-to-cart"><i class="fa fa-search"></i>상품상세보기</a>
 											</div>
@@ -415,7 +316,7 @@
 							</c:forEach>
 						</div><!--features_items-->
 					<br>
-					<div class="category-tab"><!--category-tab-->
+					<<!-- div class="category-tab">category-tab
 					<h2 class="title text-center">Category Items</h2>
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs">
@@ -702,7 +603,7 @@
 								</div>
 							</div>
 						</div>
-					</div><!--/category-tab-->
+					</div>/category-tab -->
 					
 					
 					

@@ -5,74 +5,112 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<c:choose>
-		<c:when test="${not empty sessionScope.userLoginInfo.name}">
-			<script>
-				alert("이미 로그인 된 상태입니다.");
-				history.go(-1);
-			</script>
-		</c:when>
-		<c:when test="${sessionScope.loginFail eq 'Y'}">
-			<script>
-				alert("아이디와 패스워드를 다시 확인하세요.");
-				<%session.invalidate();%>
-				history.go();
-			</script>
-		</c:when>
-		<c:when test="${sessionScope.signupProcess eq 'Y'}">
-			<script>
-				alert("회원가입이 완료되었습니다.");
-				 location.href = "index.do";
-				 <%session.invalidate();%>
-			</script>
-		</c:when>
-	<c:otherwise>
 	
 	<script type="text/javascript" charset="UTF-8" language="javascript">
-		function checkIt(){
-			if(!document.userinput.id.value){
-				alert("ID를 입력하세요");
-				return false;
-			}
-			if(!document.userinput.pw.value){
-				alert("비밀번호를 입력하세요");
-				return false;
-			}
-			if(document.userinput.pw.value != document.userinput.pw2.value){
-				alert("비밀번호확인이 일치하지 않습니다");
-				return false;
-			}
-			if(!document.userinput.name.value){
-				alert("이름을 입력하세요");
-				return false;
-			}
-			if(!document.userinput.phone.value){
-				alert("전화번호를 입력하세요");
-				return false;
-			}
-			if(!document.userinput.postCode.value){
-				alert("우편번호를 입력하세요");
-				return false;
-			}
-			if(!document.userinput.address.value){
-				alert("주소를 입력하세요");
-				return false;
-			}
-		}
 		
-		function openConfirmid(inputid)
-		{
-			if(inputid.id.value ==""){
-				alert("아이디를 입력하세요");
-				return;
-			}
-			
-			 url="checkId.do?id="+inputid.id.value;
-			window.open(url);
-			 /* window.open(url,'popup', 'width=300, height=200, left=0, top=0, toolbar=no, location=no, directories=no, status=no, menubar=no, resizable=no, scrollbars=no, copyhistory=no'); */
-			 
-			 
+		var oTbl;
+		//Row 추가
+		function insRow(frm) {
+		  var opTotalNum = document.getElementsByName('opTotalNum');
+		  var plusPOName = document.getElementsByName('plusPOName');
+		  var i= plusPOName.length ;
+		  oTbl = document.getElementById("addTable");
+		  var oRow = oTbl.insertRow();
+		  oRow.onmouseover=function(){oTbl.clickedRowIndex=this.rowIndex};
+
+		  frm.opTotalNum.value=plusPOName.length+1;
+		  
+		  if(plusPOName.length>9){
+			  alert("옵션추가는 한번에 10개로 제한됩니다.");
+			  return false;
+		  }
+		  oRow.insertCell(0).innerHTML = "<input type=text id="+i+" name=plusPOName maxlength=20 value=''>";
+		  oRow.insertCell(1).innerHTML = "<input type=number id="+i+" name=plusOP min=1 value=''>";
+		  oRow.insertCell(2).innerHTML = "<input type=number id="+i+" name=plusAddPrice min=0 value=''>";
+		  oRow.insertCell(3).innerHTML = "<input type=number id="+i+" name=plusProductAmount min=0 value=''>";
+		  oRow.insertCell(4).innerHTML = "<input type=number id="+i+" name=optionValue min=1 max=2 value=''>";
+		  oRow.insertCell(5).innerHTML = "<input type=button value='삭제' onClick='removeRow()' style='cursor:hand'>";
+		  
 		}
+		//Row 삭제
+		function removeRow(frm) {
+		  oTbl.deleteRow(oTbl.clickedRowIndex);
+		}
+
+		function checkIt(frm){
+			var plusPOName = document.getElementsByName('plusPOName');
+			var plusOP = document.getElementsByName('plusOP');
+			var plusAddPrice = document.getElementsByName('plusAddPrice');
+			var plusProductAmount = document.getElementsByName('plusProductAmount');
+			var optionValue = document.getElementsByName('optionValue');
+			var optionProcedure = document.getElementsByName('optionProcedure');
+		 	var i= plusPOName.length ;
+			  
+			if(!frm.categoryNo.value){
+				alert("카테고리번호를 입력하세요");
+				return false;
+			}
+			if(!frm.name.value){
+				alert("상품명을 입력하세요");
+				return false;
+			}
+			if(!frm.basicPrice.value){
+				alert("기본가격을 입력하세요");
+				return false;
+			}
+			if(!frm.details.value){
+				alert("상세설명을 입력하세요");
+				return false;
+			}
+			if(frm.plusPOName == null){
+				alert("적어도 한개 이상의 상품옵션이 등록되어야 합니다");
+				return false;
+			}
+			 for(var k=0; k < plusPOName.length ;k++){
+				if(!plusPOName[k].value){
+					alert("상품옵션명을 입력하세요");
+					return false;
+				}
+				if(!plusOP[k].value){
+					alert("옵션순서를 입력하세요");
+					return false;
+				}
+				if(plusOP[k].value < optionProcedure.length+1){
+						alert("기존항목의 옵션순서와 중복입니다.");
+						return false;
+				}
+				if(plusOP[k-1] != null){
+					if(plusOP[k-1].value==plusOP[k].value){
+						alert("추가중인 옵션순서에서 중복이 발생하였습니다.");
+						return false;
+					}
+				}
+				if(!plusAddPrice[k].value){
+					alert("추가금액을 입력하세요");
+					return false;
+				}
+				if(!plusProductAmount[k].value){
+					alert("재고수량을 입력하세요");
+					return false;
+				}
+				if(!optionValue[k].value){
+					alert("옵션상태를 선택하세요");
+					return false;
+				}
+				if(optionValue[k].value>2){
+					alert("잘못된 옵션상태입니다");
+					return false;
+				}
+				
+			 }
+			 frm.submit();
+		}
+
+		function getSelectValue(frm,i)
+		{
+			 frm.categoryNo.value = frm.selectBox.options[frm.selectBox.selectedIndex].value;
+		}
+
 		
 	</script>
 
@@ -109,7 +147,7 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-star"></i> 관리자 문의</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
@@ -120,8 +158,15 @@
 							<ul class="nav navbar-nav">
 								<!-- <li><a href="#"><i class="fa fa-user"></i> Account</a></li> -->
  								<!--<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
-										<li><a href="chooseSignup.do"><i class="fa fa-pencil"></i> Sign Up</a></li>
+								<c:choose>
+									<c:when test="${not empty sessionScope.userLoginInfo}">
+										<li><a href= "userManagement.do"><i class="fa fa-user"></i>${sessionScope.userLoginInfo.name}님</a></li>
+										<li><a href="logoutProcess.do"><i class="fa fa-crosshairs"></i> Logout</a></li>
+									</c:when>
+									<c:otherwise>
 										<li><a href="login.do"><i class="fa fa-lock"></i> Login</a></li>
+									</c:otherwise>
+								</c:choose>
 							</ul>
 						</div>
 					</div>
@@ -134,31 +179,14 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.do"><img src="images/home/logo.png" alt="" /></a>
+							<a href="orderManagement.do"><img src="images/home/logo.png" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
-						<div class="search_box pull-right">
-							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
-	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
-                             </form>
-						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.do" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
-                                        <li><a href="allProductView.do">전체상품보기</a></li>
-                                    </ul>
-                                </li> 
-								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.jsp">Blog List</a></li>
-										<li><a href="blog_single.jsp">Blog Single</a></li>
-                                    </ul>
-                                </li>  -->
-								<!-- <li><a href="404.jsp">404</a></li> -->
+								<li><a href="orderManagement.do" class="active">주문관리</a></li>
+								<li><a href="selectRegisterPrdAll.do" class="active">상품관리</a></li>
 								<li><a href="contact_us.do">Contact-us</a></li>
 							</ul>
 						</div>
@@ -168,34 +196,75 @@
 		</div><!--/header-middle-->
 	</header><!--/header-->
 	
-			<section id="form"><!--form-->
+			<section id="cart_items">
 				<div class="container">
-					<div class="row">
-						<div class="col-sm-6 text-center">
-							<div class="signup-form"><!--sign up form-->
-								<h2>구매자 회원가입</h2>
-								<form  action="signupBuyerProcess.do" method="post" name="userinput" onSubmit="return checkIt()">
-									<td>
-									<input type="email" placeholder="아이디(이메일)" name="id" />
-									<input type="button" placeholder="id" name="confirm_id" value="중복확인" OnClick="openConfirmid(this.form)" />
-									</td>
-									<input type="password" placeholder="비밀번호" name="pw" />
-									<input type="password" placeholder="비밀번호확인" name="pw2" />
-									<input type="text" placeholder="이름" name="name"/>
-									<input type="text" placeholder="전화번호" name="phone" />
-									<input type="text" placeholder="우편번호" name="postCode" />
-									<input type="text" placeholder="주소" name="address"/>
-									<input type="hidden" placeholder="회원구분" name="userSection" value="1"/>
-									<button type="submit" value="가입하기" class="btn btn-default" id="btn">가입하기</button>
-								</form>
-							</div><!--/sign up form-->
-						</div>
+					<div class="table-responsive cart_info">
+					<form action="insertPrd.do" name="insertPOform" method="post" onSubmit="return checkIt()">
+							<h2>상품 등록</h2>
+							<div class="shopper-informations">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="shopper-info" id="basicInput">
+								<select name="selectBox" id="list" onchange="getSelectValue(this.form);" width="100px;">
+									<c:forEach items="${sessionScope.categoryList}" var="categoryList" >
+										<option id="${categoryList.categoryNo}" label="${categoryList.categoryName}" value="${categoryList.categoryNo}">
+										</option>
+									</c:forEach>
+								</select>
+								<label>카테고리번호</label><input type="text" placeholder="카테고리번호" name="categoryNo" readonly/><br>
+								<label>상품명</label><input type="text" placeholder="상품명" name="name" /><br>
+								<label>기본가격</label><input type="number" placeholder="기본가격" name="basicPrice" /><br>
+								<label>상세설명</label><input type="text" placeholder="상세설명" name="details"/><br>
+								<input type="hidden" name="opTotalNum" value="0">
+								</div>
+								</div>
+								</div>
+								</div>
+						<br>
+						
+						<table class="table table-condensed">
+						  <tr>
+						    <td colspan="2" align="left" bgcolor="#FFFFFF">
+						      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+						        <tr>
+						         <td colspan="5" bgcolor="#FFFFFF" height="25" align="left">
+							         <input name="addButton" type="button" style="cursor:hand" onClick="insRow(this.form)" value="옵션추가">
+							         <font color="#FF0000">*</font>옵션추가를 클릭해 보세요.</td>
+						        </tr>
+						        <tr>
+						         <td>
+						           <table id="addTable" class="table table-condensed">
+						            <tr class="cart_menu">
+										<td class="info">상품옵션명</td>
+										<td class="optionProcedure">옵션순서</td>
+										<td class="addPrice">추가금액</td>
+										<td class="stat">재고수량</td>
+										<td class="stats">옵션상태<br>활성화:1/비활성화:2</td>
+										<td class="delete">해당옵션삭제</td>
+									</tr>
+						          </table>
+						          </td>
+						        </tr>
+						       </table>
+						      </td>
+						   </tr>
+						 </table>
+						 <table border="0" cellspacing="0" cellpadding="0">
+						    <tr>
+						      <td height="10">
+						      </td>
+						    </tr>
+						    <tr>
+						      <td align="center">
+						      <input type="hidden" name="userNo" value="${sessionScope.userLoginInfo.userNo}" >
+						      <input type="button" name="button" value="상품 등록" onclick="checkIt(this.form)">
+						      </td>
+						    </tr>
+						 </table>
 					</div>
+					</form>
 				</div>
 			</section><!--/form-->
-		</c:otherwise>
-	</c:choose>
-	
 	
 	
 	<footer id="footer"><!--Footer-->

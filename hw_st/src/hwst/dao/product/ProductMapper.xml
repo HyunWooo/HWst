@@ -17,11 +17,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="recentUpdateTime" property="recentUpdateTime" />
 		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
 	</resultMap>
-
+	
 	<select id="selectProductAll" resultMap="pResultMap">
 		select * from product
 		where stat=3 
-		order by regisTime desc
+		order by productNo desc
+	</select>
+	
+	<select id="selectPrdLow" resultMap="pResultMap">
+		select * from product
+		where stat=3 
+		order by basicPrice asc
+        limit 3
 	</select>
 	
 	<select id="selectProductByKeyword" parameterType="String" resultMap="pResultMap">
@@ -42,5 +49,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where productNo = #{productNo}
 	</select>
 	
+	<select id="selectProductNo" parameterType="productVo" resultType="int">
+		select productNo
+		from product
+		where userNo=#{userNo} and name=#{name} and opTotalNum=#{opTotalNum} and categoryNo=#{categoryNo} and details = #{details}
+	</select>
 	
+	<insert id="insertPrd" parameterType="productVo">
+		insert into product
+		values (null,#{userNo},#{categoryNo},#{name},#{basicPrice},3,#{details},#{opTotalNum},now(),now(),#{userNo})
+	</insert>
 </mapper>

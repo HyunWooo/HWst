@@ -44,11 +44,8 @@ public class UsersDaoImpl implements UsersDao {
 		int userNo = 0;
 		try {
 			session = DBUtil.getSqlSession();
-			System.out.println(id + " id");
 			userNo = session.selectOne("users.selectOneUserNo", id);
-			System.out.println(userNo + " userNo");
 		} catch(Exception e){
-			System.out.println("null Exception");
 		}
 		finally {
 			DBUtil.closeSqlSession(session);
@@ -58,18 +55,14 @@ public class UsersDaoImpl implements UsersDao {
 	
 	//id,pw로 해당회원의 회원정보 조회
 	@Override
-	public UsersVo selectOneUser(UsersVo vo){
+	public UsersVo selectOneUser(UsersVo vo)throws Exception{
 		SqlSession session = null;
 		UsersVo uVo = null;
 		try {
 			session = DBUtil.getSqlSession();
 			logger.info("안녕하세요!"+ vo + "입니다.");
-			System.out.println("쿼리들어가기전 :" + vo);
 			uVo = session.selectOne("users.loginUsers",vo);
-			System.out.println(uVo);
 		} catch(Exception e){
-			System.out.println("public UsersVo selectOneUser(UsersVo vo) null Exception");
-			System.out.println(uVo + "예외uVo");
 		}
 		finally {
 			DBUtil.closeSqlSession(session);
@@ -114,7 +107,6 @@ public class UsersDaoImpl implements UsersDao {
 			session = DBUtil.getSqlSession();
 			aVo = session.selectOne("users.selectOneAdmin", vo);
 		} catch(Exception e){
-			System.out.println("exception");
 		}
 		finally {
 			DBUtil.closeSqlSession(session);
@@ -147,7 +139,6 @@ public class UsersDaoImpl implements UsersDao {
 			session = DBUtil.getSqlSession();
 			result = session.insert("users.insertBuyer", userNo);
 		} catch(Exception e){
-			System.out.println("buyer insert Exception");
 		}finally {
 			DBUtil.closeSqlSession(session);
 		}

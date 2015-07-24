@@ -80,7 +80,7 @@ public class CartController {
 		
 		mv.addObject("list", list);	
 		mv.setViewName("orders/order");
-		session.setAttribute("fromCart", "Y");
+		session.setAttribute("productViewStat", "yes");
 		return mv;
 	}
 	
@@ -126,16 +126,13 @@ public class CartController {
 	}
 	
 	//장바구니 수량 수정
-	@RequestMapping(value="updateCartAmountByCartNo.do", method = RequestMethod.POST)
-	public ModelAndView updateCartAmountByCartNo(HttpSession session, HttpServletRequest request,
-		    @RequestParam("cartNo") List<Integer> cartNo, 
-		    @RequestParam("buyAmount")List<Integer> buyAmount,
-		     int updateBuyAmountStat){
-		logger.info("안녕하세요! updateBuyAmountStat "+ updateBuyAmountStat + "입니다.");
+	@RequestMapping(value="updateCartAmount.do", method = RequestMethod.POST)
+	public ModelAndView updateCartAmount(HttpSession session, HttpServletRequest request,CartVo cartVo){
+		logger.info("안녕하세요! updateBuyAmountStat "+ cartVo + "입니다.");
 		boolean stat = false;
 		
 		try {
-			stat = cartService.updateCartAmountByCartNo(cartNo, buyAmount, updateBuyAmountStat);
+			stat = cartService.updateCartAmount(cartVo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

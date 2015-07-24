@@ -3,8 +3,6 @@ package hwst.service.users;
 import hwst.domain.users.SellerVo;
 import hwst.domain.users.UsersVo;
 
-import java.sql.SQLException;
-
 public interface UsersService {
 	boolean updateUsers(UsersVo vo) throws Exception;
 	boolean deleteUsers(int userNo, int userSection) throws Exception;

@@ -12,7 +12,7 @@
 	<c:if test="${sessionScope.insertCartStat eq true}">
 		<script>
 			<%session.removeAttribute("insertCartStat");%>
-			if (confirm("장바구니가 추가되었습니다. 장바구니 목록을 확인하시겠습니까?") == true){    //확인
+			if (confirm("장바구니가 추가되었습니다. \n장바구니 목록을 확인하시겠습니까?") == true){    //확인
 				location.href = "allCartView.do";
 			}
 		</script>
@@ -265,7 +265,7 @@ function mySubmit(frm,index){
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-star"></i> 관리자 문의</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
@@ -438,9 +438,9 @@ function mySubmit(frm,index){
 							<div class="view-product">
 								<img src="images/product/<c:out value="${product.categoryNo}"/>/<c:out value="${product.productNo}"/>_1.jpg" alt="" />
 							</div>
-							<div id="similar-product" class="carousel slide" data-ride="carousel">
+							<!-- <div id="similar-product" class="carousel slide" data-ride="carousel">
 								
-								  <!-- Wrapper for slides -->
+								  Wrapper for slides
 								    <div class="carousel-inner">
 										<div class="item active">
 										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
@@ -460,14 +460,14 @@ function mySubmit(frm,index){
 										
 									</div>
 
-								  <!-- Controls -->
+								  Controls
 								  <a class="left item-control" href="#similar-product" data-slide="prev">
 									<i class="fa fa-angle-left"></i>
 								  </a>
 								  <a class="right item-control" href="#similar-product" data-slide="next">
 									<i class="fa fa-angle-right"></i>
 								  </a>
-							</div>
+							</div> -->
 
 						</div>
 						<div class="col-sm-7">
@@ -603,7 +603,7 @@ function mySubmit(frm,index){
 						</div>
 					</div><!--/category-tab-->
 					
-					<div class="recommended_items"><!--recommended_items-->
+					<!-- <div class="recommended_items">recommended_items
 						<h2 class="title text-center">recommended items</h2>
 						
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
@@ -692,7 +692,7 @@ function mySubmit(frm,index){
 								<i class="fa fa-angle-right"></i>
 							  </a>			
 						</div>
-					</div><!--/recommended_items-->
+					</div>/recommended_items -->
 					
 				</div>
 			</div>

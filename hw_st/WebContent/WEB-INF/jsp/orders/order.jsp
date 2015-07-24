@@ -6,7 +6,12 @@
 <%request.setCharacterEncoding("UTF-8");%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
+<c:if test="${orderList.buyAmount > orderList.productAmount}">
+	<%
+	String sName =" 상품옵션의 주문수량이 재고보다 큽니다. ";
+	out.println("<script>alert('" + sName + "');</script>");
+	out.println("<script>history.back(-1);</script>");%>
+</c:if>
 <script type="text/javascript" charset="utf-8">
 function cancel(){
 	<%session.removeAttribute("fromCart");%>
@@ -291,7 +296,7 @@ function commaNum(num) {
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-star"></i> 관리자 문의</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
@@ -446,7 +451,8 @@ function commaNum(num) {
 							<c:if test="${orderList.buyAmount > orderList.productAmount}">
 								<%
 								String sName =" 상품옵션의 주문수량이 재고보다 큽니다. ";
-								out.println("<script>alert('" + sName + "');</script>");%>
+								out.println("<script>alert('" + sName + "');</script>");
+								out.println("<script>history.back(-1);</script>");%>
 								<input class="cart_quantity_input" type="text" name="buyAmount" id="${orderList.productOptionNo}" value="${orderList.productAmount}"  readonly ">
 							</c:if>
 							<c:if test="${orderList.buyAmount <= orderList.productAmount}">
@@ -576,14 +582,14 @@ function commaNum(num) {
 									<th scope="row">결제안내</th>
 									<td>
 											<br>
-											입금시 예금주명은 '11번가, ㈜커머스플래닛' 등으로 확인될 수 있습니다.<br>
-											취소/반품 신청 시 환불수단은 무통장으로 환불 받으실 수 있습니다.
+											입금시 예금주명은 '11번가, ㈜커머스플래닛' 등으로 확인될 수 있습니다.
 									</td>
 								</tr>
 								<tr>
 									<td>
 										<a class="btn btn-primary" onclick="doOrder(this.form)">결제하기</a>
 										<a class="btn btn-primary" onclick="cancel()">취소하기</a>
+										<input type="text" value="${sessionScope}">
 									</td>
 								</tr>
 								<!-- 무통장입금안내:E -->

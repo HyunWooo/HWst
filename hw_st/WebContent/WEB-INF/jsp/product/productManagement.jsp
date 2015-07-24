@@ -1,149 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <%request.setCharacterEncoding("UTF-8");%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<c:choose>
-	<c:when test="${sessionScope.userLoginInfo.userSection ne 2}">
-		<script>
-			alert("판매자 전용 페이지입니다.");
-			<%session.invalidate();%>
-			location.href("redirect:login.do");
-		</script>
-	</c:when>
-</c:choose>
-<head>	
+<c:if test="${sessionScope.stat eq true}">
+	<script>
+		alert("재고수량의 수정이 완료되었습니다");
+		<%session.removeAttribute("stat");%>
+		window.location.reload();
+	</script>
+</c:if>
 <script type="text/javascript" charset="utf-8">
-
-//amt = commaNum(amt)  
-// 1000000 => 1,000,000  
-function commaNum(num) {  
-    var len, point, str;  
-
-    num = num + "";  
-    point = num.length % 3;  
-    len = num.length;  
-
-    str = num.substring(0, point);  
-    while (point < len) {  
-        if (str != "") str += ",";  
-        str += num.substring(point, point + 3);  
-        point += 3;  
-    }  
-    return str;  
-}  
-
-//수량변경,선택주문하기,전체주문하기 submit 분기
 function mySubmit(frm,index,countNo){
+	var division = parseInt(countNo)-1;
+	var productOptionNo = document.getElementsByName('productOptionNo');
+	var productAmount = document.getElementsByName('productAmount');
 	
-	//무통장입금확인 상태변경
+	//상품옵션의 수량 변경
 	if(index==1){
-		if (confirm("입금을 확인하셨습니까? \n확인 후 배송을 준비해 주세요") == true){    //확인
-			var fm = document.createElement("form");
-			
-			fm.setAttribute("method", "post");
-			fm.setAttribute("action", "updateOrderStat.do");
-			document.body.appendChild(fm);
-			
-			var i = document.createElement("input");
-			i.setAttribute("type", "hidden");
-			i.setAttribute("name", "orderNo");
-			i.setAttribute("value", countNo);
-			fm.appendChild(i);
-			
-			var i = document.createElement("input");
-			i.setAttribute("type", "hidden");
-			i.setAttribute("name", "orderStat");
-			i.setAttribute("value",  3);
-			fm.appendChild(i);
-			
-			fm.submit();
-		}
-			
-	}
-	
-	//배송상태가 배송준비중일때, 배송요청하기
-	if(index==2){
-		var division = parseInt(countNo)-1;
-		var orderNo = document.getElementsByName("orderNo");
-		var productOptionNo = document.getElementsByName("productOptionNo");
-		
 		var fm = document.createElement("form");
 		
+		/* if(productAmount[parseInt(division)].value < 0){ //update할 상품의 수량이 0 이하일 경우 걸러줌
+			alert("재고수량은 0 이상이어야 합니다");
+			window.location.reload();
+			return false;
+		} */
+		
 		fm.setAttribute("method", "post");
-		fm.setAttribute("action", "udtDeliveryStat.do");
+		fm.setAttribute("action", "deleteProduct.do");
 		document.body.appendChild(fm);
 		
 		var i = document.createElement("input");
 		i.setAttribute("type", "hidden");
-		i.setAttribute("name", "orderNo");
-		i.setAttribute("value", orderNo[parseInt(division)].value);
+		i.setAttribute("name", "productNo");
+		i.setAttribute("value", productNo[parseInt(division)].value);
 		fm.appendChild(i);
 		
 		var i = document.createElement("input");
 		i.setAttribute("type", "hidden");
-		i.setAttribute("name", "productOptionNo");
-		i.setAttribute("value", productOptionNo[parseInt(division)].value);
-		fm.appendChild(i);
-		
-		var i = document.createElement("input");
-		i.setAttribute("type", "hidden");
-		i.setAttribute("name", "deliveryStat");
-		i.setAttribute("value", 2);
+		i.setAttribute("name", "details");
+		i.setAttribute("value", details[parseInt(division)].value);
 		fm.appendChild(i);
 		
 		fm.submit();
 	}
-	 
 	
-	//결제금액받기 실행
-	if(index==3){
-		var division = parseInt(countNo)-1;
-		var orderNo = document.getElementsByName("orderNo");
-		var productOptionNo = document.getElementsByName("productOptionNo");
-		var price = document.getElementsByName("discountedTotalPrice");
-		var thisPrice = price[parseInt(division)].value;
-		var accountNo = document.getElementsByName("accountNo");
-		
-		var acc = accountNo[0].value;
-		var discountedTotalPrice = thisPrice.substr(0,thisPrice.length-1);
-		var endPrice = parseInt(discountedTotalPrice)*0.95*1000;
-		var fee = parseInt(discountedTotalPrice)*0.05*1000;
-		
-		if (confirm("귀하의 계좌 "+acc+" 으로 \n총 금액 "+thisPrice+" 중 수수료 "+fee+"원을 제외한\n"+endPrice+"원이 입금됩니다. \n계속하시겠습니까?") == true){
-			alert("입금되었습니다!");
-			
-			var fm = document.createElement("form");
-			
-			fm.setAttribute("method", "post");
-			fm.setAttribute("action", "updateOrderStat.do");
-			document.body.appendChild(fm);
-			
-			var i = document.createElement("input");
-			i.setAttribute("type", "hidden");
-			i.setAttribute("name", "orderNo");
-			i.setAttribute("value", orderNo[parseInt(division)].value);
-			fm.appendChild(i);
-			
-			var i = document.createElement("input");
-			i.setAttribute("type", "hidden");
-			i.setAttribute("name", "orderStat");
-			i.setAttribute("value",  6);
-			fm.appendChild(i);
-			
-			fm.submit();
-		}
+	if(index==2){
+		 cw=screen.availWidth;     //화면 넓이
+		 ch=screen.availHeight;    //화면 높이
+	
+		 sw=1000;    //띄울 창의 넓이
+		 sh=650;    //띄울 창의 높이
+	
+		 ml=(cw-sw)/2;        //가운데 띄우기위한 창의 x위치
+		 mt=(ch-sh)/2;         //가운데 띄우기위한 창의 y위치
+		 
+	    var url    ="manageProductOption.do";
+	    var title  = "상품옵션관리";
+	    var status = 'width='+sw+',height='+sh+',top='+mt+',left='+ml+',resizable=no,scrollbars=yes'; 
+	    window.open("", title,status);
+	    
+	    frm.target = title;
+	    frm.action = url;                    //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
+	    frm.method = "post";
+	    frm.submit();     
 	}
 }
+	
+	
 
+	
 </script>
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
-
+	
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -223,103 +154,82 @@ function mySubmit(frm,index,countNo){
 				</div>
 			</div>
 		</div><!--/header-middle-->
+	
+		<!-- <div class="header-bottom">header-bottom
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="search_box pull-right">
+							<input type="text" placeholder="Search"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> --><!--/header-bottom-->
 	</header><!--/header-->
-
-<form name="cartDetailsForm" method="POST">
+	
 	<section id="cart_items">
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
-				  <li class="active">주문관리</li>
+				  <li class="active">상품관리</li><br><hr>
+				  <a href="registerProduct.do"><상품 등록하기></a>
 				</ol>
 			</div>
 			<div class="table-responsive cart_info">
-			
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
-							<td class="info">주문일자<br>(주문번호)</td>
+							<td class="info">상품명<br>(상품번호)</td>
 							<td class="image">이미지</td>
-							<td class="description">상품정보<br>/옵션정보_재고수량</td>
-							<td class="price">상품금액(수량)</td>
-							<td class="stat">배송상태</td>
-							<td class="stat">주문상태</td>
-							<td class="delete">구매자ID<br>(구매자명)<br></td>
+							<td class="description">상품옵션명<br>옵션순서</td>
+							<td class="price">기본금액<br>추가금액</td>
+							<td class="stat">수량</td>
+							<td class="stat">상품상세설명</td>
 						</tr>
 					</thead>
 					
 					<tbody>
-						<c:forEach items="${list}" var="orderList" varStatus="status">
+						<c:forEach items="${list}" var="productOptionList" varStatus="status">
 							<tr>
-								<c:if test="${orderList.orderNoCount ne 0}">
-									<td class="cart_info" rowspan="${orderList.orderNoCount}">
-										<p><fmt:formatDate value="${orderList.orderTime}" pattern="yyyy-MM-dd"/><br>(${orderList.orderNo})</p>
+								<c:if test="${productOptionList.productNoCount ne 0}">
+									<td class="cart_info" rowspan="${productOptionList.productNoCount}">
+									<form name="PODetailsForm" method="POST">
+										<p>"${productOptionList.name}"<br>(${productOptionList.productNo})</p>
+										<br><input type="hidden" name="productNo" value="${productOptionList.productNo}"/>
+										<button type="button" class="btn btn-fefault cart" name="updateButton"value="${productOptionList.productNo}"onclick="mySubmit(this.form,2,this.value);">상품옵션 수정</button>
+									</form>
 									</td>
 								</c:if>
 								<td class="cart_image">
-									<img src="images/product/<c:out value="${orderList.categoryNo}"/>/<c:out value="${orderList.productNo}"/>_1.jpg" alt="" />
+									<img src="images/product/<c:out value="${productOptionList.categoryNo}"/>/<c:out value="${productOptionList.productNo}"/>_1.jpg" alt="" />
 								</td>
 								<td class="cart_description">
-									<h4>${orderList.name}</h4>
+									<h4>${productOptionList.productOptionName}</h4>
 									<p></p>
-									<p>/${orderList.productOptionName}_${orderList.productAmount}개</p>
+									<p>${productOptionList.optionProcedure}번</p>
 								</td>
 								<td class="cart_price">
-									<p><fmt:formatNumber value="${orderList.totalPrice}"/>원(${orderList.buyAmount}개)</p>
+									<p><fmt:formatNumber value="${productOptionList.basicPrice}"/>원/<fmt:formatNumber value="${productOptionList.addPrice}"/>원</p>
 								</td>
 								<td class="cart_stat">
-									<input type="hidden" id="${status.count}" name="orderNo" value="${orderList.orderNo}">
-									<input type="hidden" id="${status.count}" name="productOptionNo" value="${orderList.productOptionNo}">
-									<input type="hidden" id="${status.count}" name="discountedTotalPrice" value="${orderList.discountedTotalPrice}">
-									<c:if test="${orderList.orderStat > 2}">
-										<c:choose>
-											<c:when test="${orderList.deliveryStat eq 1}">
-												&nbsp;&nbsp;&nbsp;발송준비중
-												<br>
-												<button type="button" class="btn btn-fefault cart" id="${status.count}" name="delivery" value="${status.count}"onclick="mySubmit(this.form,2,this.value);">배송 요청</button>
-											</c:when>
-											<c:when test="${orderList.deliveryStat eq 2}">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송중
-											</c:when>
-											<c:when test="${orderList.deliveryStat eq 3}">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송완료
-											</c:when>
-										</c:choose>
-									</c:if>
+									<input type="hidden" id="${status.count}" name="productOptionNo" value="${productOptionList.productOptionNo}">
+									<p>${productOptionList.productAmount}</p>
 								</td>
-								<c:if test="${orderList.orderNoCount ne 0}">
-									<td class="cart_stat" rowspan="${orderList.orderNoCount}">
-										<c:choose>
-											<c:when test="${orderList.orderStat eq 1 and orderList.quantityCheck eq 1}">
-													&nbsp;&nbsp;&nbsp;재고 부족<br>
-											</c:when>
-											<c:when test="${orderList.orderStat eq 1 and orderList.quantityCheck ne 1}">
-													&nbsp;&nbsp;&nbsp;${orderList.discountedTotalPrice}<br>입금대기중<br>
-											</c:when>
-											<c:when test="${orderList.orderStat eq 2}">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결제완료<br>
-												<input type="hidden" id="${status.count}" name="orderStat" value="${orderList.orderStat}">
-												<button type="button" class="btn btn-fefault cart" id="${status.count}" name="deposit"value="${orderList.orderNo}"onclick="mySubmit(this.form,1,this.value);">입금확인하기</button>
-											</c:when>
-											<c:when test="${orderList.orderStat eq 3}">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송준비중<br>
-											</c:when>
-											<c:when test="${orderList.orderStat eq 4}">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송중<br>
-											</c:when>
-											<c:when test="${orderList.orderStat eq 5}">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전체배송완료<br>
-												<button type="button" class="btn btn-fefault cart" id="${status.count}" name="deposit"value="${status.count}"onclick="mySubmit(this.form,3,this.value);">결제금액받기</button>
-											</c:when>
-											<c:when test="${orderList.orderStat eq 6}">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결제금액 수금완료<br>
-											</c:when>
-										</c:choose>
-									</td>
-								</c:if>
-								<c:if test="${orderList.orderNoCount ne 0}">
-									<td class="cart_delete" rowspan="${orderList.orderNoCount}">
-										${orderList.id}<br>(${orderList.userName})
+								<c:if test="${productOptionList.productNoCount ne 0}">
+									<td class="cart_stats" rowspan="${productOptionList.productNoCount}">
+										${productOptionList.details}
+										<%-- <button type="button" class="btn btn-fefault cart" name="updateButton"value="${status.count}"onclick="mySubmit(this.form,1,this.value);">삭제</button> --%>
 									</td>
 								</c:if>
 							</tr>
@@ -333,10 +243,11 @@ function mySubmit(frm,index,countNo){
 		<input type="hidden" name="accountNo" value="${sessionScope.userLoginInfo.accountNo}">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<img src="images/order/deliveryProcess.jpg" class="img-responsive" alt=""  align="middle" /><br><br><br><br>
+		<img class="btmprocess" src="images/order/deliveryProcess.jpg" class="img-responsive" alt=""  align="middle" /><br><br><br><br>
 	</section>
 	</form>
-
+	
+	
 	<footer id="footer"><!--Footer-->
 		<!-- <div class="footer-widget">
 			<div class="container">
@@ -428,10 +339,11 @@ function mySubmit(frm,index,countNo){
 	</footer><!--/Footer-->
 	
 
-
+  
     <script src="js/jquery.js"></script>
+	<script src="js/price-range.js"></script>
+    <script src="js/jquery.scrollUp.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.scrollUp.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
 </body>

@@ -20,10 +20,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="eachPrice" property="eachPrice" />
 	</resultMap>
 
+	<!-- 상품번호로 활성화된 상품옵션의 정보 조회 -->
 	<select id="selectProductOptionAll" resultMap="pResultMap">
 		select * 
 		from productOption 
 		where productNo = #{productNo} and optionStat=1
+		order by optionProcedure asc
+	</select>
+	
+	<!-- 상품번호로 활성화/비활성화를 포함한  모든상품옵션의 정보 조회 -->
+	<select id="selectPrdOpByPrdNo" resultMap="pResultMap">
+		select * 
+		from productOption 
+		where productNo = #{productNo}
 		order by optionProcedure asc
 	</select>
 	
@@ -37,10 +46,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND p.productNo = po.productNo
 	</select>
 	
-	<update id="udtPrdAmount" parameterType="int">
+	<select id="selectRegisterPrdAll" parameterType="int" resultMap="pResultMap">
+		select *
+		from product p, productOption po
+		where userNo = #{userNo} and p.productNo = po.productNo
+		order by p.productNo, optionProcedure asc
+	</select>
+	
+	<select id="selectPrdNoGroupCnt" parameterType="int" resultMap="pResultMap">
+		select p.productNo, count(p.productNo) as productNoCount
+		from product p, productOption po
+		where p.userNo = #{userNo} and p.productNo = po.productNo
+		group by productNo
+		order by p.productNo, optionProcedure asc 
+	</select>
+	
+	<!-- 해당 옵션번호의 재고수량을 변경 -->
+	<update id="udtPrdAmount" parameterType="productOptionVo">
 		update productOption
-		set productAmount = #{userNo}
+		set productAmount = #{productAmount}
 		where productOptionNo = #{productOptionNo}
 	</update>
+	
+	<!-- 해당 옵션번호의 정보를 변경 -->
+	<update id="udtPrdOpAll" parameterType="productOptionVo">
+		update productOption
+		set productOptionName = #{productOptionName}, optionProcedure = #{optionProcedure}, addPrice = #{addPrice}, productAmount = #{productAmount}, optionStat = #{optionStat}
+		where productOptionNo = #{productOptionNo}
+	</update>
+	
+	<!-- 해당 상품옵션정보 추가 -->
+	<insert id="insertPrdOption" parameterType="productOptionVo">
+		insert into productOption
+		values (null, #{productNo}, #{optionProcedure}, #{addPrice}, #{productAmount}, #{productOptionName}, #{optionStat},now(),#{userNo})
+	</insert>
+	
+	<!-- 해당 상품옵션번호 삭제 -->
+	<delete id="delPrdOption" parameterType="int">
+		delete from productOption
+		where productOptionNo = #{productOptionNo}
+	</delete>
 	
 </mapper>

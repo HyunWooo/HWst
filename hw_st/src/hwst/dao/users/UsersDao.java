@@ -12,7 +12,7 @@ public interface UsersDao {
 	int insertUsers(UsersVo vo) throws SQLException;
 	List<UsersVo> usersSelect() throws SQLException;
 	
-	UsersVo selectOneUser(UsersVo vo) throws SQLException;
+	UsersVo selectOneUser(UsersVo vo) throws Exception;
 	BuyerVo selectOneBuyer(UsersVo vo) throws SQLException;
 	SellerVo selectOneSeller(int i) throws SQLException;
 	AdminVo selectOneAdmin(UsersVo vo) throws SQLException;

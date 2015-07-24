@@ -3,7 +3,7 @@ package hwst.domain.product;
 import java.util.Date;
 
 
-public class ProductOptionVo{
+public class ProductOptionVo extends ProductVo{
 	private int productOptionNo;
 	private int productNo;
 	private int optionProcedure;
@@ -19,6 +19,7 @@ public class ProductOptionVo{
 	private String name;
 	private int basicPrice;
 	private int eachPrice;
+	private int productNoCount;
 	
 	
 	public ProductOptionVo(){}
@@ -28,10 +29,22 @@ public class ProductOptionVo{
 		this.userNo = userNo;
 	}
 	
+	public ProductOptionVo(int productNo, String productOptionName, int optionProcedure, int addPrice,
+			int productAmount, int optionStat, int userNo) {
+		super();
+		this.productNo = productNo;
+		this.optionProcedure = optionProcedure;
+		this.addPrice = addPrice;
+		this.productAmount = productAmount;
+		this.productOptionName = productOptionName;
+		this.optionStat = optionStat;
+		this.userNo = userNo;
+	}
+
 	public ProductOptionVo(int productOptionNo, int productNo,
 			int optionProcedure, int addPrice, int productAmount,
 			String productOptionName, int optionStat, Date recentUpdateTime,
-			int recentUpdateUserNo, int buyAmount, int categoryNo, String name, int basicPrice, int eachPrice) {
+			int recentUpdateUserNo, int buyAmount, int categoryNo, String name, int basicPrice, int eachPrice, int productNoCount) {
 		super();
 		this.productOptionNo = productOptionNo;
 		this.productNo = productNo;
@@ -47,6 +60,7 @@ public class ProductOptionVo{
 		this.name = name;
 		this.basicPrice = basicPrice;
 		this.eachPrice = eachPrice;
+		this.productNoCount = productNoCount;
 	}
 	public int getProductOptionNo() {
 		return productOptionNo;
@@ -90,6 +104,16 @@ public class ProductOptionVo{
 	public void setOptionStat(int optionStat) {
 		this.optionStat = optionStat;
 	}
+	
+	
+	public int getProductNoCount() {
+		return productNoCount;
+	}
+
+	public void setProductNoCount(int productNoCount) {
+		this.productNoCount = productNoCount;
+	}
+
 	public Date getRecentUpdateTime() {
 		return recentUpdateTime;
 	}
@@ -187,9 +211,22 @@ public class ProductOptionVo{
 		builder.append(basicPrice);
 		builder.append(", eachPrice=");
 		builder.append(eachPrice);
+		builder.append(", productNoCount=");
+		builder.append(productNoCount);
+		builder.append(", getStat()=");
+		builder.append(getStat());
+		builder.append(", getDetails()=");
+		builder.append(getDetails());
+		builder.append(", getOpTotalNum()=");
+		builder.append(getOpTotalNum());
+		builder.append(", getRegisTime()=");
+		builder.append(getRegisTime());
 		builder.append("]");
 		return builder.toString();
 	}
+
+
+	
 
 
 	

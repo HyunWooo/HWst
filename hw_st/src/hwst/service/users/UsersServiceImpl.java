@@ -95,7 +95,6 @@ public class UsersServiceImpl implements UsersService {
 		sVo.setUserNo(userNo);
 		sVo.setBankName(vo.getBankName());
 		sVo.setAccountNo(vo.getAccountNo());
-		System.out.println(sVo + "++sSignup sVo");
 		result2 = usersDao.insertSeller(sVo);
 
 		flag1 = result1 > 0 ? true : false;

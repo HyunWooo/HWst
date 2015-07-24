@@ -101,8 +101,4 @@
 	<aop:aspectj-autoproxy/>
  	<aop:config proxy-target-class="true"/>
 	<bean class="hwst.aop.CommonAop"/>
-	
-	<!-- <bean id="boardController"  class="hwst.controller.BoardController" />
-	<bean id="boardService"  class="hwst.service.BoardServiceImpl" />
-	<bean id="boardDao" class="hwst.dao.BoardDao" /> -->
 </beans>

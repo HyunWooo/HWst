@@ -17,7 +17,6 @@ public class OrdersDaoImpl  implements OrdersDao {
 		SqlSession session = null;
 		int stat = 0;
 		try {
-			System.out.println(ordersVo + "ordersVo");
 			session = DBUtil.getSqlSession();
 			stat = session.insert("orders.insertOrders",ordersVo);
 		} finally {

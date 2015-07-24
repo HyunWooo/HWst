@@ -4,6 +4,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -41,7 +42,7 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-star"></i> 관리자 문의</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
@@ -254,14 +255,14 @@
 								<div class="single-products">
 									<div class="productinfo text-center">
 										<img src="images/product/<c:out value="${list.categoryNo}"/>/<c:out value="${list.productNo}"/>_1.jpg" alt="" />
-										<h2><c:out value="${list.basicPrice}"/>원</h2>
+										<h2><fmt:formatNumber value="${list.basicPrice}"/>원</h2>
 										<p><c:out value="${list.name}"/></p>
 										<a href="viewProductDetails.do?productNo=<c:out value="${list.productNo}"/>" class="btn btn-default add-to-cart"><i class="fa fa-search"></i>상품상세보기</a>
 									</div>
 									<div class="product-overlay">
 										<div class="overlay-content">
 											<p><c:out value="${list.details}"/></p>
-											<h2><c:out value="${list.basicPrice}"/>원</h2>
+											<h2><fmt:formatNumber value="${list.basicPrice}"/>원</h2>
 											<p><c:out value="${list.name}"/></p>
 											<a href="viewProductDetails.do?productNo=<c:out value="${list.productNo}"/>" class="btn btn-default add-to-cart"><i class="fa fa-search"></i>상품상세보기</a>
 										</div>
@@ -281,7 +282,7 @@
 							<li><a href="">3</a></li>
 							<li><a href="">&raquo;</a></li>
 						</ul> -->
-						<%
+						<%-- <%
 						   final int ROWSIZE = 6;
 						   final int BLOCK = 5;
 						   int pg = 1;
@@ -328,8 +329,8 @@
 		                     }
 		                  %>
 	                   <li><a href="product.do?pg=<%=endPage+1%>">Next Page<!-- <i class="fa fa-long-arrow-right"></i> --></a></li>
-                    </ul><!--/.pagination-->
-                    </c:if>
+                    </ul><!--/.pagination--> --%>
+                    <%-- </c:if> --%>
 					</div><!--features_items-->
 				</div>
 			</div>

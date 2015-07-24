@@ -25,6 +25,20 @@ public class ProductDaoImpl  implements ProductDao {
 		return list;
 	}
 	
+	//전체상품 최저가조회
+		@Override
+		public List<ProductVo> selectPrdLow() {
+			SqlSession session = null;
+			List<ProductVo> list = null;
+			try {
+				session = DBUtil.getSqlSession();
+				list = session.selectList("product.selectPrdLow");
+			} finally {
+				DBUtil.closeSqlSession(session);
+			}
+			return list;
+		}
+		
 	//전체상품 키워드검색
 	@Override
 	public List<ProductVo> selectProductByKeyword(String keyword) {
@@ -66,5 +80,31 @@ public class ProductDaoImpl  implements ProductDao {
 		}
 		return productVo;
 	}
-	
+
+	//상품상세정보 조회
+	@Override
+	public int selectProductNo(ProductVo prdVo) {
+		SqlSession session = null;
+		int productNo = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			productNo = session.selectOne("product.selectProductNo", prdVo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return productNo;
+	}
+	//상품 추가
+	@Override
+	public int insertPrd(ProductVo prdVo) {
+		SqlSession session = null;
+		int stat = 0;
+		try {
+			session = DBUtil.getSqlSession();
+			stat = session.insert("product.insertPrd", prdVo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return stat;
+	}
 }

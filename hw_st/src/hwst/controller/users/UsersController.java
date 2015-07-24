@@ -23,35 +23,7 @@ public class UsersController {
 	
 	@Resource(name="usersService")
     private UsersService usersService;
-	
-	
-	
-	
-	
-/*	//id중복체크
-	@RequestMapping("checkId.do")
-	public ModelAndView checkUsersId(HttpServletRequest req, HttpServletResponse res){
-		 String test = usersService.checkUsersId(req.getParameter("usrId"));
-		 System.out.println(test);
-		 PrintWriter out;
-		try {
-			out = res.getWriter();
-			out.println(test);
-			out.close();
-			return null;
-		}catch (IOException e) {
-			e.printStackTrace();
-			ModelAndView mav = new ModelAndView("");
-			return mav;
-		}
-	}*/
-/*	//id중복체크
-	@RequestMapping("checkId.do")
-	@ResponseBody
-	public String checkUsersId(String id){
-		String chk = usersService.checkUsersId(id);
-	return chk;
-	}*/
+
 	//id중복체크
 	@RequestMapping("checkId.do")
 	@ResponseBody
@@ -80,13 +52,21 @@ public class UsersController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        if (loginUser.getUserSection() == 1) {
+		if(loginUser==null){
+			session.setAttribute("loginFail", "Y");
+        	mav.setViewName("redirect:login.do");
+		}
+		else if (loginUser.getUserSection() == 1) {
             session.setAttribute("userLoginInfo", loginUser);
             mav.setViewName("redirect:index.do");
         }
         else if(loginUser.getUserSection() == 2){
         	session.setAttribute("userLoginInfo", loginUser);
             mav.setViewName("redirect:orderManagement.do");
+        }
+        else if(loginUser.getUserSection() == 3){
+        	session.setAttribute("userLoginInfo", loginUser);
+            mav.setViewName("redirect:index.do");
         }
         else{
         	session.setAttribute("loginFail", "Y");

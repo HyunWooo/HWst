@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id = "insertCart" parameterType="cartVo">
 		insert into cart(productOptionNo, userNo, buyAmount, cartTime)
-		values(#{productOptionNo}, #{userNo}, #{buyAmount}, now())
+		values(#{productOptionNo}, #{userNo}, #{buyAmount}, date(now()))
 	</insert>
 	
 	<delete id="deleteCart" parameterType="int">
@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</delete>
 	
-	<update id="updateCartAmountByCartNo" parameterType="cartVo">
+	<update id="updateCartAmount" parameterType="cartVo">
 		update cart
 		set buyAmount = #{buyAmount}
 		where cartNo = #{cartNo}

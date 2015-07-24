@@ -15,10 +15,10 @@ public class DBUtil {
 		InputStream inputStream = null;
 		try {
 			inputStream = Resources
-					.getResourceAsStream("hwst/conf/SqlMapConfig.xml");
+					.getResourceAsStream("hwst/conf/SqlMapConfig.xml");//실제 db용
+					//.getResourceAsStream("hwst/service/config/SqlMapConfig.xml");//test db용
 			SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
 			factory = builder.build(inputStream);
-			System.out.println(factory);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -34,7 +34,6 @@ public class DBUtil {
 	}
 
 	public static SqlSession getSqlSession() {
-		System.out.println(factory.openSession(true));
 		return factory.openSession(true);//true- Auto_Commit
 	}
 

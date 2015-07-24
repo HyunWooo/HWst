@@ -44,6 +44,7 @@ public class OrdersServiceImpl implements OrdersService {
 		int stat3 = 0;
 		int stat4 = 0;
 		
+		
 		int stat = ordersDao.insertOrders(ordersVo);
 		if(stat==1){
 			int orderNo= ordersDao.selectOrderNoByUserNo(ordersVo.getUserNo());
@@ -55,9 +56,7 @@ public class OrdersServiceImpl implements OrdersService {
 			if(stat2==productOptionNo.size()){
 				stat3 = paymentDao.insertPayment(new PaymentVo(orderNo, checkoutInfo));
 			}
-			System.out.println(stat3 + "stat3");
-			System.out.println(fromCart + "fromCart");
-			if(stat3==1 & fromCart=="Y"){
+			if(stat3==1 & fromCart=="yes"){
 				for(int i=0; i<productOptionNo.size(); i++){
 					ProductOptionVo productOptionVo = new ProductOptionVo(productOptionNo.get(i),ordersVo.getUserNo());
 					stat4 = cartDao.deleteCartByOrderComplete(productOptionVo);
@@ -97,9 +96,7 @@ public class OrdersServiceImpl implements OrdersService {
 						if(ordersVo.get(k).getBuyAmount()>ordersVo.get(k).getProductAmount()){
 							ordersVo.get(i).setQuantityCheck(1);
 						}
-						System.out.println("i "+i);
-						System.out.println(ordersVo.get(i).getOrderStat());
-						if(ordersVo.get(i).getOrderStat()==4){
+						if(ordersVo.get(i).getOrderStat()==4){//주문상태가 배송중이고 배송상태는 배송완료일때 주문상태를 전체배송완료로 바꿔주기 위한 로직
 							if(ordersVo.get(k).getDeliveryStat()==3){
 								stat += 1;
 							}
@@ -129,7 +126,6 @@ public class OrdersServiceImpl implements OrdersService {
 				int updateAmount = vo.get(i).getProductAmount()-vo.get(i).getBuyAmount();
 				stat += productOptionDao.udtPrdAmount(new ProductOptionVo(vo.get(i).getProductOptionNo(),updateAmount));
 			}
-			
 			
 			if(stat>0){
 				 stat2 = ordersDao.updateOrderStat(new OrdersVo(orderNo, orderStat));

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<CART cartNo="1" productOptionNo="2" userNo="70" buyAmount="1"  cartTime="2015-07-14 00:00:00"/>
+	<CART cartNo="2" productOptionNo="4" userNo="70" buyAmount="3"  cartTime="2015-07-16 00:00:00"/>
+	<CART cartNo="3" productOptionNo="6" userNo="70" buyAmount="4"  cartTime="2015-07-16 00:00:00"/>
+</dataset>

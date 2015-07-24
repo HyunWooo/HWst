@@ -23,7 +23,7 @@ public class CartServiceImpl implements CartService {
 	}
 	
 	
-	//장바구니에서 상품주문 시 상품정보 select
+	//장바구니에서 상품들 주문 시 해당상품들의 정보 select해오기
 	@Override
 	public List<CartVo> selectCartInfo(List<Integer> cartNo) throws Exception{
 		List<CartVo> carts =  cartDao.selectCartByCartList(cartNo); // 해당 장바구니 번호의 데이터를 조회 
@@ -68,14 +68,9 @@ public class CartServiceImpl implements CartService {
 	
 	//장바구니 구매수량 수정
 	@Override
-	public boolean updateCartAmountByCartNo(List<Integer> cartNo, List<Integer> buyAmount, int updateBuyAmountStat) throws Exception{
+	public boolean updateCartAmount(CartVo cartVo) throws Exception{
 		int stat = 0;
-		for(int i=0; i<cartNo.size(); i++){
-			if(cartNo.get(i)==updateBuyAmountStat){
-				CartVo cVo = new CartVo(cartNo.get(i),buyAmount.get(i));
-				stat = cartDao.updateCartAmountByCartNo(cVo);
-			}
-		}
+		stat = cartDao.updateCartAmount(cartVo);
 		
 		if(stat>0){
 			return true;

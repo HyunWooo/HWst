@@ -1621,6 +1621,13 @@ h2.title {
   margin-bottom: 50px
 }
 
+#cart_items .cart_info input{
+  border: 1px solid #E6E4DF;
+  margin-bottom: 10px;
+  text-align:center;
+  width:150px;
+}
+
 
 #cart_items .cart_info .cart_menu {
   background: #FE980F;
@@ -1673,6 +1680,20 @@ h2.title {
   color:#696C63;
   font-size: 18px;
   text-align: center;
+}
+
+#cart_items .cart_info .cart_addPrice input {
+  color:#696C63;
+  font-size: 18px;
+  text-align: center;
+  width: 100px;
+}
+
+#cart_items .cart_info .cart_optionProcedure input {
+  color:#696C63;
+  font-size: 18px;
+  text-align: center;
+  width: 50px;
 }
 
 
@@ -1736,6 +1757,47 @@ font-weight:bold;
 margin: 15px -50px 10px 0px;
 }
 
+.cart_stat input{
+float: center;
+ width:60px;
+ text-align:center;
+}
+
+.cart_stats{
+text-align: center;
+color: #000000;
+font-size: 15px;
+margin: 15px -50px 10px 0px;
+table-layout:fixed;
+white-space:normal;
+width:350px;
+}
+
+.cart_stats input{
+text-align: center;
+color: #000000;
+font-size: 15px;
+margin: 15px -50px 10px 0px;
+table-layout:fixed;
+white-space:normal;
+width:350px;
+height : 350px;
+}
+
+.cart_statss{
+text-align: center;
+color: #000000;
+font-size: 15px;
+margin: 15px -50px 10px 0px;
+table-layout:fixed;
+white-space:normal;
+width:150px;
+}
+
+.btmprocess img{
+	float:center;
+}
+
 /* 장바구니목록 이미지 */
 #cart_items .cart_info .cart_image img {
 	
@@ -1777,6 +1839,19 @@ margin: 15px -50px 10px 0px;
   color: #000000;
   padding: 5px 7px;
   float: left;
+  font-size: 16px
+}
+
+.cart_deletes  {
+  text-align : center;
+}
+
+
+.cart_deletes button {
+  background:#F0F0E9;
+  color: #000000;
+  padding: 5px 7px;
+  float: center;
   font-size: 16px
 }
 

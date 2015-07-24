@@ -47,7 +47,7 @@ public class OrdersController {
 		boolean stat = false;
 		
 		try {
-			String fromCart = (String)session.getAttribute("fromCart");
+			String fromCart = (String)session.getAttribute("productViewStat");
 			OrdersVo ordersVo = new OrdersVo(userNo, receiverName, phone, postCode, address, message, grade, allTotalPrice, discountPrice, discountedTotalPrice);
 			stat = ordersService.insertOrders(ordersVo,productOptionNo, buyAmount, totalPrice, checkoutInfo, fromCart);
 		} catch (Exception e) {
@@ -96,76 +96,75 @@ public class OrdersController {
 		return mv;
 	}
 	
-	
-		//해당 OrderNo의 주문상태를 변경
-		@RequestMapping(value="updateOrderStat.do", method = RequestMethod.POST)
-	    public ModelAndView updateOrderStat(int orderNo, int orderStat, HttpSession session, HttpServletRequest request){
-			boolean stat=false;
-			ModelAndView mv = new ModelAndView();
-			
-			mv.setViewName("common/404");
-			
-			try {
-				stat = ordersService.updateOrderStat(orderNo,orderStat);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(stat==true){
-					mv.setViewName("redirect:orderManagement.do");
-			}
-			return mv;
+	//해당 OrderNo의 주문상태를 변경
+	@RequestMapping(value="updateOrderStat.do", method = RequestMethod.POST)
+    public ModelAndView updateOrderStat(int orderNo, int orderStat, HttpSession session, HttpServletRequest request){
+		boolean stat=false;
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("common/404");
+		
+		try {
+			stat = ordersService.updateOrderStat(orderNo,orderStat);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	
-		
-		//해당 OrderNo의 주문상태를 변경
-		@RequestMapping(value="udtDeliveryStat.do", method = RequestMethod.POST)
-	    public ModelAndView udtDeliveryStat(int orderNo, int productOptionNo, int deliveryStat, HttpSession session, HttpServletRequest request){
-			boolean stat=false;
-			ModelAndView mv = new ModelAndView();
-			mv.setViewName("common/404");
-			
-			try {
-				stat = ordersService.udtDeliveryStat(orderNo,productOptionNo,deliveryStat);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(stat==true){
-					mv.setViewName("redirect:orderManagement.do");
-			}
-			return mv;
-		}
-		
-		
-		//해당 OrderNo의 주문을 삭제
-		@RequestMapping(value="deleteOrder.do", method = RequestMethod.POST)
-	    public ModelAndView deleteOrder(int orderNo, HttpSession session, HttpServletRequest request){
-			boolean stat=false;
-			ModelAndView mv = new ModelAndView();
-			
-			mv.setViewName("common/404");
-			
-			try {
-				stat = ordersService.deleteOrder(orderNo);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(stat==true){
+		if(stat==true){
 				mv.setViewName("redirect:orderManagement.do");
-			}
-			
-			return mv;
+		}
+		return mv;
+	}
+
+	
+	//해당 OrderNo의 주문상태를 변경
+	@RequestMapping(value="udtDeliveryStat.do", method = RequestMethod.POST)
+    public ModelAndView udtDeliveryStat(int orderNo, int productOptionNo, int deliveryStat, HttpSession session, HttpServletRequest request){
+		boolean stat=false;
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("common/404");
+		
+		try {
+			stat = ordersService.udtDeliveryStat(orderNo,productOptionNo,deliveryStat);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(stat==true){
+				mv.setViewName("redirect:orderManagement.do");
+		}
+		return mv;
+	}
+	
+	
+	//해당 OrderNo의 주문을 삭제
+	@RequestMapping(value="deleteOrder.do", method = RequestMethod.POST)
+    public ModelAndView deleteOrder(int orderNo, HttpSession session, HttpServletRequest request){
+		boolean stat=false;
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("common/404");
+		
+		try {
+			stat = ordersService.deleteOrder(orderNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(stat==true){
+			mv.setViewName("redirect:orderManagement.do");
 		}
 		
-		
-		
-		
-		
-		
-		
-		
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	@RequestMapping(value="orderComplete.do")
     public String orderComplete(){
     	return "orders/orderComplete";

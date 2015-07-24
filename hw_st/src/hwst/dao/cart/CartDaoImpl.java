@@ -38,7 +38,6 @@ public class CartDaoImpl implements CartDao {
 		try {
 			session = DBUtil.getSqlSession();
 			list = session.selectList("cart.selectCartByCartList", cartNo);
-			System.out.println(list);
 		} finally {
 			DBUtil.closeSqlSession(session);
 		}
@@ -76,12 +75,12 @@ public class CartDaoImpl implements CartDao {
 	
 	//장바구니항목 수량 수정
 	@Override
-	public int updateCartAmountByCartNo(CartVo cartVo)throws SQLException{
+	public int updateCartAmount(CartVo cartVo)throws SQLException{
 		SqlSession session = null;
 		int stat = 0;
 		try {
 			session = DBUtil.getSqlSession();
-			stat = session.update("cart.updateCartAmountByCartNo",cartVo);
+			stat = session.update("cart.updateCartAmount",cartVo);
 		} finally {
 			DBUtil.closeSqlSession(session);
 		}

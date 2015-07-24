@@ -36,7 +36,7 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a><i class="fa fa-star"></i> 관리자 문의</a></li>
+								<li><a href="contact_us.do"><i class="fa fa-star"></i> 관리자 문의</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-phone"></i> 010-3341-3855</a></li>
 								<li><a href="contact_us.do"><i class="fa fa-envelope"></i> gusdn@sk.com</a></li>
 							</ul>
@@ -47,7 +47,6 @@
 							<ul class="nav navbar-nav">
 								<c:choose>
 									<c:when test="${not empty sessionScope.userLoginInfo}">
-										<li><a href="allCartView.do"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 										<li><a href= "userManagement.do"><i class="fa fa-user"></i>${sessionScope.userLoginInfo.name}님</a></li>
 										<li><a href="logoutProcess.do"><i class="fa fa-crosshairs"></i> Logout</a></li>
 									</c:when>
@@ -67,84 +66,23 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.do"><img src="images/home/logo.png" alt="" /></a>
+							<a  href="javascript:history.back(-1)"><img src="images/home/logo.png" alt="" /></a>
 						</div>
 						<!-- 안쓰는 버튼그룹 -->
 						<div class="btn-group pull-right">
-							<!-- <div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									USA
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>
-							
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									DOLLAR
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div> -->
 						</div>
 					</div>
 					<div class="col-sm-8">
-						<div class="search_box pull-right">
-							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
-	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
-                             </form>
-						</div>
 						<div class="mainmenu pull-right">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.do" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
-                                        <li><a href="allProductView.do">상품전체보기</a></li>
-                                    </ul>
-                                </li> 
-								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.jsp">Blog List</a></li>
-										<li><a href="blog_single.jsp">Blog Single</a></li>
-                                    </ul>
-                                </li>  -->
-								<!-- <li><a href="404.jsp">404</a></li> -->
 								<li><a href="contact_us.do">Contact-us</a></li>
+								<li><a href="javascript:history.back(-1)" class="active">뒤로가기</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div><!--/header-middle-->
-	
-		<!-- <div class="header-bottom">header-bottom
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --><!--/header-bottom-->
 	</header><!--/header-->
 	 
 	 <div id="contact-page" class="container">
@@ -184,60 +122,6 @@
 				</div>			 		
 			</div> 
 			<hr>	
-    		<div class="row">  	
-	    		<div class="col-sm-8">
-	    			<div class="contact-form">
-	    				<h2 class="title text-center">Get In Touch</h2>
-	    				<div class="status alert alert-success" style="display: none"></div>
-				    	<form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
-				            <div class="form-group col-md-6">
-				                <input type="text" name="name" class="form-control" required="required" placeholder="Name">
-				            </div>
-				            <div class="form-group col-md-6">
-				                <input type="email" name="email" class="form-control" required="required" placeholder="Email">
-				            </div>
-				            <div class="form-group col-md-12">
-				                <input type="text" name="subject" class="form-control" required="required" placeholder="Subject">
-				            </div>
-				            <div class="form-group col-md-12">
-				                <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="Your Message Here"></textarea>
-				            </div>                        
-				            <div class="form-group col-md-12">
-				                <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
-				            </div>
-				        </form>
-	    			</div>
-	    		</div>
-	    		<div class="col-sm-4">
-	    			<div class="contact-info">
-	    				<h2 class="title text-center">Contact Info</h2>
-	    				<address>
-	    					<h5>HW_st</h5>
-                            <p>156-709 <br>
-                               	서울특별시 동작구 신대방동 370-1 성무관 7층</p>
-                            <p>Phone : 010-3341-3855 <br>
-                            Email Address : gusdn@sk.com</p>
-	    				</address>
-	    				<div class="social-networks">
-	    					<h2 class="title text-center">Social Networking</h2>
-							<ul>
-								<li>
-									<a href="#"><i class="fa fa-facebook"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-twitter"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-google-plus"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-youtube"></i></a>
-								</li>
-							</ul>
-	    				</div>
-	    			</div>
-    			</div>    			
-	    	</div>  
     	</div>	
     </div><!--/#contact-page-->
 	
