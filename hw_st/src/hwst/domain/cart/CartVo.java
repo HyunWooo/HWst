@@ -1,6 +1,7 @@
 package hwst.domain.cart;
 
 
+
 public class CartVo {
 
 		private int cartNo;
@@ -50,6 +51,12 @@ public class CartVo {
 			this.eachPrice = eachPrice;
 		}
 
+		public boolean isEqPrdOpNo(CartVo cart1, CartVo cart2){
+			if(cart1.getProductOptionNo()==cart2.getProductOptionNo()){
+				return true;
+			}
+			return false;
+		}
 
 
 		public int getCartNo() {
@@ -81,6 +88,11 @@ public class CartVo {
 		}
 
 		public void setBuyAmount(int buyAmount) {
+			this.buyAmount = buyAmount;
+		}
+		
+		public void setBuyAmount(CartVo cart1, CartVo cart2) {
+			int buyAmount = cart1.getBuyAmount() + cart2.getBuyAmount();
 			this.buyAmount = buyAmount;
 		}
 

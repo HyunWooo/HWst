@@ -75,9 +75,10 @@ public class UsersServiceImpl implements UsersService {
 
 		if (flag1 == true && flag2 == true) {
 			return true;
-		} else {
-			return false;
 		}
+		
+		return false;
+	
 	}
 
 	//판매자 회원가입
@@ -102,9 +103,8 @@ public class UsersServiceImpl implements UsersService {
 
 		if (flag1 == true && flag2 == true) {
 			return true;
-		} else {
-			return false;
-		}
+		} 
+		return false;
 	}
 
 	//회원정보변경
@@ -118,9 +118,9 @@ public class UsersServiceImpl implements UsersService {
 
 		if (flag == true) {
 			return true;
-		} else {
-			return false;
 		}
+		
+		return false;
 	}
 
 	//회원탈퇴
@@ -131,37 +131,22 @@ public class UsersServiceImpl implements UsersService {
 		int result1 = 0;
 		int result2 = 0;
 		
-		if(userSection==1){
+		if(userSection == 1){
 			result1 = usersDao.updateBuyerLog(userNo);
-			result2 = usersDao.updateUsersLog(userNo);
-	
-			flag1 = result1 > 0 ? true : false;
-			flag2 = result2 > 0 ? true : false;
-	
-			if (flag1 == true && flag2 == true) {
-				return true;
-			} else {
-				return false;
-			}
 		}
-		else if(userSection==2){
+		else if(userSection == 2){
 			result1 = usersDao.updateSellerLog(userNo);
-			result2 = usersDao.updateUsersLog(userNo);
-	
-			flag1 = result1 > 0 ? true : false;
-			flag2 = result2 > 0 ? true : false;
-	
-			if (flag1 == true && flag2 == true) {
-				return true;
-			} else {
-				return false;
-			}
-			
-		}else{
-			return false;
+		}
+		result2 = usersDao.updateUsersLog(userNo);
+		
+		flag1 = result1 > 0 ? true : false;
+		flag2 = result2 > 0 ? true : false;
+		
+		if (flag1 == true && flag2 == true) {
+			return true;
 		}
 		
-		
+		return false;
 	}
 
 }

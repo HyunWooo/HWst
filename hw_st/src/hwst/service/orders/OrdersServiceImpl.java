@@ -56,7 +56,7 @@ public class OrdersServiceImpl implements OrdersService {
 			if(stat2==productOptionNo.size()){
 				stat3 = paymentDao.insertPayment(new PaymentVo(orderNo, checkoutInfo));
 			}
-			if(stat3==1 & fromCart=="yes"){
+			if(stat3==1 && fromCart=="yes"){
 				for(int i=0; i<productOptionNo.size(); i++){
 					ProductOptionVo productOptionVo = new ProductOptionVo(productOptionNo.get(i),ordersVo.getUserNo());
 					stat4 = cartDao.deleteCartByOrderComplete(productOptionVo);
