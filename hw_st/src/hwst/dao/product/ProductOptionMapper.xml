@@ -64,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 해당 옵션번호의 재고수량을 변경 -->
 	<update id="udtPrdAmount" parameterType="productOptionVo">
 		update productOption
-		set productAmount = #{productAmount}
+		set productAmount = #{userNo}
 		where productOptionNo = #{productOptionNo}
 	</update>
 	

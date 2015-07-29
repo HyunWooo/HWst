@@ -13,5 +13,8 @@ public interface OrdersService {
 	boolean updateOrderStat(int orderNo, int orderStat)throws Exception;
 	boolean deleteOrder(int orderNo)throws Exception;
 	boolean udtDeliveryStat(int orderNo, int productOptionNo, int deliveryStat)throws Exception;
+	boolean checkUpDeliveryStat(int orderNo, int deliveryStat)throws Exception;
+	boolean isEqualsOrderNo(OrdersVo orderVo,OrdersVo orderNoCount);
+	boolean checkLackOfAmount(OrdersVo groupOrder);
 	
 }

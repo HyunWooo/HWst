@@ -117,7 +117,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where op.orderNo=#{orderNo} and op.productOptionNo=po.productOptionNo
 	</select>
 	
-	
+	<select id="selectDeliveryStat" parameterType="int" resultType="orderProductVo">
+	select * from orderProduct
+	where orderNo = #{orderNo}
+	</select>
 	
 	
 	

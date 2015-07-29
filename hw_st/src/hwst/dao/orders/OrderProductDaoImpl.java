@@ -3,6 +3,8 @@ package hwst.dao.orders;
 import hwst.domain.orders.OrderProductVo;
 import hwst.util.DBUtil;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +52,20 @@ public class OrderProductDaoImpl  implements OrderProductDao {
 			DBUtil.closeSqlSession(session);
 		}
 		return stat;
+	}
+	
+	//주문번호에 해당하는 상품옵션들의 deliveryStat select해오는것
+	@Override
+	public List<OrderProductVo> selectDeliveryStat(int orderNo)throws Exception{
+		SqlSession session = null;
+		List<OrderProductVo> opVo = null;
+		try {
+			session = DBUtil.getSqlSession();
+			opVo = session.selectList("orders.selectDeliveryStat", orderNo);
+		} finally {
+			DBUtil.closeSqlSession(session);
+		}
+		return opVo;
 	}
 
 }

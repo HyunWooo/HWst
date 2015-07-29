@@ -30,7 +30,7 @@ public class CartServiceImpl implements CartService {
 		
 		//앞상품과 뒷상품의 상품옵션번호가 일치하면 뒷상품의 구매수량에 앞상품 구매수량을 합친다.
 		for(int i=0; i<carts.size()-1; i++){
-			if(((CartVo) carts).isEqPrdOpNo(carts.get(i),carts.get(i+1))){
+			if(carts.get(i).isEqPrdOpNo(carts.get(i),carts.get(i+1))){
 				
 				/*carts.get(i+1).setBuyAmount(carts.get(i).getBuyAmount() +carts.get(i+1).getBuyAmount());*/
 				carts.get(i+1).setBuyAmount(carts.get(i),carts.get(i+1));
