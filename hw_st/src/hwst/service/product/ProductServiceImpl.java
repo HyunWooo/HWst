@@ -45,20 +45,20 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.selectProductDetails(productNo);
 	}
 	
-	//상품등록 후 productNo조회
-		@Override
-		public int insertPrd(ProductVo prdVo)throws Exception{
-			int stat = 0; 
-			int productNo = 0;
-			
-			stat = productDao.insertPrd(prdVo);
-			
-			if(stat==1){
-				productNo = productDao.selectProductNo(prdVo);
-			}
-			
-			return productNo;
+	//상품등록 & 등록 후 productNo조회
+	@Override
+	public int insertPrd(ProductVo prdVo)throws Exception{
+		int stat = 0; 
+		int productNo = 0;
+		
+		stat = productDao.insertPrd(prdVo);
+		
+		if(stat==1){
+			productNo = productDao.selectProductNo(prdVo);
 		}
+		
+		return productNo;
+	}
 	
 	
 }

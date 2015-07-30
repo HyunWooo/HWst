@@ -60,8 +60,6 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT ,rollbackFor = {Exception.class,SQLException.class} ,readOnly = false)
 	@Override
 	public boolean signupBuyer(UsersVo vo) throws Exception{
-		boolean flag1 = false;
-		boolean flag2 = false;
 		int result1 = 0;
 		int result2 = 0;
 		int result3 = 0;
@@ -70,22 +68,13 @@ public class UsersServiceImpl implements UsersService {
 		result3 = usersDao.selectOneUserNo(vo.getId());
 		result2 = usersDao.insertBuyer(result3);  
 
-		flag1 = result1 > 0 ? true : false;
-		flag2 = result2 > 0 ? true : false;
-
-		if (flag1 == true && flag2 == true) {
-			return true;
-		}
-		
-		return false;
+		return flagCheck(result1, result2);
 	
 	}
 
 	//판매자 회원가입
 	@Override
 	public boolean signupSeller(SellerVo vo) throws Exception{
-		boolean flag1 = false;
-		boolean flag2 = false;
 		int result1 = 0;
 		int result2 = 0;
 		int userNo = 0;
@@ -98,47 +87,39 @@ public class UsersServiceImpl implements UsersService {
 		sVo.setAccountNo(vo.getAccountNo());
 		result2 = usersDao.insertSeller(sVo);
 
-		flag1 = result1 > 0 ? true : false;
-		flag2 = result2 > 0 ? true : false;
-
-		if (flag1 == true && flag2 == true) {
-			return true;
-		} 
-		return false;
+		return flagCheck(result1, result2);
 	}
 
 	//회원정보변경
 	@Override
 	public boolean updateUsers(UsersVo vo) throws Exception{
-		boolean flag = false;
 		int result = 0;
 		result = usersDao.updateUsers(vo);
 
-		flag = result > 0 ? true : false;
-
-		if (flag == true) {
+		if (result > 0) {
 			return true;
 		}
-		
 		return false;
 	}
 
 	//회원탈퇴
 	@Override
 	public boolean deleteUsers(int userNo, int userSection) throws Exception{
-		boolean flag1 = false;
-		boolean flag2 = false;
 		int result1 = 0;
 		int result2 = 0;
 		
-		if(userSection == 1){
-			result1 = usersDao.updateBuyerLog(userNo);
-		}
-		else if(userSection == 2){
-			result1 = usersDao.updateSellerLog(userNo);
-		}
+		result1 = deleteUser(userNo, userSection);
 		result2 = usersDao.updateUsersLog(userNo);
 		
+		return flagCheck(result1, result2);
+	}
+	
+	
+	
+	//값 체크 후 T/F반환
+	public boolean flagCheck(int result1, int result2){
+		boolean flag1 = false;
+		boolean flag2 = false;
 		flag1 = result1 > 0 ? true : false;
 		flag2 = result2 > 0 ? true : false;
 		
@@ -149,4 +130,15 @@ public class UsersServiceImpl implements UsersService {
 		return false;
 	}
 
+	//userSection별로 해당 고객정보 삭제로 변경
+	public int deleteUser(int userNo, int userSection)throws Exception{
+		switch(userSection){
+			case 1:
+				return usersDao.updateBuyerLog(userNo);
+			case 2:
+				return usersDao.updateUsersLog(userNo);
+			default:
+				return 0;
+		}
+	}
 }

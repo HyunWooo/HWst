@@ -2,7 +2,6 @@ package hwst.service.product;
 
 import hwst.dao.product.ProductOptionDao;
 import hwst.domain.product.ProductOptionVo;
-import hwst.service.product.ProductOptionService;
 
 import java.util.List;
 
@@ -33,28 +32,32 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	@Override
 	public List<ProductOptionVo> selectProductOptionByPoNo(List<Integer> productOptionNo,List<Integer> buyAmount)throws Exception{
 		List<ProductOptionVo> list = productOptionDao.selectPOByPoNo(productOptionNo);
+		
 		for(int i = 0; i<list.size(); i++){
-				list.get(i).setBuyAmount(buyAmount.get(i));
+			list.get(i).setBuyAmount(buyAmount.get(i));
 		}
-		 return list;
+		return list;
 	}
 	
 	//해당 판매자가 등록한 상품정보 select
 	@Override
 	public List<ProductOptionVo> selectRegisterPrdAll(int userNo)throws Exception{
-		List<ProductOptionVo> productOptionVo = null;
-		List<ProductOptionVo> productNoCount = null;	
-		productOptionVo = productOptionDao.selectRegisterPrdAll(userNo);
-		productNoCount = productOptionDao.selectPrdNoGroupCnt(userNo);
+		List<ProductOptionVo> productOptionVo = productOptionDao.selectRegisterPrdAll(userNo);
+		List<ProductOptionVo> productNoCount = productOptionDao.selectPrdNoGroupCnt(userNo);
 		
-		for(int i=0; i<productOptionVo.size(); i++){		//ordersVo를 OrderNo 별로 group한 orderNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 orderNoCount속성에 set한다
-			for(int j=0; j<productNoCount.size(); j++){
-				if(productOptionVo.get(i).getProductNo()==productNoCount.get(j).getProductNo()){ //주문번호가 같을때 해당 주문번호 group에 해당하는 개수를 set해준다
-					productOptionVo.get(i).setProductNoCount(productNoCount.get(j).getProductNoCount());
-					i += productNoCount.get(j).getProductNoCount();
+		for(int num=0; num<productOptionVo.size();){  //productOptionVo를 productNo 별로 group한 productNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 productNoCount속성에 set한다
+			ProductOptionVo poVo = productOptionVo.get(num);
+			
+			for(int countNum=0; countNum<productNoCount.size(); countNum++){
+				ProductOptionVo prdNo = productNoCount.get(countNum);
+				
+				if(isEqualsPrdNo(poVo, prdNo)){ //상품번호가 같을때 해당 상품번호 group에 해당하는 개수를 set해준다
+					poVo.setProductNoCount(prdNo.getProductNoCount());
+					num += prdNo.getProductNoCount();
 				}
 			}
 		}
+		
 		return productOptionVo;
 	}
 		
@@ -84,7 +87,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		return false;
 	}
 	
-	//상품옵션 추가
+	//상품옵션만 바로 추가하는 로직
 	@Override
 	public boolean insertPrdOption(List<Integer> productNo, List<String> productOptionName,
 		List<Integer> optionProcedure, List<Integer> addPrice,
@@ -99,7 +102,8 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		}
 		return false;
 	}
-	//상품옵션 추가
+	
+	//상품추가 시 상품옵션 추가하는 로직
 		@Override
 		public boolean insertPrdOptionB(int productNo, List<String> productOptionName,
 			List<Integer> optionProcedure, List<Integer> addPrice,
@@ -120,8 +124,19 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	@Override
 	public boolean delPrdOption(int productOptionNo)throws Exception{
 		int stat = 0;
+		
 		stat =productOptionDao.delPrdOption(productOptionNo);
+		
 		if(stat==1){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	//두 OrdersVo객체의 주문번호가 같은지 체크하는 메소드
+	public boolean isEqualsPrdNo(ProductOptionVo productOptionVo,ProductOptionVo productNoCount){
+		if(productOptionVo.getProductNo() == productNoCount.getProductNo()){
 			return true;
 		}
 		return false;

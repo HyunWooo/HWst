@@ -30,11 +30,8 @@ public class CartServiceImpl implements CartService {
 		
 		//앞상품과 뒷상품의 상품옵션번호가 일치하면 뒷상품의 구매수량에 앞상품 구매수량을 합친다.
 		for(int i=0; i<carts.size()-1; i++){
-			if(carts.get(i).isEqPrdOpNo(carts.get(i),carts.get(i+1))){
-				
-				/*carts.get(i+1).setBuyAmount(carts.get(i).getBuyAmount() +carts.get(i+1).getBuyAmount());*/
+			if(isEqPrdOpNo(carts.get(i),carts.get(i+1))){
 				carts.get(i+1).setBuyAmount(carts.get(i),carts.get(i+1));
-				
 				carts.remove(i);
 				i = i-1;
 			}
@@ -47,10 +44,11 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public boolean insertCart(List<Integer> productOptionNo,int userNo,List<Integer> buyAmount)throws Exception{
 		int stat = 0;
+		
 		for(int i=0; i<productOptionNo.size(); i++){
-			CartVo cVo = new CartVo(productOptionNo.get(i), userNo, buyAmount.get(i));
-			stat += cartDao.insertCart(cVo);
+			stat += cartDao.insertCart(new CartVo(productOptionNo.get(i), userNo, buyAmount.get(i)));
 		}
+		
 		if(stat==productOptionNo.size()){
 			return true;
 		}
@@ -61,7 +59,6 @@ public class CartServiceImpl implements CartService {
 	//해당 장바구니 삭제
 	@Override
 	public boolean deleteCart(int cartNo) throws Exception{
-		
 		if(cartDao.deleteCart(cartNo)>0){
 			return true;
 		}
@@ -72,15 +69,18 @@ public class CartServiceImpl implements CartService {
 	//장바구니 구매수량 수정
 	@Override
 	public boolean updateCartAmount(CartVo cartVo) throws Exception{
-		int stat = 0;
-		stat = cartDao.updateCartAmount(cartVo);
-		
-		if(stat>0){
+		if(cartDao.updateCartAmount(cartVo)>0){
 			return true;
 		}
 		return false;
 	}
 	
+	public boolean isEqPrdOpNo(CartVo cart1, CartVo cart2){
+		if(cart1.getProductOptionNo()==cart2.getProductOptionNo()){
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

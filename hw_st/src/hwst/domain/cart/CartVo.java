@@ -51,14 +51,6 @@ public class CartVo {
 			this.eachPrice = eachPrice;
 		}
 
-		public boolean isEqPrdOpNo(CartVo cart1, CartVo cart2){
-			if(cart1.getProductOptionNo()==cart2.getProductOptionNo()){
-				return true;
-			}
-			return false;
-		}
-
-
 		public int getCartNo() {
 			return cartNo;
 		}
