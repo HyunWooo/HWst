@@ -109,13 +109,19 @@ public class OrdersServiceImpl implements OrdersService {
 		List<OrdersVo> orderNoCount = null;
 		
 		switch(usersVo.getUserSection()){
-			case 1: 
+			case BUYER: 
 				ordersVoList = ordersDao.selectOrdersAll(usersVo.getUserNo());
 				orderNoCount = ordersDao.selectOrderNoGroupCount(usersVo.getUserNo());
 				break;
-			case 2:
+			case SELLER:
 				ordersVoList = ordersDao.selectSellerOrdersAll(usersVo.getUserNo());
 				orderNoCount = ordersDao.selectSellerGroupCount(usersVo.getUserNo());
+				break;
+			case ADMIN:
+				break;
+			case UNREGISTER:
+				break;
+			default:
 				break;
 		}
 		

@@ -40,13 +40,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectProductByCategory" parameterType="int" resultMap="pResultMap">
 		select * 
 		from product 
-		where categoryNo = #{categoryNo}
+		where categoryNo = #{categoryNo} order by regisTime desc
 	</select>
 	
 	<select id="selectProductDetails" parameterType="int" resultMap="pResultMap">
 		select * 
 		from product 
-		where productNo = #{productNo}
+		where productNo = #{productNo} order by regisTime desc
 	</select>
 	
 	<select id="selectProductNo" parameterType="productVo" resultType="int">

@@ -92,24 +92,6 @@
 					}
 		</script>
 		
-		
- 		<!-- <script type="text/javascript">
-		$(document).ready(function(){
-		$("#confirm").click(function(){
-		        var id = $('#id').val();
-		        $.ajax({
-		        type: "POST",
-		        url: "checkId.do", //이페이지에서 중복체크를 한다
-		        data: "id="+ id ,//test.asp에 id 값을 보낸다
-		        cache: false,
-		        success: function(data){
-		            $("#confirmView").html(data); //해당 내용을 보여준다
-		        }
-		        });
-		    });
-		 });
-		 </script>  -->
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -209,16 +191,16 @@
 							<div class="signup-form"><!--sign up form-->
 								<h2>판매자 회원가입</h2>
 								<form  action="signupSellerProcess.do" method="post" name="userinput" onSubmit="return checkIt()" >
-									<input type="email" placeholder="아이디(이메일)" id = "usrId" name="usrId"  />
+									<input type="email" placeholder="아이디(이메일)" id = "id" name="id"  />
 									<span id="chkResult"></span>
-									<input type='button'  placeholder = '중복확인 ' id="chkButton" name = "chkButton" onclick="chk(userId.value)">
+									<input type='button'  placeholder = '중복확인 ' id="chkButton" name = "chkButton" onclick="chk(id.value)">
 									<input type="password" placeholder="비밀번호" name="pw" />
 									<input type="password" placeholder="비밀번호확인" name="pw2" />
 									<input type="text" placeholder="이름" name="name"/>
 									<input type="text" placeholder="전화번호" name="phone" />
 									<input type="text" placeholder="우편번호" name="postCode" />
 									<input type="text" placeholder="주소" name="address"/>
-									<input type="hidden" placeholder="회원구분" name="userSection" value="2"/>
+									<input type="hidden" placeholder="회원구분" name="userSection" value="SELLER"/>
 									<input type="text" placeholder="입금계좌은행명" name="bankName"/>
 									<input type="text" placeholder="계좌번호" name="accountNo"/>
 									<button type="submit" value="가입하기" class="btn btn-default" id="btn">가입하기</button>

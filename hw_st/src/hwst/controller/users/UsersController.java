@@ -46,32 +46,36 @@ public class UsersController {
     public ModelAndView loginProcess(UsersVo user, HttpSession session, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
         UsersVo loginUser = null;
+        
 		try {
 			loginUser = usersService.loginUsers(user);
+		
+		switch(loginUser.getUserSection()){
+			case BUYER :
+				session.setAttribute("userLoginInfo", loginUser);
+	            mav.setViewName("redirect:index.do");
+	            break;
+			case SELLER :
+				session.setAttribute("userLoginInfo", loginUser);
+	            mav.setViewName("redirect:orderManagement.do");
+	            break;
+			case ADMIN :
+				session.setAttribute("userLoginInfo", loginUser);
+	            mav.setViewName("redirect:index.do");
+	            break;
+			default : 
+				session.setAttribute("loginFail", "Y");
+	        	mav.setViewName("redirect:login.do");
+	        	break;
+		}
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			 session.setAttribute("loginFail", "Y");
+	    	mav.setViewName("redirect:login.do");
 		}
-		if(loginUser==null){
-			session.setAttribute("loginFail", "Y");
-        	mav.setViewName("redirect:login.do");
-		}
-		else if (loginUser.getUserSection() == 1) {
-            session.setAttribute("userLoginInfo", loginUser);
-            mav.setViewName("redirect:index.do");
-        }
-        else if(loginUser.getUserSection() == 2){
-        	session.setAttribute("userLoginInfo", loginUser);
-            mav.setViewName("redirect:orderManagement.do");
-        }
-        else if(loginUser.getUserSection() == 3){
-        	session.setAttribute("userLoginInfo", loginUser);
-            mav.setViewName("redirect:index.do");
-        }
-        else{
-        	session.setAttribute("loginFail", "Y");
-        	mav.setViewName("redirect:login.do");
-        }
+		
         return mav;
         
     }

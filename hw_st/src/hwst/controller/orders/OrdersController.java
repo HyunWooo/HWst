@@ -1,6 +1,7 @@
 package hwst.controller.orders;
 
 import hwst.domain.orders.OrdersVo;
+import hwst.domain.users.UsersEnum.UserSection;
 import hwst.domain.users.UsersVo;
 import hwst.service.orders.OrdersService;
 
@@ -86,10 +87,10 @@ public class OrdersController {
 		mv.addObject("list", list);
 		
 		//구매자,판매자별로 setViewName 분기해야됨
-		if(vo.getUserSection()==1){
+		if(vo.getUserSection() == UserSection.BUYER){
 			mv.setViewName("/orders/buyerOrderManagement");
 		}
-		else if(vo.getUserSection()==2){
+		else if(vo.getUserSection() == UserSection.SELLER){
 			mv.setViewName("/orders/sellerOrderManagement");
 		}
 		

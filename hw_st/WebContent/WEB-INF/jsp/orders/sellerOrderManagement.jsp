@@ -7,15 +7,6 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<c:choose>
-	<c:when test="${sessionScope.userLoginInfo.userSection ne 2}">
-		<script>
-			alert("판매자 전용 페이지입니다.");
-			<%session.invalidate();%>
-			location.href("redirect:login.do");
-		</script>
-	</c:when>
-</c:choose>
 <head>	
 <script type="text/javascript" charset="utf-8">
 

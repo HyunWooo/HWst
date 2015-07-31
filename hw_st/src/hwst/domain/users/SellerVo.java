@@ -1,5 +1,7 @@
 package hwst.domain.users;
 
+import hwst.domain.users.UsersEnum.UserSection;
+
 public class SellerVo extends UsersVo{
 
 	String bankName;
@@ -12,7 +14,7 @@ public class SellerVo extends UsersVo{
 	
 	
 	public SellerVo(int userNo, String id, String pw, String name,
-			String phone, String postCode, String address, int userSection) {
+			String phone, String postCode, String address, UserSection userSection) {
 		super(userNo, id, pw, name, phone, address, postCode, userSection);
 		// TODO Auto-generated constructor stub
 	}

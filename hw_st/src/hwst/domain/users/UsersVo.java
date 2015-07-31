@@ -1,5 +1,7 @@
 package hwst.domain.users;
 
+import hwst.domain.users.UsersEnum.UserSection;
+
 
 
 public class UsersVo{
@@ -10,13 +12,13 @@ public class UsersVo{
 	private String phone;
 	private String postCode;
 	private String address;
-	private int userSection;
+	private UserSection userSection;
 	
 	
 	public UsersVo() {}
 
 	public UsersVo(int userNo, String id, String pw, String name,
-			String phone, String postCode, String address, int userSection) {
+			String phone, String postCode, String address, UserSection userSection) {
 		this.userNo = userNo;
 		this.id = id;
 		this.pw = pw;
@@ -27,6 +29,7 @@ public class UsersVo{
 		this.userSection = userSection;
 	}
 	
+
 	
 	public String getId() {
 		return id;
@@ -84,11 +87,11 @@ public class UsersVo{
 		this.address = address;
 	}
 
-	public int getUserSection() {
+	public UserSection getUserSection() {
 		return userSection;
 	}
 
-	public void setUserSection(int userSection) {
+	public void setUserSection(UserSection userSection) {
 		this.userSection = userSection;
 	}
 

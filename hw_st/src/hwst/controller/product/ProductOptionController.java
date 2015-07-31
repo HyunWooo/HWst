@@ -1,6 +1,7 @@
 package hwst.controller.product;
 
 import hwst.domain.product.ProductOptionVo;
+import hwst.domain.users.UsersEnum.UserSection;
 import hwst.domain.users.UsersVo;
 import hwst.service.product.ProductOptionService;
 
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ProductOptionController {
+
 	@Resource(name="productOptionService")
 	private ProductOptionService productOptionService;
 	
@@ -72,7 +74,7 @@ public class ProductOptionController {
 			mv.setViewName("users/login");
 			return mv;
 		}
-		else if(vo.getUserSection()!=2){
+		else if(vo.getUserSection() != UserSection.SELLER){
 			mv.setViewName("common/404");
 		}
 		

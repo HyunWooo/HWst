@@ -2,6 +2,7 @@ package hwst.service.users;
 
 import hwst.dao.users.UsersDao;
 import hwst.domain.users.SellerVo;
+import hwst.domain.users.UsersEnum.UserSection;
 import hwst.domain.users.UsersVo;
 
 import java.sql.SQLException;
@@ -38,11 +39,11 @@ public class UsersServiceImpl implements UsersService {
 	public UsersVo loginUsers(UsersVo vo) throws Exception{
 		UsersVo uVo = usersDao.selectOneUser(vo);
 		switch (uVo.getUserSection()){
-			case 1: //구매자 로그인
+			case BUYER: //구매자 로그인
 				return usersDao.selectOneBuyer(vo);
-			case 2: //판매자 로그인
+			case SELLER: //판매자 로그인
 				return usersDao.selectOneSeller(uVo.getUserNo());
-			case 3: //관리자 로그인
+			case ADMIN: //관리자 로그인
 				return usersDao.selectOneAdmin(vo);
 			default:
 				return null;
@@ -104,7 +105,7 @@ public class UsersServiceImpl implements UsersService {
 
 	//회원탈퇴
 	@Override
-	public boolean deleteUsers(int userNo, int userSection) throws Exception{
+	public boolean deleteUsers(int userNo, UserSection userSection) throws Exception{
 		int result1 = 0;
 		int result2 = 0;
 		
@@ -131,11 +132,11 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	//userSection별로 해당 고객정보 삭제로 변경
-	public int deleteUser(int userNo, int userSection)throws Exception{
+	public int deleteUser(int userNo, UserSection userSection)throws Exception{
 		switch(userSection){
-			case 1:
+			case BUYER:
 				return usersDao.updateBuyerLog(userNo);
-			case 2:
+			case SELLER:
 				return usersDao.updateUsersLog(userNo);
 			default:
 				return 0;

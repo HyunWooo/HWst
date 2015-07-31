@@ -185,7 +185,7 @@
 									<input type="text" placeholder="전화번호" name="phone" />
 									<input type="text" placeholder="우편번호" name="postCode" />
 									<input type="text" placeholder="주소" name="address"/>
-									<input type="hidden" placeholder="회원구분" name="userSection" value="1"/>
+									<input type="hidden" placeholder="회원구분" name="userSection" value="BUYER"/>
 									<button type="submit" value="가입하기" class="btn btn-default" id="btn">가입하기</button>
 								</form>
 							</div><!--/sign up form-->

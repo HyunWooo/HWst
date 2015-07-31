@@ -153,8 +153,6 @@ public class UsersDaoImpl implements UsersDao {
 		try {
 			session = DBUtil.getSqlSession();
 			result = session.insert("users.insertSeller", sVo);
-		} catch(Exception e){
-			System.out.println("buyer insert Exception");
 		}finally {
 			DBUtil.closeSqlSession(session);
 		}

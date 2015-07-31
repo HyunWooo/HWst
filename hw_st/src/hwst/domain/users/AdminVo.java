@@ -1,5 +1,7 @@
 package hwst.domain.users;
 
+import hwst.domain.users.UsersEnum.UserSection;
+
 public class AdminVo extends UsersVo{
 	
 	String adminName;
@@ -11,7 +13,7 @@ public class AdminVo extends UsersVo{
 	}
 
 	public AdminVo(int userNo, String id, String pw, String name, String phone,
-			int userSection, String postCode, String address) {
+			UserSection userSection, String postCode, String address) {
 		super(userNo, id, pw, name, phone, address, postCode, userSection);
 		// TODO Auto-generated constructor stub
 	}
