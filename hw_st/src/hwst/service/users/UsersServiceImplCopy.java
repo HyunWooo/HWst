@@ -1,6 +1,5 @@
 package hwst.service.users;
 
-import hwst.common.CommonMethod;
 import hwst.dao.users.UsersDao;
 import hwst.domain.users.SellerVo;
 import hwst.domain.users.UsersEnum.UserSection;
@@ -9,8 +8,10 @@ import hwst.domain.users.UsersVo;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-@Service("usersService")
-public class UsersServiceImpl implements UsersService {
+
+public class UsersServiceImplCopy{
+/*@Service("usersService")
+public class UsersServiceImplCopy implements UsersService {
 
 	@Resource(name = "usersDao")
 	private UsersDao usersDao;
@@ -28,14 +29,20 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	//로그인
-	@Override
-	public UsersVo loginUsers(UsersVo vo) throws Exception{
-		UsersVo uVo = usersDao.selectOneUser(vo);
-		UsersServiceFactory usersServiceFactory = new UsersServiceFactory();
-		UserInfoService userInfoService = usersServiceFactory.getUserInfo(uVo);
-		
-		return userInfoService.selectUserInfo(uVo);
-	}
+		@Override
+		public UsersVo loginUsers(UsersVo vo) throws Exception{
+			UsersVo uVo = usersDao.selectOneUser(vo);
+			switch (uVo.getUserSection()){
+				case BUYER: //구매자 로그인
+					return usersDao.selectOneBuyer(vo);
+				case SELLER: //판매자 로그인
+					return usersDao.selectOneSeller(uVo.getUserNo());
+				case ADMIN: //관리자 로그인
+					return usersDao.selectOneAdmin(vo);
+				default:
+					return null;
+			}
+		}
 	
 	//userNo로 판매자정보 가져오기
 	@Override
@@ -67,14 +74,16 @@ public class UsersServiceImpl implements UsersService {
 	//회원정보변경
 	@Override
 	public boolean updateUsers(UsersVo vo) throws Exception{
-		return CommonMethod.isSuccessOneCUD(usersDao.updateUsers(vo));
+		if (usersDao.updateUsers(vo) > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	//회원탈퇴
 	@Override
 	public boolean deleteUsers(int userNo, UserSection userSection) throws Exception{
-		UsersServiceFactory uF = new UsersServiceFactory();
-		return flagCheck(uF.deleteUser(userNo, userSection), usersDao.updateUsersLog(userNo));
+		return flagCheck(UsersServiceFactory.deleteUser(userNo, userSection), usersDao.updateUsersLog(userNo));
 	}
 	
 	
@@ -91,7 +100,6 @@ public class UsersServiceImpl implements UsersService {
 		}
 		
 		return false;
-	}
+	}*/
 
-	
 }

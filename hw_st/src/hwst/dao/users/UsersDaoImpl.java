@@ -73,11 +73,13 @@ public class UsersDaoImpl implements UsersDao {
 	//해당회원의 구매자정보 조회
 	@Override
 	public BuyerVo selectOneBuyer(UsersVo vo){
+		System.out.println("오지도않잖아");
 		SqlSession session = null;
 		BuyerVo bVo = null;
 		try {
 			session = DBUtil.getSqlSession();
 			bVo = session.selectOne("users.selectOneBuyer", vo);
+			System.out.println(bVo);
 		} finally {
 			DBUtil.closeSqlSession(session);
 		}
@@ -202,6 +204,20 @@ public class UsersDaoImpl implements UsersDao {
 		}
 		return result;
 	}
+	
+	//관리자 회원탈퇴(정보변경)
+		@Override
+		public int updateAdminLog(int userNo){
+			SqlSession session = null;
+			int result = 0;
+			try {
+				session = DBUtil.getSqlSession();
+				result = session.update("users.updateAdminLog", userNo);
+			} finally {
+				DBUtil.closeSqlSession(session);
+			}
+			return result;
+		}
 	
 	//공통회원 회원탈퇴(정보변경)
 	@Override

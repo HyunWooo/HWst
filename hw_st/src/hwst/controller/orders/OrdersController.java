@@ -32,6 +32,7 @@ public class OrdersController {
 			@RequestParam("productOptionNo") List<Integer> productOptionNo, 
 			@RequestParam("buyAmount") List<Integer> buyAmount,
 			@RequestParam("totalPrice") List<Integer> totalPrice,
+			@RequestParam("deletedCart") List<Integer> deletedCart,
 			@RequestParam("receiverName") String receiverName, 
 			@RequestParam("phone") String phone, 
 			@RequestParam("postCode") String postCode, 
@@ -50,7 +51,7 @@ public class OrdersController {
 		try {
 			String fromCart = (String)session.getAttribute("productViewStat");
 			OrdersVo ordersVo = new OrdersVo(userNo, receiverName, phone, postCode, address, message, grade, allTotalPrice, discountPrice, discountedTotalPrice);
-			stat = ordersService.insertOrders(ordersVo,productOptionNo, buyAmount, totalPrice, checkoutInfo, fromCart);
+			stat = ordersService.insertOrders(ordersVo,productOptionNo, buyAmount, totalPrice, deletedCart, checkoutInfo, fromCart);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

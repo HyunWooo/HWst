@@ -1,9 +1,12 @@
 package hwst.service.cart;
 
+import hwst.common.CommonMethod;
 import hwst.dao.cart.CartDao;
 import hwst.domain.cart.CartVo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -25,8 +28,11 @@ public class CartServiceImpl implements CartService {
 	
 	//장바구니에서 상품들 주문 시 해당상품들의 정보 select해오기
 	@Override
-	public List<CartVo> selectCartInfo(List<Integer> cartNo) throws Exception{
-		List<CartVo> carts =  cartDao.selectCartByCartList(cartNo); // 해당 장바구니 번호의 데이터를 조회 
+	public Map<String, Object> selectCartInfo(List<Integer> cartNo) throws Exception{
+		Map<String, Object> mp = new HashMap<String, Object>();
+		List<CartVo> carts =  cartDao.selectCartInfo(cartNo); // 해당 장바구니 번호의 데이터를 조회 
+		
+		mp.put("DeletedCartList", cartNo);
 		
 		//앞상품과 뒷상품의 상품옵션번호가 일치하면 뒷상품의 구매수량에 앞상품 구매수량을 합친다.
 		for(int i=0; i<carts.size()-1; i++){
@@ -36,7 +42,8 @@ public class CartServiceImpl implements CartService {
 				i = i-1;
 			}
 		}
-		return carts;
+		mp.put("CartList", carts);
+		return mp;
 	}
 	
 	
@@ -59,22 +66,18 @@ public class CartServiceImpl implements CartService {
 	//해당 장바구니 삭제
 	@Override
 	public boolean deleteCart(int cartNo) throws Exception{
-		if(cartDao.deleteCart(cartNo)>0){
-			return true;
-		}
-		return false;
+		return CommonMethod.isSuccessOneCUD(cartDao.deleteCart(cartNo));
 	}
 	
 	
 	//장바구니 구매수량 수정
 	@Override
 	public boolean updateCartAmount(CartVo cartVo) throws Exception{
-		if(cartDao.updateCartAmount(cartVo)>0){
-			return true;
-		}
-		return false;
+		return CommonMethod.isSuccessOneCUD(cartDao.updateCartAmount(cartVo));
 	}
 	
+	
+	//상품옵션번호가 같은지 체크
 	public boolean isEqPrdOpNo(CartVo cart1, CartVo cart2){
 		if(cart1.getProductOptionNo()==cart2.getProductOptionNo()){
 			return true;

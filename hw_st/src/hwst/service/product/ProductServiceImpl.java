@@ -1,5 +1,6 @@
 package hwst.service.product;
 
+import hwst.common.CommonMethod;
 import hwst.dao.product.ProductDao;
 import hwst.domain.product.ProductVo;
 
@@ -53,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		stat = productDao.insertPrd(prdVo);
 		
-		if(stat==1){
+		if(CommonMethod.isSuccessOneCUD(stat)){
 			productNo = productDao.selectProductNo(prdVo);
 		}
 		

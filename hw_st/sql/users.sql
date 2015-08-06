@@ -80,3 +80,7 @@ insert into users values(null, 'admin@sk.com' , '123123' , '관리자' , '010-33
 insert into Buyer values((select userNo from users where id='gusdn@sk.com'),0,now());
 insert into Seller values((select userNo from users where id='sellerKing@sk.com'),'우리','1002-389-901006');
 insert into Admin values((select userNo from users where id='admin@sk.com'),'리스팅개발팀');
+
+
+alter table users modify userSection enum('BUYER','SELLER', 'ADMIN');
+alter table users modify userSection enum('UNREGISTER','BUYER','SELLER', 'ADMIN');

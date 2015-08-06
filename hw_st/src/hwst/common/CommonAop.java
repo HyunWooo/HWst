@@ -1,4 +1,4 @@
-package hwst.aop;
+package hwst.common;
 
 import hwst.domain.category.CategoryVo;
 import hwst.domain.product.ProductVo;

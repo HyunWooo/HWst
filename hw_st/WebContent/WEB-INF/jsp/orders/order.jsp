@@ -70,6 +70,14 @@ function doOrder(frm){
 		i.setAttribute("value",  $(this).val());
 		fm.appendChild(i);
 	});
+
+	$("input[id=deletedCart]").each(function() {
+		var i = document.createElement("input");
+		i.setAttribute("type", "hidden");
+		i.setAttribute("name", "deletedCart");
+		i.setAttribute("value",  $(this).val());
+		fm.appendChild(i);
+	});
 	
 	if($(':radio[name="deliver_info"]:checked').val()=="directInput"){
 		$("input[id=directInputReceiverName]").each(function() {
@@ -103,6 +111,7 @@ function doOrder(frm){
 			i.setAttribute("value",  $(this).val());
 			fm.appendChild(i);
 		});
+		
 	}
 	else if($(':radio[name="deliver_info"]:checked').val()=="basicInput"){
 		$("input[id=basicInputReceiverName]").each(function() {
@@ -590,6 +599,12 @@ function commaNum(num) {
 										<a class="btn btn-primary" onclick="doOrder(this.form)">결제하기</a>
 										<a class="btn btn-primary" onclick="cancel()">취소하기</a>
 										<input type="text" value="${sessionScope}">
+										<input type="text" value="${DeletedCartList}">
+										<c:if test="${DeletedCartList ne null}">
+											<c:forEach items="${DeletedCartList}" var="List" varStatus="status">
+												<input type="text" id="deletedCart" name="deletedCart" value="${List}">
+											</c:forEach>
+										</c:if>
 									</td>
 								</tr>
 								<!-- 무통장입금안내:E -->

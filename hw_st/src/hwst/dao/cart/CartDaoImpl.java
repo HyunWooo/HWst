@@ -1,7 +1,6 @@
 package hwst.dao.cart;
 
 import hwst.domain.cart.CartVo;
-import hwst.domain.product.ProductOptionVo;
 import hwst.util.DBUtil;
 
 import java.sql.SQLException;
@@ -32,12 +31,12 @@ public class CartDaoImpl implements CartDao {
 	
 	//장바구니에서 선택된 장바구니 or 전체선택된 장바구니의 정보 select 
 	@Override
-	public List<CartVo> selectCartByCartList(List<Integer> cartNo)throws SQLException{
+	public List<CartVo> selectCartInfo(List<Integer> cartNo)throws SQLException{
 		SqlSession session = null;
 		List<CartVo> list = null;
 		try {
 			session = DBUtil.getSqlSession();
-			list = session.selectList("cart.selectCartByCartList", cartNo);
+			list = session.selectList("cart.selectCartInfo", cartNo);
 		} finally {
 			DBUtil.closeSqlSession(session);
 		}
@@ -87,13 +86,14 @@ public class CartDaoImpl implements CartDao {
 		return stat;
 	}
 	
+	
 	@Override
-	public int deleteCartByOrderComplete(ProductOptionVo productOptionVo)throws Exception{
+	public int deleteCartOrder(List<Integer> deletedCart)throws Exception{
 		SqlSession session = null;
 		int stat = 0;
 		try {
 			session = DBUtil.getSqlSession();
-			stat = session.delete("cart.deleteCartByOrderComplete",productOptionVo);
+			stat = session.delete("cart.deleteCartOrder", deletedCart);
 		} finally {
 			DBUtil.closeSqlSession(session);
 		}

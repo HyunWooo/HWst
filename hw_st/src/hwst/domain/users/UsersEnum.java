@@ -18,14 +18,14 @@ public class UsersEnum {
 			return value;
 		}
 
-		public static UserSection valueOf(int value){
+		/*public static UserSection valueOf(int value){
 			switch(value){
 				case 2: return UserSection.BUYER;
 				case 3: return UserSection.SELLER;
 				case 4: return UserSection.ADMIN;
 				default : throw new AssertionError("Unknown userSection: " + value);
 			}
-		}
+		}*/
         
 	};
 	

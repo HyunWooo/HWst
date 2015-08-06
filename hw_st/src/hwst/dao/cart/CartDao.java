@@ -1,7 +1,6 @@
 package hwst.dao.cart;
 
 import hwst.domain.cart.CartVo;
-import hwst.domain.product.ProductOptionVo;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,8 +10,8 @@ public interface CartDao {
 	int insertCart(CartVo cVo) throws SQLException;
 	int deleteCart(int cartNo) throws SQLException;
 	int updateCartAmount(CartVo cartVo) throws SQLException;
-	List<CartVo> selectCartByCartList(List<Integer> cartNo) throws SQLException;
-	int deleteCartByOrderComplete(ProductOptionVo productOptionVo) throws Exception;
+	List<CartVo> selectCartInfo(List<Integer> cartNo) throws SQLException;
+	int deleteCartOrder(List<Integer> deletedCart) throws Exception;
 	
 	
 }

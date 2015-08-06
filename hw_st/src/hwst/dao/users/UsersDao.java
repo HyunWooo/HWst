@@ -23,4 +23,5 @@ public interface UsersDao {
 	int updateBuyerLog(int userNo) throws SQLException;
 	int updateUsersLog(int userNo) throws SQLException;
 	int updateSellerLog(int userNo) throws SQLException;
+	int updateAdminLog(int userNo) throws SQLException;
 }

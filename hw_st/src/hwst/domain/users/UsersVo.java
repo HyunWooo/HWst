@@ -2,8 +2,10 @@ package hwst.domain.users;
 
 import hwst.domain.users.UsersEnum.UserSection;
 
+import org.springframework.stereotype.Repository;
 
 
+@Repository("UsersVo")
 public class UsersVo{
 	private int userNo;
 	private String id;

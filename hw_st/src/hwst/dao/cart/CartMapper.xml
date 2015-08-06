@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by (select productNo from productOption where productOptionNo= c.productOptionNo), productOptionNo asc ,buyAmount desc
 	</select>
 	
-	<select id="selectCartByCartList" resultMap="cResultMap" parameterType="java.util.List">
+	<select id="selectCartInfo" resultMap="cResultMap" parameterType="java.util.List">
 		select c.cartNo, c.productOptionNo, c.userNo, c.buyAmount, c.cartTime, p.categoryNo, p.productNo, p.name, po.productOptionName,  po.productAmount, po.addPrice, p.basicPrice , po.addPrice+p.basicPrice as eachPrice
 		from cart c, productOption po, product p
 		where c.cartNo in
@@ -47,10 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where cartNo = #{cartNo}
 	</delete>
 	
-	<delete id="deleteCartByOrderComplete" parameterType="productOptionVo">
+	<delete id="deleteCartOrder" parameterType="java.util.List">
 		delete from cart
-		where userNo = #{userNo} and productOptionNo = #{productOptionNo}
-		
+		where cartNo in
+		<foreach item="cartNo"  collection="list"  open="(" separator="," close=")">
+		 #{cartNo}
+		</foreach>
 	</delete>
 	
 	<update id="updateCartAmount" parameterType="cartVo">

@@ -7,7 +7,9 @@ import hwst.service.cart.CartService;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -131,15 +133,19 @@ public class CartServiceTest {
 	
 	
 	//장바구니에서 상품들 주문 시 해당상품들의 정보 select해오기
+	@SuppressWarnings("unchecked")
 	@Test
 	public void selectCartInfo() {
+		Map<String, Object> mp = new HashMap<String, Object>();
 		List<CartVo> carts = new ArrayList<CartVo>();
 		List<Integer> cartNo = new ArrayList<Integer>();
 		cartNo.add(0,1);
 		cartNo.add(1,2);
 		
 		try {
-			carts = cartService.selectCartInfo(cartNo);//try catch 제거 // checked예외
+			mp = cartService.selectCartInfo(cartNo);//try catch 제거 // checked예외
+			carts = (List<CartVo>) mp.get("CartList");
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

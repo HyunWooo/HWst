@@ -1,5 +1,6 @@
 package hwst.service.orders;
 
+import hwst.common.CommonMethod;
 import hwst.dao.cart.CartDao;
 import hwst.dao.orders.OrderProductDao;
 import hwst.dao.orders.OrdersDao;
@@ -39,34 +40,28 @@ public class OrdersServiceImpl implements OrdersService {
 	//주문정보 Insert
 	@Override
 	public boolean insertOrders(OrdersVo ordersVo, List<Integer> productOptionNo, List<Integer> buyAmount,
-			List<Integer> totalPrice, int checkoutInfo,String fromCart) throws Exception{
+			List<Integer> totalPrice, List<Integer> deletedCart, int checkoutInfo,String fromCart) throws Exception{
 		int stat2 = 0;
 		int stat3 = 0;
-		int stat4 = 0;
 		
 		int stat = ordersDao.insertOrders(ordersVo);
-		if(stat==1){
+		if(CommonMethod.isSuccessOneCUD(stat)){
 			int orderNo= ordersDao.selectOrderNoByUserNo(ordersVo.getUserNo());
 			
 			for(int i=0; i<productOptionNo.size(); i++){
 				OrderProductVo opVo = new OrderProductVo(orderNo, productOptionNo.get(i), buyAmount.get(i), totalPrice.get(i), ordersVo.getUserNo());
 				stat2 += orderProductDao.insertOrderProduct(opVo);
 			}
+			
 			if(stat2==productOptionNo.size()){
 				stat3 = paymentDao.insertPayment(new PaymentVo(orderNo, checkoutInfo));
 			}
-			if(stat3==1 && fromCart=="yes"){
-				for(int i=0; i<productOptionNo.size(); i++){
-					ProductOptionVo productOptionVo = new ProductOptionVo(productOptionNo.get(i),ordersVo.getUserNo());
-					stat4 = cartDao.deleteCartByOrderComplete(productOptionVo);
-				}
-					
+			
+			//장바구니에서 주문한 거라면 해당장바구니항목 삭제
+			if(CommonMethod.isSuccessOneCUD(stat3) && fromCart=="yes"){
+				return CommonMethod.isSuccessOneCUD(cartDao.deleteCartOrder(deletedCart));
 			}
 			
-		}
-		
-		if(stat4>0){
-			return true;
 		}
 		return false;
 	}
@@ -78,30 +73,6 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 		desc/asc 상황에 따라 순서가 뒤틀리면 의미가 없어짐
 	 * 3. 결국 그렇다면 불러올 때 속성값으로만 처리를 해주어야 한다.
 	 */
-	/*for(int num=0; num<ordersVoList.size(); num++){		//ordersVo를 OrderNo 별로 group한 orderNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 orderNoCount속성에 set한다
-		for(int countNum=0; countNum<orderNoCount.size(); countNum++){//향상된for문
-			//if(ordersVoList.get(i).getOrderNo()==orderNoCount.get(j).getOrderNo()){ //주문번호가 같을때 해당 주문번호 group에 해당하는 개수를 set해준다
-			if(ordersVoList.get(num).isEqualsOrderNo(ordersVoList.get(num),orderNoCount.get(countNum))){ //주문번호가 같을때 해당 주문번호 group에 해당하는 개수를 set해준다
-				ordersVoList.get(num).setOrderNoCount(orderNoCount.get(countNum).getOrderNoCount());
-				int stat=0;
-				for(int k=num; k<num+orderNoCount.get(countNum).getOrderNoCount(); k++){	//이 때 group에 속하는 각 주문상품들의 재고수량과 구매수량을 체크하여 구매수량이 더 많을경우 QuantityCheck에 값'1'을 set한다. 후에 값'1'이 존재할 경우 '재고부족'으로 화면에 표시된다.
-					if(ordersVoList.get(k).getBuyAmount()>ordersVoList.get(k).getProductAmount()){
-						ordersVoList.get(num).setQuantityCheck(1);
-					}
-					if(ordersVoList.get(num).getOrderStat()==4){//주문상태가 배송중이고 배송상태는 배송완료일때 주문상태를 전체배송완료로 바꿔주기 위한 로직
-						if(ordersVoList.get(k).getDeliveryStat()==3){
-							stat += 1;
-						}
-						if(stat==orderNoCount.get(countNum).getOrderNoCount()){
-							updateOrderStat(ordersVoList.get(num).getOrderNo(),5);
-							selectOrdersAll(usersVo);
-						}
-					}
-				}
-				num += orderNoCount.get(countNum).getOrderNoCount();
-			}
-		}
-	}*/
 	//주문정보 불러오기
 	@Override
 	public List<OrdersVo> selectOrdersAll(UsersVo usersVo)throws Exception{
@@ -139,48 +110,36 @@ public class OrdersServiceImpl implements OrdersService {
 			}
 		}
 		
-		
-		/*for(int amountNum = num; amountNum < num + eachOrder.getOrderNoCount(); amountNum++){	//이 때 group에 속하는 각 주문상품들의 재고수량과 구매수량을 체크하여 구매수량이 더 많을경우 QuantityCheck에 값'1'을 set한다. 후에 값'1'이 존재할 경우 '재고부족'으로 화면에 표시된다.
-		OrdersVo groupOrder = ordersVoList.get(amountNum);
-			
-		if(checkLackOfAmount(groupOrder)){
-				eachOrder.setQuantityCheck(1);
-		}
-		}*/
-		for(OrdersVo oVo : ordersVoList){ //주문수량이 재고수량보다 클 경우 QuantityCheck에 값'1'을 set한다. 후에 값'1'이 존재할 경우 '재고부족'으로 화면에 표시된다.
-			if(checkLackOfAmount(oVo)){
-				oVo.setQuantityCheck(1);
-			}
-		}
+		checkQuantity(ordersVoList);
 		
 		return ordersVoList;
 	}
 	
+	
+
+
 	//해당주문의 orderStat 변경
 	@Override
 	public boolean updateOrderStat(int orderNo, int orderStat)throws Exception{
 		int stat = 0;
-		int stat2 = 0;
-		List<OrdersVo> vo = null;
+		List<OrdersVo> oVo = null;
 		
 		if(orderStat==2){
-			vo = ordersDao.selectByPrdOpNo(orderNo);
-			for(int i=0; i<vo.size(); i++){//재고수량 - 상품수량 업데이트 수행
-				int updateAmount = vo.get(i).getProductAmount()-vo.get(i).getBuyAmount();
-				stat += productOptionDao.udtPrdAmount(new ProductOptionVo(vo.get(i).getProductOptionNo(),updateAmount));
+			oVo = ordersDao.selectByPrdOpNo(orderNo);
+			
+			for(int i=0, size = oVo.size(); i < size; i++){//재고수량 - 상품수량 업데이트 수행
+				int updateAmount = oVo.get(i).getProductAmount()-oVo.get(i).getBuyAmount();
+				stat += productOptionDao.udtPrdAmount(new ProductOptionVo(oVo.get(i).getProductOptionNo(),updateAmount));
 			}
 			
-			if(stat>0){
-				 stat2 = ordersDao.updateOrderStat(new OrdersVo(orderNo, orderStat));
+			if(CommonMethod.isSuccessManyCUD(stat, oVo.size())){
+				 return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, orderStat)));
 			}
 		}
 		else{
-			stat2 = ordersDao.updateOrderStat(new OrdersVo(orderNo, orderStat));
+			return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, orderStat)));
 		}
 		
-		if(stat2==1){
-			return true;
-		}
 		return false;
 	}
 	
@@ -192,16 +151,12 @@ public class OrdersServiceImpl implements OrdersService {
 		
 		stat = orderProductDao.udtDeliveryStat(new OrderProductVo(orderNo, productOptionNo, deliveryStat));
 		
-		if(stat==1){
+		if(CommonMethod.isSuccessOneCUD(stat)){
 			result = checkUpDeliveryStat(orderNo,deliveryStat);
 		
 			switch(deliveryStat){
 				case 2:
-					if(result==true){
-						return true;
-					}
-					break;
-					
+					return result;
 				case 3:
 					return true;
 			}
@@ -219,10 +174,7 @@ public class OrdersServiceImpl implements OrdersService {
 		switch(deliveryStat){
 			case 2: //deliveryStat이 배송중 상태일 경우 orderStat을 배송중으로 변경하는 로직
 				stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, 4));
-				if(stat == 1){
-					return true;
-				}
-				break;
+				return CommonMethod.isSuccessOneCUD(stat);
 				
 			case 3: //deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
 				productList = orderProductDao.selectDeliveryStat(orderNo);
@@ -235,9 +187,7 @@ public class OrdersServiceImpl implements OrdersService {
 				
 				if(CompleteDelivery==productList.size()){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
 					stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, 5));
-					if(stat == 1){
-						return true;
-					}
+					return CommonMethod.isSuccessOneCUD(stat);
 				}
 				break;
 		}
@@ -248,22 +198,19 @@ public class OrdersServiceImpl implements OrdersService {
 	//해당주문 삭제
 	@Override
 	public boolean deleteOrder(int orderNo)throws Exception{
-		int stat = 0;
-		int stat1 = 0;
 		
-		stat = ordersDao.deleteOrder(orderNo);
-		if(stat==1){
-			stat1 = orderProductDao.deleteOrderProduct(orderNo);
-		}
-		
-		if(stat1>0){
+		if(CommonMethod.isSuccessOneCUD(ordersDao.deleteOrder(orderNo))){
+			orderProductDao.deleteOrderProduct(orderNo);
 			return true;
 		}
+
 		return false;
 	}
 	
+	
+	
+	
 	//두 OrdersVo객체의 주문번호가 같은지 체크하는 메소드
-	@Override
 	public boolean isEqualsOrderNo(OrdersVo orderVo,OrdersVo orderNoCount){
 		if(orderVo.getOrderNo() == orderNoCount.getOrderNo()){
 			return true;
@@ -272,13 +219,23 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 	
 	//해당 상품옵션의 수량부족 체크
-	@Override
 	public boolean checkLackOfAmount(OrdersVo groupOrder){
 		if(groupOrder.getBuyAmount() <= groupOrder.getProductAmount()){
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
-	
+	//수량부족한 해당 주문번호의 QuantityCheck값을 1로 설정하기
+	private void checkQuantity(List<OrdersVo> ordersVoList) {
+		for(int num = 0; num<ordersVoList.size(); num++){
+			if(checkLackOfAmount(ordersVoList.get(num))){
+				for(int inNum=0; inNum<ordersVoList.size(); inNum++){
+					if(ordersVoList.get(inNum).getOrderNo()==ordersVoList.get(num).getOrderNo()){
+						ordersVoList.get(inNum).setQuantityCheck(1);  //주문수량이 재고수량보다 클 경우 QuantityCheck에 값'1'을 set한다. 후에 값'1'이 존재할 경우 '재고부족'으로 화면에 표시된다.
+					}
+				}
+			}
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package hwst.service.product;
 
+import hwst.common.CommonMethod;
 import hwst.dao.product.ProductOptionDao;
 import hwst.domain.product.ProductOptionVo;
 
@@ -68,10 +69,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		
 		stat = productOptionDao.udtPrdAmount(prdOption);
 		
-		if(stat==1){
-			return true;
-		}
-		return false;
+		return CommonMethod.isSuccessOneCUD(stat);
 	}
 	
 	//해당상품옵션의 정보 변경
@@ -81,10 +79,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		
 		stat = productOptionDao.udtPrdOpAll(prdOption);
 		
-		if(stat==1){
-			return true;
-		}
-		return false;
+		return CommonMethod.isSuccessOneCUD(stat);
 	}
 	
 	//상품옵션만 바로 추가하는 로직
@@ -127,7 +122,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		
 		stat =productOptionDao.delPrdOption(productOptionNo);
 		
-		if(stat==1){
+		if(CommonMethod.isSuccessOneCUD(stat)){
 			return true;
 		}
 		return false;

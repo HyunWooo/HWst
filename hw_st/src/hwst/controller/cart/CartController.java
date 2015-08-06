@@ -4,7 +4,10 @@ import hwst.domain.cart.CartVo;
 import hwst.domain.users.UsersVo;
 import hwst.service.cart.CartService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -56,9 +59,12 @@ public class CartController {
 	}
 	
 	//체크박스로 선택한 장바구니 or 전체장바구니정보 select  
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="selectBySelectedCartList.do", method = RequestMethod.POST)
 	public ModelAndView selectBySelectedCartList(@RequestParam("cartNo")List<Integer> cartNo, HttpSession session, HttpServletRequest request){
 		
+		Map<String, Object> mp = new HashMap<String, Object>();
+		List<Integer> deletedCarts = new ArrayList<Integer>();
 		List<CartVo> list = null;
 		ModelAndView mv = new ModelAndView();
 		UsersVo vo = (UsersVo)session.getAttribute("userLoginInfo");
@@ -71,14 +77,17 @@ public class CartController {
 		logger.info("안녕하세요! cartNo "+ cartNo + "입니다.");
 		
 		try {
-			list = cartService.selectCartInfo(cartNo);//메소드명 줄이기
+			mp = cartService.selectCartInfo(cartNo);
+			list = (List<CartVo>) mp.get("CartList");
+			deletedCarts = (List<Integer>) mp.get("DeletedCartList");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		logger.info("안녕하세요!"+ list + "입니다.");
 		
-		mv.addObject("list", list);	
+		mv.addObject("list", list);
+		mv.addObject("DeletedCartList",deletedCarts);
 		mv.setViewName("orders/order");
 		session.setAttribute("productViewStat", "yes");
 		return mv;
