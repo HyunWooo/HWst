@@ -34,7 +34,7 @@ function mySubmit(frm,index,countNo){
 	
 	//무통장입금 상태변경
 	if(index==1){
-		if (confirm("무통장 입금을 수행합니다. \n입금하시겠습니까?") == true){    //확인
+		if (confirm("무통장 입금을 수행합니다. \n입금하시겠습니까?")){    //확인
 			var fm = document.createElement("form");
 			
 			fm.setAttribute("method", "post");

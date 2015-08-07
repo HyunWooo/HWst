@@ -33,7 +33,7 @@ function mySubmit(frm,index,countNo){
 	
 	//무통장입금확인 상태변경
 	if(index==1){
-		if (confirm("입금을 확인하셨습니까? \n확인 후 배송을 준비해 주세요") == true){    //확인
+		if (confirm("입금을 확인하셨습니까? \n확인 후 배송을 준비해 주세요")){    //확인
 			var fm = document.createElement("form");
 			
 			fm.setAttribute("method", "post");
@@ -105,7 +105,7 @@ function mySubmit(frm,index,countNo){
 		var endPrice = parseInt(discountedTotalPrice)*0.95*1000;
 		var fee = parseInt(discountedTotalPrice)*0.05*1000;
 		
-		if (confirm("귀하의 계좌 "+acc+" 으로 \n총 금액 "+thisPrice+" 중 수수료 "+fee+"원을 제외한\n"+endPrice+"원이 입금됩니다. \n계속하시겠습니까?") == true){
+		if (confirm("귀하의 계좌 "+acc+" 으로 \n총 금액 "+thisPrice+" 중 수수료 "+fee+"원을 제외한\n"+endPrice+"원이 입금됩니다. \n계속하시겠습니까?")){
 			alert("입금되었습니다!");
 			
 			var fm = document.createElement("form");

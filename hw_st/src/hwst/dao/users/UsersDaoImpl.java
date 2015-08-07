@@ -24,14 +24,14 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public List<UsersVo> usersSelect() throws SQLException{
 		SqlSession session = null;
-		List<UsersVo> list = null;
+		List<UsersVo> usersList = null;
 		try {
 			session = DBUtil.getSqlSession();
-			list = session.selectList("users.selectAll");
+			usersList = session.selectList("users.selectAll");
 		} finally {
 			DBUtil.closeSqlSession(session);
 		}
-		return list;
+		return usersList;
 	}
 
 

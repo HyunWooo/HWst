@@ -31,15 +31,15 @@ public class ProductOptionController {
 	//상품옵션전체보기(해당상품번호와 일치하는)
 	@RequestMapping(value="selectProductOptionAll.do", method = RequestMethod.GET)
 	public ModelAndView selectProductOptionAll(int productNo, HttpSession session, HttpServletRequest request){
-		List<ProductOptionVo> list=null;
+		List<ProductOptionVo> poList = null;
 		try {
-			list = productOptionService.selectProductOptionAll(productNo);
+			poList = productOptionService.selectProductOptionAll(productNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("productOptionList", list);	
+		mv.addObject("productOptionList", poList);	
 		mv.setViewName("product/productOption");
 		return mv;
 	}
@@ -47,15 +47,15 @@ public class ProductOptionController {
 	//상품상세페이지에서 선택한 상품옵션의 정보를 받아오기
 	@RequestMapping(value="selectProductOptionByPoNo.do", method = RequestMethod.POST)
 	public ModelAndView selectProductOptionByPoNo(@RequestParam("productOptionNo") List<Integer> productOptionNo, @RequestParam("buyAmount")List<Integer> buyAmount, HttpSession session, HttpServletRequest request){
-		List<ProductOptionVo> list=null;
+		List<ProductOptionVo> poList =null;
 		try {
-			list = productOptionService.selectProductOptionByPoNo(productOptionNo,buyAmount);
+			poList  = productOptionService.selectProductOptionByPoNo(productOptionNo,buyAmount);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("list", list);
+		mv.addObject("list", poList );
 		mv.setViewName("orders/order");
 		return mv;
 	}
@@ -66,7 +66,7 @@ public class ProductOptionController {
 	//해당 판매자가 등록한 상품목록을 조회
 	@RequestMapping(value="selectRegisterPrdAll.do")
     public ModelAndView selectRegisterPrdAll(HttpSession session, HttpServletRequest request){
-		List<ProductOptionVo> list = new ArrayList<ProductOptionVo>();
+		List<ProductOptionVo> poList = new ArrayList<ProductOptionVo>();
 		ModelAndView mv = new ModelAndView();
 		UsersVo vo = (UsersVo)session.getAttribute("userLoginInfo");
 		
@@ -81,14 +81,14 @@ public class ProductOptionController {
 		logger.info("안녕하세요! userNo "+ vo.getUserNo() + "입니다.");
 		
 		try {
-			list = productOptionService.selectRegisterPrdAll(vo.getUserNo());
+			poList = productOptionService.selectRegisterPrdAll(vo.getUserNo());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		logger.info("안녕하세요!"+ list + "입니다.");
+		logger.info("안녕하세요!"+ poList + "입니다.");
 		
-		mv.addObject("list", list);
+		mv.addObject("list", poList);
 		mv.setViewName("/product/productManagement");
 		
 		return mv;
@@ -125,16 +125,16 @@ public class ProductOptionController {
 	@RequestMapping(value="manageProductOption.do")
     public ModelAndView manageProductOption(int productNo, HttpSession session, HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
-		List<ProductOptionVo> list = new ArrayList<ProductOptionVo>();
+		List<ProductOptionVo> poList = new ArrayList<ProductOptionVo>();
 		
 		try {
-			list = productOptionService.selectPrdOpByPrdNo(productNo);
+			poList = productOptionService.selectPrdOpByPrdNo(productNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		mv.addObject("list", list);
+		mv.addObject("list", poList);
 		request.setAttribute("productNo",productNo);
 		mv.setViewName("product/udtProductOption");
 		return mv;
@@ -160,7 +160,7 @@ public class ProductOptionController {
 			e.printStackTrace();
 		}
 		
-		if(stat ==true){
+		if(stat){
 			mv.setViewName("redirect:manageProductOption.do");
 			mv.addObject("productNo", productNo.get(0));
 		}
@@ -181,7 +181,7 @@ public class ProductOptionController {
 			e.printStackTrace();
 		}
 		
-		if(stat ==true){
+		if(stat){
 			mv.setViewName("redirect:manageProductOption.do");
 			mv.addObject("productNo", productNo);
 		}

@@ -32,12 +32,12 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	//상품옵션번호로 상품옵션데이터 select
 	@Override
 	public List<ProductOptionVo> selectProductOptionByPoNo(List<Integer> productOptionNo,List<Integer> buyAmount)throws Exception{
-		List<ProductOptionVo> list = productOptionDao.selectPOByPoNo(productOptionNo);
+		List<ProductOptionVo> poList = productOptionDao.selectPOByPoNo(productOptionNo);
 		
-		for(int num = 0; num<list.size(); num++){
-			list.get(num).setBuyAmount(buyAmount.get(num));
+		for(int poNo = 0; poNo<poList.size(); poNo++){
+			poList.get(poNo).setBuyAmount(buyAmount.get(poNo));
 		}
-		return list;
+		return poList;
 	}
 	
 	//해당 판매자가 등록한 상품정보 select
