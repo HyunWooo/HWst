@@ -46,16 +46,15 @@ public class OrdersServiceImpl implements OrdersService {
 			List<Integer> totalPrice, List<Integer> deletedCart, int checkoutInfo,String fromCart) throws Exception{
 		int successCount = 0;
 		
-		int stat = ordersDao.insertOrders(ordersVo);
-		if(CommonMethod.isSuccessOneCUD(stat)){
+		if(CommonMethod.isSuccessOneCUD(ordersDao.insertOrders(ordersVo))){
 			int orderNo= ordersDao.selectOrderNoByUserNo(ordersVo.getUserNo());
 			
-			for(int num=0; num<productOptionNo.size(); num++){
+			for(int num=0; num<productOptionNo.size(); num++){ //주문상품정보 insert
 				OrderProductVo opVo = new OrderProductVo(orderNo, productOptionNo.get(num), buyAmount.get(num), totalPrice.get(num), ordersVo.getUserNo());
 				successCount += orderProductDao.insertOrderProduct(opVo);
 			}
 			
-			if(CommonMethod.isEqualValues(successCount, productOptionNo.size())){
+			if(CommonMethod.isEqualValues(successCount, productOptionNo.size())){ //결제 데이터 insert
 				successCount = paymentDao.insertPayment(new PaymentVo(orderNo, checkoutInfo));
 			}
 			
@@ -98,6 +97,7 @@ public class OrdersServiceImpl implements OrdersService {
 				break;
 		}
 		
+		
 		for(int num = 0; num < ordersVoList.size();){		//ordersVo를 OrderNo 별로 group한 orderNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 orderNoCount속성에 set한다
 			OrdersVo eachOrder = ordersVoList.get(num);
 			
@@ -116,8 +116,6 @@ public class OrdersServiceImpl implements OrdersService {
 		
 		return ordersVoList;
 	}
-	
-	
 
 
 	//해당주문의 orderStat 변경
@@ -145,20 +143,15 @@ public class OrdersServiceImpl implements OrdersService {
 		return false;
 	}
 	
+	
 	//해당주문의 각 상품의 deliveryStat 변경
 	@Override
 	public boolean udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat)throws Exception{
-		int stat = 0;
-		boolean result = false;
-		
-		stat = orderProductDao.udtDeliveryStat(new OrderProductVo(orderNo, productOptionNo, deliveryStat));
-		
-		if(CommonMethod.isSuccessOneCUD(stat)){
-			result = checkUpDeliveryStat(orderNo,deliveryStat);
+		if(CommonMethod.isSuccessOneCUD(orderProductDao.udtDeliveryStat(new OrderProductVo(orderNo, productOptionNo, deliveryStat)))){
 		
 			switch(deliveryStat){
 				case DELIVERING:
-					return result;
+					return checkUpDeliveryStat(orderNo,deliveryStat);
 				case DELIVERYALLCOMPLETE:
 					return true;
 				default:
@@ -168,39 +161,23 @@ public class OrdersServiceImpl implements OrdersService {
 		return false;
 	}
 	
+	
 	//deliveryStat이 변경 될 시점에 각 deliveryStat을 체크하여 조건을 충족하면 orderStat을 변경하는 메소드
 	@Override
 	public boolean checkUpDeliveryStat(int orderNo, DeliveryStat deliveryStat)throws Exception{
-		List<OrderProductVo> productList = null;
-		int CompleteDelivery = 0;
-		int stat = 0;
 		
 		switch(deliveryStat){
 			case DELIVERING: //deliveryStat이 배송중 상태일 경우 orderStat을 배송중으로 변경하는 로직
-				stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, OrdersEnum.OrderStat.DELIVERING));
-				return CommonMethod.isSuccessOneCUD(stat);
+				return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrdersEnum.OrderStat.DELIVERING)));
 				
 			case DELIVERYALLCOMPLETE: //deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
-				productList = orderProductDao.selectDeliveryStat(orderNo);
-
-				for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
-					if(CommonMethod.isEqualValues(eachProduct.getDeliveryStat(),DeliveryStat.DELIVERYALLCOMPLETE)){
-						CompleteDelivery += 1;
-					}
-				}
-				
-				if(CommonMethod.isEqualValues(CompleteDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
-					stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE));
-					return CommonMethod.isSuccessOneCUD(stat);
-				}
-				break;
-				
+				return checkDeliveryComplete(orderNo, orderProductDao.selectDeliveryStat(orderNo));			
+						
 			default:
-				break;
+				return false;
 		}
-		
-		return false;
 	}
+	
 	
 	//해당주문 삭제
 	@Override
@@ -244,4 +221,21 @@ public class OrdersServiceImpl implements OrdersService {
 		}
 	}
 		
+	//deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
+		private boolean checkDeliveryComplete(int orderNo, List<OrderProductVo> productList) throws Exception{
+			int CompleteDelivery = 0;
+			
+			for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
+				if(CommonMethod.isEqualValues(eachProduct.getDeliveryStat(),DeliveryStat.DELIVERYALLCOMPLETE)){
+					CompleteDelivery += 1;
+				}
+			}
+			
+			if(CommonMethod.isEqualValues(CompleteDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
+				return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE)));
+			}
+			
+			return false;
+		}
+	
 }
