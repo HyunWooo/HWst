@@ -35,11 +35,11 @@ public class CartServiceImpl implements CartService {
 		mp.put("DeletedCartList", cartNo);
 		
 		//앞상품과 뒷상품의 상품옵션번호가 일치하면 뒷상품의 구매수량에 앞상품 구매수량을 합친다.
-		for(int i=0; i<carts.size()-1; i++){
-			if(isEqPrdOpNo(carts.get(i),carts.get(i+1))){
-				carts.get(i+1).setBuyAmount(carts.get(i),carts.get(i+1));
-				carts.remove(i);
-				i = i-1;
+		for(int num=0; num<carts.size()-1; num++){
+			if(isEqPrdOpNo(carts.get(num),carts.get(num+1))){
+				carts.get(num+1).setBuyAmount(carts.get(num),carts.get(num+1));
+				carts.remove(num);
+				num = num-1;
 			}
 		}
 		mp.put("CartList", carts);
@@ -52,8 +52,8 @@ public class CartServiceImpl implements CartService {
 	public boolean insertCart(List<Integer> productOptionNo,int userNo,List<Integer> buyAmount)throws Exception{
 		int stat = 0;
 		
-		for(int i=0; i<productOptionNo.size(); i++){
-			stat += cartDao.insertCart(new CartVo(productOptionNo.get(i), userNo, buyAmount.get(i)));
+		for(int num=0; num<productOptionNo.size(); num++){
+			stat += cartDao.insertCart(new CartVo(productOptionNo.get(num), userNo, buyAmount.get(num)));
 		}
 		
 		return CommonMethod.isEqualValues(stat, productOptionNo.size());

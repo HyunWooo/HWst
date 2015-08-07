@@ -50,8 +50,8 @@ public class OrdersServiceImpl implements OrdersService {
 		if(CommonMethod.isSuccessOneCUD(stat)){
 			int orderNo= ordersDao.selectOrderNoByUserNo(ordersVo.getUserNo());
 			
-			for(int i=0; i<productOptionNo.size(); i++){
-				OrderProductVo opVo = new OrderProductVo(orderNo, productOptionNo.get(i), buyAmount.get(i), totalPrice.get(i), ordersVo.getUserNo());
+			for(int num=0; num<productOptionNo.size(); num++){
+				OrderProductVo opVo = new OrderProductVo(orderNo, productOptionNo.get(num), buyAmount.get(num), totalPrice.get(num), ordersVo.getUserNo());
 				successCount += orderProductDao.insertOrderProduct(opVo);
 			}
 			
@@ -129,9 +129,9 @@ public class OrdersServiceImpl implements OrdersService {
 		if(CommonMethod.isEqualValues(orderStat, OrderStat.COMPLETEPAYMENT)){
 			oVo = ordersDao.selectByPrdOpNo(orderNo);
 			
-			for(int i=0, size = oVo.size(); i < size; i++){//재고수량 - 상품수량 업데이트 수행
-				int updateAmount = oVo.get(i).getProductAmount()-oVo.get(i).getBuyAmount();
-				stat += productOptionDao.udtPrdAmount(new ProductOptionVo(oVo.get(i).getProductOptionNo(),updateAmount));
+			for(int num=0, size = oVo.size(); num < size; num++){//재고수량 - 상품수량 업데이트 수행
+				int updateAmount = oVo.get(num).getProductAmount()-oVo.get(num).getBuyAmount();
+				stat += productOptionDao.udtPrdAmount(new ProductOptionVo(oVo.get(num).getProductOptionNo(),updateAmount));
 			}
 			
 			if(CommonMethod.isSuccessManyCUD(stat, oVo.size())){

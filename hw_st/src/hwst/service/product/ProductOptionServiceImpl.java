@@ -34,8 +34,8 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	public List<ProductOptionVo> selectProductOptionByPoNo(List<Integer> productOptionNo,List<Integer> buyAmount)throws Exception{
 		List<ProductOptionVo> list = productOptionDao.selectPOByPoNo(productOptionNo);
 		
-		for(int i = 0; i<list.size(); i++){
-			list.get(i).setBuyAmount(buyAmount.get(i));
+		for(int num = 0; num<list.size(); num++){
+			list.get(num).setBuyAmount(buyAmount.get(num));
 		}
 		return list;
 	}
@@ -87,27 +87,27 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		List<Integer> productAmount, List<Integer> optionStat, int userNo)throws Exception{
 		int stat = 0;
 
-		for(int i=0; i<productNo.size(); i++){
-			stat += productOptionDao.insertPrdOption(new ProductOptionVo(productNo.get(i), productOptionName.get(i), optionProcedure.get(i), addPrice.get(i),productAmount.get(i),optionStat.get(i),userNo));
+		for(int num=0; num<productNo.size(); num++){
+			stat += productOptionDao.insertPrdOption(new ProductOptionVo(productNo.get(num), productOptionName.get(num), optionProcedure.get(num), addPrice.get(num),productAmount.get(num),optionStat.get(num),userNo));
 		}
 		
 		return CommonMethod.isEqualValues(stat, productNo.size());
 	}
 	
 	//상품추가 시 상품옵션 추가하는 로직
-		@Override
-		public boolean insertPrdOptionB(int productNo, List<String> productOptionName,
-			List<Integer> optionProcedure, List<Integer> addPrice,
-			List<Integer> productAmount, List<Integer> optionStat,
-			int userNo)throws Exception{
-			int stat = 0;
-			
-			for(int i=0; i<productOptionName.size(); i++){
-				stat += productOptionDao.insertPrdOption(new ProductOptionVo(productNo, productOptionName.get(i), optionProcedure.get(i), addPrice.get(i),productAmount.get(i),optionStat.get(i),userNo));
-			}
-			
-			return CommonMethod.isEqualValues(stat, productOptionName.size());
+	@Override
+	public boolean insertPrdOptionB(int productNo, List<String> productOptionName,
+		List<Integer> optionProcedure, List<Integer> addPrice,
+		List<Integer> productAmount, List<Integer> optionStat,
+		int userNo)throws Exception{
+		int stat = 0;
+		
+		for(int num=0; num<productOptionName.size(); num++){
+			stat += productOptionDao.insertPrdOption(new ProductOptionVo(productNo, productOptionName.get(num), optionProcedure.get(num), addPrice.get(num),productAmount.get(num),optionStat.get(num),userNo));
 		}
+		
+		return CommonMethod.isEqualValues(stat, productOptionName.size());
+	}
 	
 	//해당상품옵션 삭제
 	@Override
