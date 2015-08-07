@@ -30,6 +30,8 @@ public class UsersServiceFactory {
 	//로그인 회원별 분기
 	public   UserInfoService getUserInfo(UsersVo uVo)throws Exception{
 		UserInfoService buyerInfoService = new BuyerInfoService();
+		UserInfoService sellerInfoService = new SellerInfoService();
+		
 		switch (uVo.getUserSection()){
 			case BUYER: //구매자 로그인
 				return buyerInfoService;

@@ -1,5 +1,7 @@
 package hwst.controller.orders;
 
+import hwst.domain.orders.OrdersEnum.DeliveryStat;
+import hwst.domain.orders.OrdersEnum.OrderStat;
 import hwst.domain.orders.OrdersVo;
 import hwst.domain.users.UsersEnum.UserSection;
 import hwst.domain.users.UsersVo;
@@ -32,18 +34,10 @@ public class OrdersController {
 			@RequestParam("productOptionNo") List<Integer> productOptionNo, 
 			@RequestParam("buyAmount") List<Integer> buyAmount,
 			@RequestParam("totalPrice") List<Integer> totalPrice,
-			@RequestParam("deletedCart") List<Integer> deletedCart,
-			@RequestParam("receiverName") String receiverName, 
-			@RequestParam("phone") String phone, 
-			@RequestParam("postCode") String postCode, 
-			@RequestParam("address") String address, 
-			@RequestParam("checkout_Info") int checkoutInfo,
-			@RequestParam("userNo") int userNo,
-			@RequestParam("grade") int grade,
-			@RequestParam("message") String message,
-			@RequestParam("allTotalPrice") String allTotalPrice,
-			@RequestParam("discountPrice") String discountPrice,
-			@RequestParam("discountedTotalPrice") String discountedTotalPrice){
+			@RequestParam(value="deletedCart", required=false) List<Integer> deletedCart,
+			String receiverName, String phone, String postCode, String address, 
+			 int userNo,	int grade, String message,	String allTotalPrice,
+			String discountPrice, String discountedTotalPrice, int checkoutInfo){
 		
 		
 		boolean stat = false;
@@ -100,7 +94,7 @@ public class OrdersController {
 	
 	//해당 OrderNo의 주문상태를 변경
 	@RequestMapping(value="updateOrderStat.do", method = RequestMethod.POST)
-    public ModelAndView updateOrderStat(int orderNo, int orderStat, HttpSession session, HttpServletRequest request){
+    public ModelAndView updateOrderStat(int orderNo, OrderStat orderStat, HttpSession session, HttpServletRequest request){
 		boolean stat=false;
 		ModelAndView mv = new ModelAndView();
 		
@@ -121,7 +115,7 @@ public class OrdersController {
 	
 	//해당 OrderNo의 주문상태를 변경
 	@RequestMapping(value="udtDeliveryStat.do", method = RequestMethod.POST)
-    public ModelAndView udtDeliveryStat(int orderNo, int productOptionNo, int deliveryStat, HttpSession session, HttpServletRequest request){
+    public ModelAndView udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat, HttpSession session, HttpServletRequest request){
 		boolean stat=false;
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("common/404");

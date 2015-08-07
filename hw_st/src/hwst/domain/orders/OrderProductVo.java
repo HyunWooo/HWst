@@ -1,5 +1,7 @@
 package hwst.domain.orders;
 
+import hwst.domain.orders.OrdersEnum.DeliveryStat;
+
 import java.util.Date;
 
 public class OrderProductVo extends OrdersVo{
@@ -8,14 +10,14 @@ public class OrderProductVo extends OrdersVo{
 	private int buyAmount;
 	private int totalPrice;
 	private int productStat;
-	private int deliveryStat;
+	private DeliveryStat deliveryStat;
 	private Date deliveryDate;
 	private Date recentUpdateTime;
 	private int recentUpdateUserNo;
 	
 	public OrderProductVo(){}
 	
-	public OrderProductVo(int orderNo, int productOptionNo, int deliveryStat){
+	public OrderProductVo(int orderNo, int productOptionNo, DeliveryStat deliveryStat){
 		this.orderNo = orderNo;
 		this.productOptionNo = productOptionNo;
 		this.deliveryStat = deliveryStat;
@@ -30,7 +32,7 @@ public class OrderProductVo extends OrdersVo{
 	}
 
 	public OrderProductVo(int orderNo, int productOptionNo, int buyAmount,
-			int totalPrice, int productStat, int deliveryStat,
+			int totalPrice, int productStat, DeliveryStat deliveryStat,
 			Date deliveryDate, Date recentUpdateTime, int recentUpdateUserNo) {
 		super();
 		this.orderNo = orderNo;
@@ -84,11 +86,13 @@ public class OrderProductVo extends OrdersVo{
 		this.productStat = productStat;
 	}
 
-	public int getDeliveryStat() {
+	
+
+	public DeliveryStat getDeliveryStat() {
 		return deliveryStat;
 	}
 
-	public void setDeliveryStat(int deliveryStat) {
+	public void setDeliveryStat(DeliveryStat deliveryStat) {
 		this.deliveryStat = deliveryStat;
 	}
 

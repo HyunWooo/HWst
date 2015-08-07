@@ -98,8 +98,7 @@ public class CartController {
 	@RequestMapping(value="insertCart.do", method = RequestMethod.POST)
 	public ModelAndView insertCart(HttpSession session, HttpServletRequest request,
 		@RequestParam("productOptionNo") List<Integer> productOptionNo, 
-	    @RequestParam("userNo") int userNo, 
-	    @RequestParam("buyAmount")List<Integer> buyAmount){
+	    @RequestParam("buyAmount")List<Integer> buyAmount,  int userNo){
 		boolean stat = false;
 		
 		try {
@@ -116,7 +115,7 @@ public class CartController {
 	}
 	
 	//장바구니 삭제
-	@RequestMapping(value="deleteCart.do", method = RequestMethod.GET)
+	@RequestMapping(value="deleteCart.do", method = RequestMethod.POST)
 	public ModelAndView deleteCart(int cartNo, HttpSession session, HttpServletRequest request){
 		logger.info("안녕하세요! cartNo "+ cartNo + "입니다.");
 		boolean stat = false;

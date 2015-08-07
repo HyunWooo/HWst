@@ -8,15 +8,18 @@
 <%request.setCharacterEncoding("UTF-8");%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 	<c:if test="${sessionScope.insertCartStat eq true}">
 		<script>
-			<%session.removeAttribute("insertCartStat");%>
 			if (confirm("장바구니가 추가되었습니다. \n장바구니 목록을 확인하시겠습니까?") == true){    //확인
 				location.href = "allCartView.do";
 			}
+			<%session.removeAttribute("insertCartStat");%>
+			window.location.reload();
 		</script>
 	</c:if>
+	
+<html>
+	
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

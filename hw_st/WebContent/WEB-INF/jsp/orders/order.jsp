@@ -23,7 +23,6 @@ function doOrder(frm){
 		alert("은행을 선택해주세요");
 		return false;
 	}
-	
 	if($(':radio[name="deliver_info"]:checked').val()=="directInput"){
 		if(!document.directInput.receiverName.value){
 			alert("수령인을 입력하세요");
@@ -150,7 +149,7 @@ function doOrder(frm){
 	$("input[name=checkout_Info]").each(function() {	
 		var i = document.createElement("input");
 		i.setAttribute("type", "hidden");
-		i.setAttribute("name", "checkout_Info");
+		i.setAttribute("name", "checkoutInfo");
 		i.setAttribute("value",  $(this).val());
 		fm.appendChild(i);
 	});

@@ -1,5 +1,8 @@
 package hwst.domain.orders;
 
+import hwst.domain.orders.OrdersEnum.DeliveryStat;
+import hwst.domain.orders.OrdersEnum.OrderStat;
+
 import java.util.Date;
 
 public class OrdersVo {
@@ -12,7 +15,7 @@ public class OrdersVo {
 	private String address;
 	private String message;
 	private int grade;
-	private int orderStat;	
+	private OrderStat orderStat;	
 	private String allTotalPrice;
 	private String discountPrice;
 	private String discountedTotalPrice;
@@ -27,7 +30,7 @@ public class OrdersVo {
 	private int categoryNo;
 	private int orderNoCount;
 	private int productStat;
-	private int deliveryStat;
+	private DeliveryStat deliveryStat;
 	private int productAmount;
 	private String userName;
 	private String id;
@@ -35,7 +38,7 @@ public class OrdersVo {
 	
 	public OrdersVo(){}
 	
-	public OrdersVo(int orderNo, int orderStat){
+	public OrdersVo(int orderNo, OrderStat orderStat){
 		this.orderNo = orderNo;
 		this.orderStat = orderStat;
 	}
@@ -55,12 +58,12 @@ public class OrdersVo {
 	
 	public OrdersVo(int orderNo, int userNo, Date orderTime,
 			String receiverName, String phone, String postCode, String address,
-			String message, int grade, int orderStat, String allTotalPrice,
+			String message, int grade, OrderStat orderStat, String allTotalPrice,
 			String discountPrice, String discountedTotalPrice,
 			Date recentUpdateTime, int recentUpdateUserNo, int productOptionNo,
 			String productOptionName, int productNo, String name,
 			int buyAmount, int totalPrice, int categoryNo, int orderNoCount,
-			int productStat, int deliveryStat, int productAmount,
+			int productStat, DeliveryStat deliveryStat, int productAmount,
 			String userName, String id, int quantityCheck) {
 		super();
 		this.orderNo = orderNo;
@@ -166,11 +169,11 @@ public class OrdersVo {
 		this.grade = grade;
 	}
 
-	public int getOrderStat() {
+	public OrderStat getOrderStat() {
 		return orderStat;
 	}
 
-	public void setOrderStat(int orderStat) {
+	public void setOrderStat(OrderStat orderStat) {
 		this.orderStat = orderStat;
 	}
 
@@ -291,11 +294,11 @@ public class OrdersVo {
 		this.productStat = productStat;
 	}
 
-	public int getDeliveryStat() {
+	public DeliveryStat getDeliveryStat() {
 		return deliveryStat;
 	}
 
-	public void setDeliveryStat(int deliveryStat) {
+	public void setDeliveryStat(DeliveryStat deliveryStat) {
 		this.deliveryStat = deliveryStat;
 	}
 	

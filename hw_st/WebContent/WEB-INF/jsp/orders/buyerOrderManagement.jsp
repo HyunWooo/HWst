@@ -50,7 +50,7 @@ function mySubmit(frm,index,countNo){
 			var i = document.createElement("input");
 			i.setAttribute("type", "hidden");
 			i.setAttribute("name", "orderStat");
-			i.setAttribute("value",  2);
+			i.setAttribute("value",  "COMPLETEPAYMENT");
 			fm.appendChild(i);
 			
 			fm.submit();
@@ -105,7 +105,7 @@ function mySubmit(frm,index,countNo){
 		var i = document.createElement("input");
 		i.setAttribute("type", "hidden");
 		i.setAttribute("name", "deliveryStat");
-		i.setAttribute("value", 3);
+		i.setAttribute("value", "DELIVERYALLCOMPLETE");
 		fm.appendChild(i);
 		
 		fm.submit();
@@ -263,17 +263,17 @@ function mySubmit(frm,index,countNo){
 								<td class="cart_stat">
 									<input type="hidden" id="${status.count}" name="orderNo" value="${orderList.orderNo}">
 									<input type="hidden" id="${status.count}" name="productOptionNo" value="${orderList.productOptionNo}">
-									<c:if test="${orderList.orderStat > 2}">
+									<c:if test="${orderList.orderStat ne 'DEPOSITWATING' and orderList.orderStat ne 'DELETEDORDER'  and orderList.orderStat ne 'COMPLETEPAYMENT'}">
 										<c:choose>
-											<c:when test="${orderList.deliveryStat eq 1}">
+											<c:when test="${orderList.deliveryStat eq 'DISPATCHREADY'}">
 												&nbsp;&nbsp;&nbsp;발송준비중
 											</c:when>
-											<c:when test="${orderList.deliveryStat eq 2}">
+											<c:when test="${orderList.deliveryStat eq 'DELIVERING'}">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송중
 												<br>
 												<button type="button" class="btn btn-fefault cart" id="${status.count}" name="delivery" value="${status.count}"onclick="mySubmit(this.form,3,this.value);">상품수령확인</button>
 											</c:when>
-											<c:when test="${orderList.deliveryStat eq 3}">
+											<c:when test="${orderList.deliveryStat eq 'DELIVERYALLCOMPLETE'}">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송완료
 											</c:when>
 										</c:choose>
@@ -282,23 +282,23 @@ function mySubmit(frm,index,countNo){
 								<c:if test="${orderList.orderNoCount ne 0}">
 									<td class="cart_stat" rowspan="${orderList.orderNoCount}">
 										<c:choose>
-											<c:when test="${orderList.orderStat eq 1 and orderList.quantityCheck eq 1}">
+											<c:when test="${orderList.orderStat eq 'DEPOSITWATING' and orderList.quantityCheck eq 1}">
 													&nbsp;&nbsp;&nbsp;재고 부족<br>
 											</c:when>
-											<c:when test="${orderList.orderStat eq 1 and orderList.quantityCheck ne 1}">
+											<c:when test="${orderList.orderStat eq 'DEPOSITWATING' and orderList.quantityCheck ne 1}">
 													&nbsp;&nbsp;&nbsp;${orderList.discountedTotalPrice}<br>입금대기중<br>
 													<button type="button" class="btn btn-fefault cart" id="${status.count}" name="deposit"value="${orderList.orderNo}"onclick="mySubmit(this.form,1,this.value);">입금하기</button>
 											</c:when>
-											<c:when test="${orderList.orderStat eq 2}">
+											<c:when test="${orderList.orderStat eq 'COMPLETEPAYMENT'}">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결제완료<br>
 											</c:when>
-											<c:when test="${orderList.orderStat eq 3}">
+											<c:when test="${orderList.orderStat eq 'DELIVERYREADY'}">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송준비중<br>
 											</c:when>
-											<c:when test="${orderList.orderStat eq 4}">
+											<c:when test="${orderList.orderStat eq 'DELIVERING'}">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송중<br>
 											</c:when>
-											<c:when test="${orderList.orderStat >= 5}">
+											<c:when test="${orderList.orderStat eq 'DELIVERYALLCOMPLETE' or orderList.orderStat eq 'SELLINGPRICEREFUND'}">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전체배송완료<br>
 											</c:when>
 										</c:choose>
@@ -306,7 +306,7 @@ function mySubmit(frm,index,countNo){
 								</c:if>
 								<c:if test="${orderList.orderNoCount ne 0}">
 									<td class="cart_delete" rowspan="${orderList.orderNoCount}">
-										<c:if test="${orderList.orderStat eq 1}">
+										<c:if test="${orderList.orderStat eq 'DEPOSITWATING'}">
 											<button class="cart_delete_button" type='button' id="${orderList.orderNo}" name='delOrder' value='${orderList.orderNo}' onClick='mySubmit(this.form,2,this.value)'>주문취소</button>
 										</c:if>
 									</td>

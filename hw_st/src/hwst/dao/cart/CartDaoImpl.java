@@ -86,7 +86,7 @@ public class CartDaoImpl implements CartDao {
 		return stat;
 	}
 	
-	
+	//장바구니에서 주문된 장바구니항목 삭제
 	@Override
 	public int deleteCartOrder(List<Integer> deletedCart)throws Exception{
 		SqlSession session = null;

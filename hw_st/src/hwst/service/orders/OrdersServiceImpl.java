@@ -7,6 +7,9 @@ import hwst.dao.orders.OrdersDao;
 import hwst.dao.orders.PaymentDao;
 import hwst.dao.product.ProductOptionDao;
 import hwst.domain.orders.OrderProductVo;
+import hwst.domain.orders.OrdersEnum;
+import hwst.domain.orders.OrdersEnum.DeliveryStat;
+import hwst.domain.orders.OrdersEnum.OrderStat;
 import hwst.domain.orders.OrdersVo;
 import hwst.domain.orders.PaymentVo;
 import hwst.domain.product.ProductOptionVo;
@@ -41,8 +44,7 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public boolean insertOrders(OrdersVo ordersVo, List<Integer> productOptionNo, List<Integer> buyAmount,
 			List<Integer> totalPrice, List<Integer> deletedCart, int checkoutInfo,String fromCart) throws Exception{
-		int stat2 = 0;
-		int stat3 = 0;
+		int successCount = 0;
 		
 		int stat = ordersDao.insertOrders(ordersVo);
 		if(CommonMethod.isSuccessOneCUD(stat)){
@@ -50,15 +52,15 @@ public class OrdersServiceImpl implements OrdersService {
 			
 			for(int i=0; i<productOptionNo.size(); i++){
 				OrderProductVo opVo = new OrderProductVo(orderNo, productOptionNo.get(i), buyAmount.get(i), totalPrice.get(i), ordersVo.getUserNo());
-				stat2 += orderProductDao.insertOrderProduct(opVo);
+				successCount += orderProductDao.insertOrderProduct(opVo);
 			}
 			
-			if(stat2==productOptionNo.size()){
-				stat3 = paymentDao.insertPayment(new PaymentVo(orderNo, checkoutInfo));
+			if(successCount == productOptionNo.size()){
+				successCount = paymentDao.insertPayment(new PaymentVo(orderNo, checkoutInfo));
 			}
 			
 			//장바구니에서 주문한 거라면 해당장바구니항목 삭제
-			if(CommonMethod.isSuccessOneCUD(stat3) && fromCart=="yes"){
+			if(CommonMethod.isSuccessOneCUD(successCount) && fromCart=="yes"){
 				return CommonMethod.isSuccessOneCUD(cartDao.deleteCartOrder(deletedCart));
 			}
 			
@@ -120,11 +122,11 @@ public class OrdersServiceImpl implements OrdersService {
 
 	//해당주문의 orderStat 변경
 	@Override
-	public boolean updateOrderStat(int orderNo, int orderStat)throws Exception{
+	public boolean updateOrderStat(int orderNo, OrderStat orderStat)throws Exception{
 		int stat = 0;
 		List<OrdersVo> oVo = null;
 		
-		if(orderStat==2){
+		if(orderStat==OrderStat.COMPLETEPAYMENT){
 			oVo = ordersDao.selectByPrdOpNo(orderNo);
 			
 			for(int i=0, size = oVo.size(); i < size; i++){//재고수량 - 상품수량 업데이트 수행
@@ -145,7 +147,7 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	//해당주문의 각 상품의 deliveryStat 변경
 	@Override
-	public boolean udtDeliveryStat(int orderNo, int productOptionNo, int deliveryStat)throws Exception{
+	public boolean udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat)throws Exception{
 		int stat = 0;
 		boolean result = false;
 		
@@ -155,10 +157,12 @@ public class OrdersServiceImpl implements OrdersService {
 			result = checkUpDeliveryStat(orderNo,deliveryStat);
 		
 			switch(deliveryStat){
-				case 2:
+				case DELIVERING:
 					return result;
-				case 3:
+				case DELIVERYALLCOMPLETE:
 					return true;
+				default:
+					break;
 			}
 		}
 		return false;
@@ -166,29 +170,32 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	//deliveryStat이 변경 될 시점에 각 deliveryStat을 체크하여 조건을 충족하면 orderStat을 변경하는 메소드
 	@Override
-	public boolean checkUpDeliveryStat(int orderNo, int deliveryStat)throws Exception{
+	public boolean checkUpDeliveryStat(int orderNo, DeliveryStat deliveryStat)throws Exception{
 		List<OrderProductVo> productList = null;
 		int CompleteDelivery = 0;
 		int stat = 0;
 		
 		switch(deliveryStat){
-			case 2: //deliveryStat이 배송중 상태일 경우 orderStat을 배송중으로 변경하는 로직
-				stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, 4));
+			case DELIVERING: //deliveryStat이 배송중 상태일 경우 orderStat을 배송중으로 변경하는 로직
+				stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, OrdersEnum.OrderStat.DELIVERING));
 				return CommonMethod.isSuccessOneCUD(stat);
 				
-			case 3: //deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
+			case DELIVERYALLCOMPLETE: //deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
 				productList = orderProductDao.selectDeliveryStat(orderNo);
 
 				for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
-					if(eachProduct.getDeliveryStat() == 3){
+					if(eachProduct.getDeliveryStat() == DeliveryStat.DELIVERYALLCOMPLETE){
 						CompleteDelivery += 1;
 					}
 				}
 				
 				if(CompleteDelivery==productList.size()){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
-					stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, 5));
+					stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE));
 					return CommonMethod.isSuccessOneCUD(stat);
 				}
+				break;
+				
+			default:
 				break;
 		}
 		

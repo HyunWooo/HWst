@@ -164,6 +164,23 @@ function mySubmit(frm,index,countNo){
 		fm.appendChild(i);
 		fm.submit();
 	}
+	
+	
+	//해당장바구니 삭제
+	if(index==5){
+		var fm = document.createElement("form");
+		
+		fm.setAttribute("method", "post");
+		fm.setAttribute("action", "deleteCart.do");
+		document.body.appendChild(fm);
+		
+		var i = document.createElement("input");
+		i.setAttribute("type", "hidden");
+		i.setAttribute("name", "cartNo");
+		i.setAttribute("value", countNo);
+		fm.appendChild(i);
+		fm.submit();
+	}
 }
 
 </script>
@@ -423,7 +440,7 @@ function mySubmit(frm,index,countNo){
 									<input type="hidden" name="totalPrice" value="${cartList.eachPrice * cartList.buyAmount}">
 									<input type="hidden" name="discountPercent" value="${sessionScope.userLoginInfo.discountPercent}"/>
 									<input type="hidden" name="productAmount" value="${cartList.productAmount}"/>
-									<button class="cart_delete_button" type='button' name='delButton' value='i' onClick='location.href="deleteCart.do?cartNo=${cartList.cartNo}"'>삭제</button>
+									<button class="cart_delete_button" type='button' name='delButton' value='${cartList.cartNo}' onClick='mySubmit(this.form,5,this.value);'>삭제</button>
 								</td>
 							</tr>
 						</c:forEach>

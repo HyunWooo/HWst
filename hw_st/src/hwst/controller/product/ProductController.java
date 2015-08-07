@@ -133,11 +133,6 @@ public class ProductController {
 		
 		try {
 			productNo = productService.insertPrd(prdVo);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
 			stat = productOptionService.insertPrdOptionB(productNo,plusPOName,plusOP,plusAddPrice,plusProductAmount,optionValue, userNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -50,13 +50,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 주문정보 insert 쿼리 -->
 	<insert id="insertOrders" parameterType="ordersVo">
 		insert into orders
-		values(null, #{userNo}, now(), #{receiverName}, #{phone}, #{postCode}, #{address},#{message},#{grade},1,#{allTotalPrice},#{discountPrice},#{discountedTotalPrice},now(), #{userNo})
+		values(null, #{userNo}, now(), #{receiverName}, #{phone}, #{postCode}, #{address},#{message},#{grade},'DEPOSITWATING',#{allTotalPrice},#{discountPrice},#{discountedTotalPrice},now(), #{userNo})
 	</insert>
 	
 	<!-- 주문의 각 상품정보 insert쿼리 -->
 	<insert id="insertOrderProduct" parameterType="orderProductVo">
 		insert into orderProduct
-		values(#{orderNo}, #{productOptionNo},#{buyAmount},#{totalPrice},1,1,null,now(),#{recentUpdateUserNo})
+		values(#{orderNo}, #{productOptionNo},#{buyAmount},#{totalPrice},1,'DISPATCHREADY',null,now(),#{recentUpdateUserNo})
 	</insert>
 	
 		<!-- 주문의 각 상품정보 insert쿼리 -->
@@ -140,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="deleteOrder" parameterType="int">
 	update orders
-	set userNo = 0, receiverName="삭제", phone="삭제", postCode="삭제",address="삭제", message = "", grade=0 ,orderStat=0 , allTotalPrice="0" , discountPrice="0" , discountedTotalPrice="0" , recentUpdateTime=now()
+	set userNo = 0, receiverName="삭제", phone="삭제", postCode="삭제",address="삭제", message = "", grade=0 ,orderStat="DELETEDORDER" , allTotalPrice="0" , discountPrice="0" , discountedTotalPrice="0" , recentUpdateTime=now()
 	where orderNo = #{orderNo}
 	</update>
 	
