@@ -66,7 +66,6 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	@Override
 	public boolean udtPrdQuantity(ProductOptionVo prdOption)throws Exception{
 		int stat = 0;
-		
 		stat = productOptionDao.udtPrdAmount(prdOption);
 		
 		return CommonMethod.isSuccessOneCUD(stat);
@@ -76,7 +75,6 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	@Override
 	public boolean udtPrdOpAll(ProductOptionVo prdOption)throws Exception{
 		int stat = 0;
-		
 		stat = productOptionDao.udtPrdOpAll(prdOption);
 		
 		return CommonMethod.isSuccessOneCUD(stat);
@@ -87,15 +85,13 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	public boolean insertPrdOption(List<Integer> productNo, List<String> productOptionName,
 		List<Integer> optionProcedure, List<Integer> addPrice,
 		List<Integer> productAmount, List<Integer> optionStat, int userNo)throws Exception{
-		
 		int stat = 0;
+
 		for(int i=0; i<productNo.size(); i++){
 			stat += productOptionDao.insertPrdOption(new ProductOptionVo(productNo.get(i), productOptionName.get(i), optionProcedure.get(i), addPrice.get(i),productAmount.get(i),optionStat.get(i),userNo));
 		}
-		if(stat==productNo.size()){
-			return true;
-		}
-		return false;
+		
+		return CommonMethod.isEqualValues(stat, productNo.size());
 	}
 	
 	//상품추가 시 상품옵션 추가하는 로직
@@ -104,37 +100,26 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 			List<Integer> optionProcedure, List<Integer> addPrice,
 			List<Integer> productAmount, List<Integer> optionStat,
 			int userNo)throws Exception{
-			
 			int stat = 0;
+			
 			for(int i=0; i<productOptionName.size(); i++){
 				stat += productOptionDao.insertPrdOption(new ProductOptionVo(productNo, productOptionName.get(i), optionProcedure.get(i), addPrice.get(i),productAmount.get(i),optionStat.get(i),userNo));
 			}
-			if(stat==productOptionName.size()){
-				return true;
-			}
-			return false;
+			
+			return CommonMethod.isEqualValues(stat, productOptionName.size());
 		}
 	
 	//해당상품옵션 삭제
 	@Override
 	public boolean delPrdOption(int productOptionNo)throws Exception{
-		int stat = 0;
-		
-		stat =productOptionDao.delPrdOption(productOptionNo);
-		
-		if(CommonMethod.isSuccessOneCUD(stat)){
-			return true;
-		}
-		return false;
+		return CommonMethod.isSuccessOneCUD(productOptionDao.delPrdOption(productOptionNo));
 	}
+	
 	
 	
 	//두 OrdersVo객체의 주문번호가 같은지 체크하는 메소드
 	public boolean isEqualsPrdNo(ProductOptionVo productOptionVo,ProductOptionVo productNoCount){
-		if(productOptionVo.getProductNo() == productNoCount.getProductNo()){
-			return true;
-		}
-		return false;
+		return CommonMethod.isEqualValues(productOptionVo.getProductNo(), productNoCount.getProductNo());
 	}
 	
 }

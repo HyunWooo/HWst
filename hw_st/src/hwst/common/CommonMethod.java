@@ -18,5 +18,7 @@ public class CommonMethod {
 		return false;
 	}
 	
-	
+	public static boolean isEqualValues(Object one, Object two){
+		return (one==two);
+	}
 }

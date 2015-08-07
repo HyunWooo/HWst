@@ -55,7 +55,7 @@ public class OrdersServiceImpl implements OrdersService {
 				successCount += orderProductDao.insertOrderProduct(opVo);
 			}
 			
-			if(successCount == productOptionNo.size()){
+			if(CommonMethod.isEqualValues(successCount, productOptionNo.size())){
 				successCount = paymentDao.insertPayment(new PaymentVo(orderNo, checkoutInfo));
 			}
 			
@@ -126,7 +126,7 @@ public class OrdersServiceImpl implements OrdersService {
 		int stat = 0;
 		List<OrdersVo> oVo = null;
 		
-		if(orderStat==OrderStat.COMPLETEPAYMENT){
+		if(CommonMethod.isEqualValues(orderStat, OrderStat.COMPLETEPAYMENT)){
 			oVo = ordersDao.selectByPrdOpNo(orderNo);
 			
 			for(int i=0, size = oVo.size(); i < size; i++){//재고수량 - 상품수량 업데이트 수행
@@ -184,12 +184,12 @@ public class OrdersServiceImpl implements OrdersService {
 				productList = orderProductDao.selectDeliveryStat(orderNo);
 
 				for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
-					if(eachProduct.getDeliveryStat() == DeliveryStat.DELIVERYALLCOMPLETE){
+					if(CommonMethod.isEqualValues(eachProduct.getDeliveryStat(),DeliveryStat.DELIVERYALLCOMPLETE)){
 						CompleteDelivery += 1;
 					}
 				}
 				
-				if(CompleteDelivery==productList.size()){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
+				if(CommonMethod.isEqualValues(CompleteDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
 					stat = ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE));
 					return CommonMethod.isSuccessOneCUD(stat);
 				}
@@ -219,30 +219,29 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	//두 OrdersVo객체의 주문번호가 같은지 체크하는 메소드
 	public boolean isEqualsOrderNo(OrdersVo orderVo,OrdersVo orderNoCount){
-		if(orderVo.getOrderNo() == orderNoCount.getOrderNo()){
+		if(CommonMethod.isEqualValues(orderVo.getOrderNo(), orderNoCount.getOrderNo())){
 			return true;
 		}
 		return false;
 	}
 	
+	
 	//해당 상품옵션의 수량부족 체크
-	public boolean checkLackOfAmount(OrdersVo groupOrder){
-		if(groupOrder.getBuyAmount() <= groupOrder.getProductAmount()){
-			return false;
+	private void checkQuantity(List<OrdersVo> ordersVoList) {
+		for(int num = 0; num<ordersVoList.size(); num++){
+			checkLackOfAmount(ordersVoList, num);
 		}
-		return true;
 	}
 	
 	//수량부족한 해당 주문번호의 QuantityCheck값을 1로 설정하기
-	private void checkQuantity(List<OrdersVo> ordersVoList) {
-		for(int num = 0; num<ordersVoList.size(); num++){
-			if(checkLackOfAmount(ordersVoList.get(num))){
-				for(int inNum=0; inNum<ordersVoList.size(); inNum++){
-					if(ordersVoList.get(inNum).getOrderNo()==ordersVoList.get(num).getOrderNo()){
-						ordersVoList.get(inNum).setQuantityCheck(1);  //주문수량이 재고수량보다 클 경우 QuantityCheck에 값'1'을 set한다. 후에 값'1'이 존재할 경우 '재고부족'으로 화면에 표시된다.
-					}
+	public void checkLackOfAmount(List<OrdersVo> ordersVoList, int num){
+		if(ordersVoList.get(num).getBuyAmount() > ordersVoList.get(num).getProductAmount()){
+			for(int inNum=0; inNum<ordersVoList.size(); inNum++){
+				if(CommonMethod.isEqualValues(ordersVoList.get(inNum).getOrderNo(), ordersVoList.get(num).getOrderNo())){
+					ordersVoList.get(inNum).setQuantityCheck(1);  //주문수량이 재고수량보다 클 경우 QuantityCheck에 값'1'을 set한다. 후에 값'1'이 존재할 경우 '재고부족'으로 화면에 표시된다.
 				}
 			}
 		}
 	}
+		
 }

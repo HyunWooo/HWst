@@ -56,10 +56,7 @@ public class CartServiceImpl implements CartService {
 			stat += cartDao.insertCart(new CartVo(productOptionNo.get(i), userNo, buyAmount.get(i)));
 		}
 		
-		if(stat==productOptionNo.size()){
-			return true;
-		}
-		return false;
+		return CommonMethod.isEqualValues(stat, productOptionNo.size());
 	}
 
 	
@@ -79,10 +76,7 @@ public class CartServiceImpl implements CartService {
 	
 	//상품옵션번호가 같은지 체크
 	public boolean isEqPrdOpNo(CartVo cart1, CartVo cart2){
-		if(cart1.getProductOptionNo()==cart2.getProductOptionNo()){
-			return true;
-		}
-		return false;
+		return CommonMethod.isEqualValues(cart1.getProductOptionNo(), cart2.getProductOptionNo());
 	}
 	
 	
