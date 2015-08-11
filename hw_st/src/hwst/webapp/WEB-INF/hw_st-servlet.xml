@@ -13,9 +13,9 @@
 	<context:component-scan base-package="hwst.controller"/>
 	<context:component-scan base-package="hwst.dao" />
 	<context:component-scan base-package="hwst.service" />
-	<context:component-scan base-package="com.spring" use-default-filters="false">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	</context:component-scan>
+<!-- 	<context:component-scan base-package="com.spring" use-default-filters="false"> -->
+<!-- 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
+<!-- 	</context:component-scan> -->
 	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/> -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/"/>
@@ -83,7 +83,7 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-	<bean id="users" class="hwst.dao.users.UsersDaoImpl" />
+<!-- 	<bean id="users" class="hwst.dao.users.UsersDaoImpl" /> -->
 
 	<aop:config proxy-target-class="true">
 		<aop:pointcut expression="execution(public * com.spring..service.*Service.*(..))" id="serviceOperation"/>

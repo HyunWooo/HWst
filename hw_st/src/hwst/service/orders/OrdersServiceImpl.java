@@ -148,12 +148,12 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public boolean udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat)throws Exception{
 		if(CommonMethod.isSuccessOneCUD(orderProductDao.udtDeliveryStat(new OrderProductVo(orderNo, productOptionNo, deliveryStat)))){
-		
+		   System.out.println(deliveryStat);
 			switch(deliveryStat){
 				case DELIVERING:
 					return checkUpDeliveryStat(orderNo,deliveryStat);
 				case DELIVERYALLCOMPLETE:
-					return true;
+					return checkUpDeliveryStat(orderNo,deliveryStat);
 				default:
 					break;
 			}
@@ -165,13 +165,14 @@ public class OrdersServiceImpl implements OrdersService {
 	//deliveryStat이 변경 될 시점에 각 deliveryStat을 체크하여 조건을 충족하면 orderStat을 변경하는 메소드
 	@Override
 	public boolean checkUpDeliveryStat(int orderNo, DeliveryStat deliveryStat)throws Exception{
-		
+		System.out.println("여기야여기  "+ deliveryStat);
 		switch(deliveryStat){
 			case DELIVERING: //deliveryStat이 배송중 상태일 경우 orderStat을 배송중으로 변경하는 로직
 				return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrdersEnum.OrderStat.DELIVERING)));
 				
 			case DELIVERYALLCOMPLETE: //deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
-				return checkDeliveryComplete(orderNo, orderProductDao.selectDeliveryStat(orderNo));			
+				checkDeliveryComplete(orderNo, orderProductDao.selectDeliveryStat(orderNo));
+				return true;			
 						
 			default:
 				return false;
@@ -223,15 +224,16 @@ public class OrdersServiceImpl implements OrdersService {
 		
 	//deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
 		private boolean checkDeliveryComplete(int orderNo, List<OrderProductVo> productList) throws Exception{
-			int CompleteDelivery = 0;
-			
+			int completeDelivery = 0;
 			for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
 				if(CommonMethod.isEqualValues(eachProduct.getDeliveryStat(),DeliveryStat.DELIVERYALLCOMPLETE)){
-					CompleteDelivery += 1;
+					completeDelivery += 1;
 				}
 			}
-			
-			if(CommonMethod.isEqualValues(CompleteDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
+			System.out.println(completeDelivery);
+			System.out.println(productList.size());
+			if(CommonMethod.isEqualValues(completeDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
+				System.out.println("안들어오지?");
 				return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE)));
 			}
 			

@@ -24,6 +24,7 @@ public class CommonAop {
 	@Resource(name="productService")
 	private ProductService productService;
 	
+	//안쓰는데도 모두 불러오는 맹점이 존재........수정해야한다.
 	
 	//show*로 시작하는 메소드가 실행되기 전에 이 메소드가 실행되어 카테고리와 상품리스트 세션구성
 	@Before("execution(public * show*(..))")

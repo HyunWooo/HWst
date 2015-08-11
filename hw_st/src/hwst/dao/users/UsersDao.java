@@ -5,23 +5,22 @@ import hwst.domain.users.BuyerVo;
 import hwst.domain.users.SellerVo;
 import hwst.domain.users.UsersVo;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface UsersDao {
-	int insertUsers(UsersVo vo) throws SQLException;
-	List<UsersVo> usersSelect() throws SQLException;
+	int insertUsers(UsersVo vo);
+	List<UsersVo> usersSelect();
 	
-	UsersVo selectOneUser(UsersVo vo) throws Exception;
-	BuyerVo selectOneBuyer(UsersVo vo) throws SQLException;
-	SellerVo selectOneSeller(int i) throws SQLException;
-	AdminVo selectOneAdmin(UsersVo vo) throws SQLException;
-	int insertBuyer(int userNo) throws SQLException;
-	int insertSeller(SellerVo sVo) throws SQLException;
-	int selectOneUserNo(String id) throws SQLException;
-	int updateUsers(UsersVo vo) throws SQLException;
-	int updateBuyerLog(int userNo) throws SQLException;
-	int updateUsersLog(int userNo) throws SQLException;
-	int updateSellerLog(int userNo) throws SQLException;
-	int updateAdminLog(int userNo) throws SQLException;
+	UsersVo selectOneUser(UsersVo vo);
+	BuyerVo selectOneBuyer(UsersVo vo);
+	SellerVo selectOneSeller(int userNo);
+	AdminVo selectOneAdmin(UsersVo vo);
+	int insertBuyer(int userNo);
+	int insertSeller(SellerVo sVo);
+	int selectOneUserNo(String id);
+	int updateUsers(UsersVo vo);
+	int updateBuyerLog(int userNo);
+	int updateUsersLog(int userNo);
+	int updateSellerLog(int userNo);
+	int updateAdminLog(int userNo);
 }

@@ -65,19 +65,13 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	//해당상품옵션의 재고수량 변경
 	@Override
 	public boolean udtPrdQuantity(ProductOptionVo prdOption)throws Exception{
-		int stat = 0;
-		stat = productOptionDao.udtPrdAmount(prdOption);
-		
-		return CommonMethod.isSuccessOneCUD(stat);
+		return CommonMethod.isSuccessOneCUD(productOptionDao.udtPrdAmount(prdOption));
 	}
 	
 	//해당상품옵션의 정보 변경
 	@Override
 	public boolean udtPrdOpAll(ProductOptionVo prdOption)throws Exception{
-		int stat = 0;
-		stat = productOptionDao.udtPrdOpAll(prdOption);
-		
-		return CommonMethod.isSuccessOneCUD(stat);
+		return CommonMethod.isSuccessOneCUD(productOptionDao.udtPrdOpAll(prdOption));
 	}
 	
 	//상품옵션만 바로 추가하는 로직
@@ -92,7 +86,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 		}
 		
 		return CommonMethod.isEqualValues(stat, productNo.size());
-	}
+		}
 	
 	//상품추가 시 상품옵션 추가하는 로직
 	@Override

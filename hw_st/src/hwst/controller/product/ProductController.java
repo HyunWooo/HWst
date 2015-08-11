@@ -142,7 +142,7 @@ public class ProductController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("common/404");	
 		
-		if(stat==true){
+		if(stat){
 			mv.setViewName("redirect:selectRegisterPrdAll.do");	
 		}
 		return mv;

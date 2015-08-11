@@ -106,7 +106,7 @@ public class OrdersController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(stat==true){
+		if(stat){
 				mv.setViewName("redirect:orderManagement.do");
 		}
 		return mv;
@@ -126,7 +126,7 @@ public class OrdersController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(stat==true){
+		if(stat){
 				mv.setViewName("redirect:orderManagement.do");
 		}
 		return mv;
@@ -147,7 +147,7 @@ public class OrdersController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(stat==true){
+		if(stat){
 			mv.setViewName("redirect:orderManagement.do");
 		}
 		

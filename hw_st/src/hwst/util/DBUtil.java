@@ -8,6 +8,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+
+/**
+ * 
+ * @author gusdn
+ * 사용을 피하라
+ *
+ */
+@Deprecated
 public class DBUtil {
 	private static SqlSessionFactory factory = null;
 
@@ -24,6 +32,7 @@ public class DBUtil {
 		} finally {
 			if (inputStream != null) {
 				try {
+					
 					inputStream.close();
 					inputStream = null;
 				} catch (IOException e) {

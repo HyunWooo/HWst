@@ -37,7 +37,7 @@ public class ProductOptionController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("productOptionList", poList);	
 		mv.setViewName("product/productOption");
@@ -109,7 +109,7 @@ public class ProductOptionController {
 		}
 		logger.info("안녕하세요!"+ stat + "입니다.");
 		
-		if(stat==true){
+		if(stat){
 			mv.setViewName("redirect:manageProductOption.do");
 			mv.addObject("productNo", productNo);
 			session.setAttribute("udt", true);
