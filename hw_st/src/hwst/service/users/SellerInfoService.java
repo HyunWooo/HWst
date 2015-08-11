@@ -1,7 +1,6 @@
 package hwst.service.users;
 
 import hwst.dao.users.UsersDao;
-import hwst.dao.users.UsersDaoImpl;
 import hwst.domain.users.UsersVo;
 
 import javax.annotation.Resource;
@@ -16,7 +15,6 @@ public class SellerInfoService implements UserInfoService{
 	
 	@Override
 	public UsersVo selectUserInfo(UsersVo uVo)throws Exception{
-		UsersDao usersDao = new UsersDaoImpl();
 		return usersDao.selectOneSeller(uVo.getUserNo());
 	}
 	

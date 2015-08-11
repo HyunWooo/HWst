@@ -6,14 +6,22 @@ import hwst.domain.users.SellerVo;
 import hwst.domain.users.UsersEnum.UserSection;
 import hwst.domain.users.UsersVo;
 
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 @Service("usersService")
 public class UsersServiceImpl implements UsersService {
 
 	@Resource(name = "usersDao")
 	private UsersDao usersDao;
+	
+	@Resource(name = "usersServiceFactory")
+	private UsersServiceFactory usersServiceFactory;
 
 	//회원가입시 아이디 중복 체크
 	@Override
@@ -31,10 +39,15 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public UsersVo loginUsers(UsersVo vo) throws Exception{
 		UsersVo uVo = usersDao.selectOneUser(vo);
-		UsersServiceFactory usersServiceFactory = new UsersServiceFactory();
-		UserInfoService userInfoService = usersServiceFactory.getUserInfo(uVo);
-		
+		UserInfoService userInfoService = usersServiceFactory.getUserInfo(uVo.getUserSection());
 		return userInfoService.selectUserInfo(uVo);
+	}
+	
+	//회원탈퇴
+	@Override
+	public boolean deleteUsers(int userNo, UserSection userSection) throws Exception{
+		UserInfoService userInfoService = usersServiceFactory.getUserInfo(userSection);
+		return flagCheck(userInfoService.updateUsersLog(userNo), usersDao.updateUsersLog(userNo));
 	}
 	
 	//userNo로 판매자정보 가져오기
@@ -45,7 +58,7 @@ public class UsersServiceImpl implements UsersService {
 
 	//회원가입
 	//구매자 회원가입
-	//@Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT ,rollbackFor = {Exception.class,SQLException.class} ,readOnly = false)
+	@Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT ,rollbackFor = {Exception.class,SQLException.class} ,readOnly = false)
 	@Override
 	public boolean signupBuyer(UsersVo vo) throws Exception{
 		return flagCheck(usersDao.insertUsers(vo), usersDao.insertBuyer(usersDao.selectOneUserNo(vo.getId())));
@@ -70,14 +83,6 @@ public class UsersServiceImpl implements UsersService {
 		return CommonMethod.isSuccessOneCUD(usersDao.updateUsers(vo));
 	}
 
-	//회원탈퇴
-	@Override
-	public boolean deleteUsers(int userNo, UserSection userSection) throws Exception{
-		UsersServiceFactory uF = new UsersServiceFactory();
-		return flagCheck(uF.deleteUser(userNo, userSection), usersDao.updateUsersLog(userNo));
-	}
-	
-	
 	
 	//값 체크 후 T/F반환
 	public boolean flagCheck(int result1, int result2){

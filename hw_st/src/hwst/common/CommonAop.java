@@ -24,9 +24,9 @@ public class CommonAop {
 	@Resource(name="productService")
 	private ProductService productService;
 	
-	//안쓰는데도 모두 불러오는 맹점이 존재........수정해야한다.
 	
 	//show*로 시작하는 메소드가 실행되기 전에 이 메소드가 실행되어 카테고리와 상품리스트 세션구성
+	//메인페이지 실행할때만 적용
 	@Before("execution(public * show*(..))")
 	public void bringMainContets(JoinPoint joinPoint)throws Exception{
 		Object[] args = joinPoint.getArgs();
@@ -43,7 +43,18 @@ public class CommonAop {
     	session.setAttribute("categoryList", categoryList);
     	session.setAttribute("productList", productList);
     	session.setAttribute("lowPriceList", lowPriceList);
-    	
 	}
-    	
+	
+	//메인페이지를 제외하고 카테고리리스트만 필요한 곳들에 적용
+	@Before("execution(public * oneShow*(..))")
+	public void bringCategoryContets(JoinPoint joinPoint)throws Exception{
+		Object[] args = joinPoint.getArgs();
+		
+		HttpSession session = (HttpSession)args[0];
+		List<CategoryVo> upCategoryList = categoryService.selectUpCategory();
+	 	List<CategoryVo> categoryList = categoryService.selectCategory();
+	 	
+		session.setAttribute("upCategoryList", upCategoryList);
+    	session.setAttribute("categoryList", categoryList);
+	}
 }
