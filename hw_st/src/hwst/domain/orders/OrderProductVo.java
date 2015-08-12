@@ -4,6 +4,9 @@ import hwst.domain.orders.OrdersEnum.DeliveryStat;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class OrderProductVo extends OrdersVo{
 	private int orderNo;
 	private int productOptionNo;
@@ -122,27 +125,9 @@ public class OrderProductVo extends OrdersVo{
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("OrderProductVo [orderNo=");
-		builder.append(orderNo);
-		builder.append(", productOptionNo=");
-		builder.append(productOptionNo);
-		builder.append(", buyAmount=");
-		builder.append(buyAmount);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
-		builder.append(", productStat=");
-		builder.append(productStat);
-		builder.append(", deliveryStat=");
-		builder.append(deliveryStat);
-		builder.append(", deliveryDate=");
-		builder.append(deliveryDate);
-		builder.append(", recentUpdateTime=");
-		builder.append(recentUpdateTime);
-		builder.append(", recentUpdateUserNo=");
-		builder.append(recentUpdateUserNo);
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 
 }

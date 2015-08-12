@@ -1,5 +1,8 @@
 package hwst.domain.category;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class CategoryVo {
 
 	private int categoryNo;
@@ -61,21 +64,9 @@ public class CategoryVo {
 	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("CategoryVo [categoryNo=");
-		builder.append(categoryNo);
-		builder.append(", upCategoryNo=");
-		builder.append(upCategoryNo);
-		builder.append(", categoryName=");
-		builder.append(categoryName);
-		builder.append(", recentUpdateTime=");
-		builder.append(recentUpdateTime);
-		builder.append(", recentUpdateUserNo=");
-		builder.append(recentUpdateUserNo);
-		builder.append(", upCategoryName=");
-		builder.append(upCategoryName);
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 	
 	

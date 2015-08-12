@@ -5,6 +5,9 @@ import hwst.domain.orders.OrdersEnum.OrderStat;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class OrdersVo {
 	private int orderNo;
 	private int userNo;
@@ -340,67 +343,9 @@ public class OrdersVo {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("OrdersVo [orderNo=");
-		builder.append(orderNo);
-		builder.append(", userNo=");
-		builder.append(userNo);
-		builder.append(", orderTime=");
-		builder.append(orderTime);
-		builder.append(", receiverName=");
-		builder.append(receiverName);
-		builder.append(", phone=");
-		builder.append(phone);
-		builder.append(", postCode=");
-		builder.append(postCode);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append(", message=");
-		builder.append(message);
-		builder.append(", grade=");
-		builder.append(grade);
-		builder.append(", orderStat=");
-		builder.append(orderStat);
-		builder.append(", allTotalPrice=");
-		builder.append(allTotalPrice);
-		builder.append(", discountPrice=");
-		builder.append(discountPrice);
-		builder.append(", discountedTotalPrice=");
-		builder.append(discountedTotalPrice);
-		builder.append(", recentUpdateTime=");
-		builder.append(recentUpdateTime);
-		builder.append(", recentUpdateUserNo=");
-		builder.append(recentUpdateUserNo);
-		builder.append(", productOptionNo=");
-		builder.append(productOptionNo);
-		builder.append(", productOptionName=");
-		builder.append(productOptionName);
-		builder.append(", productNo=");
-		builder.append(productNo);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", buyAmount=");
-		builder.append(buyAmount);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
-		builder.append(", categoryNo=");
-		builder.append(categoryNo);
-		builder.append(", orderNoCount=");
-		builder.append(orderNoCount);
-		builder.append(", productStat=");
-		builder.append(productStat);
-		builder.append(", deliveryStat=");
-		builder.append(deliveryStat);
-		builder.append(", productAmount=");
-		builder.append(productAmount);
-		builder.append(", userName=");
-		builder.append(userName);
-		builder.append(", id=");
-		builder.append(id);
-		builder.append(", quantityCheck=");
-		builder.append(quantityCheck);
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 
 }

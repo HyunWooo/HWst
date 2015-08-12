@@ -1,5 +1,8 @@
 package hwst.domain.orders;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 
 public class PaymentVo {
 	private int orderNo;
@@ -67,19 +70,9 @@ public class PaymentVo {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("PaymentVo [orderNo=");
-		builder.append(orderNo);
-		builder.append(", checkoutInfo=");
-		builder.append(checkoutInfo);
-		builder.append(", depositYN=");
-		builder.append(depositYN);
-		builder.append(", refundBankName=");
-		builder.append(refundBankName);
-		builder.append(", refundAccountNo=");
-		builder.append(refundAccountNo);
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 	
 	

@@ -4,6 +4,9 @@ import hwst.domain.users.UsersEnum.UserSection;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class BuyerVo extends UsersVo{
 
 	int grade;
@@ -39,33 +42,12 @@ public class BuyerVo extends UsersVo{
 	public void setDiscountPercent(int discountPercent) {
 		this.discountPercent = discountPercent;
 	}
+	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BuyerVo [grade=");
-		builder.append(grade);
-		builder.append(", discountPercent=");
-		builder.append(discountPercent);
-		builder.append(", udtGradeTime=");
-		builder.append(udtGradeTime);
-		builder.append(", getId()=");
-		builder.append(getId());
-		builder.append(", getPw()=");
-		builder.append(getPw());
-		builder.append(", getName()=");
-		builder.append(getName());
-		builder.append(", getPhone()=");
-		builder.append(getPhone());
-		builder.append(", getPostCode()=");
-		builder.append(getPostCode());
-		builder.append(", getUserNo()=");
-		builder.append(getUserNo());
-		builder.append(", getAddress()=");
-		builder.append(getAddress());
-		builder.append(", getUserSection()=");
-		builder.append(getUserSection());
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 
 }

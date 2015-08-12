@@ -41,7 +41,7 @@ public class ProductController {
 	
 	//상품전체보기(현재는 최근등록순 정렬)
 	@RequestMapping(value="allProductView.do", method = RequestMethod.GET)
-	public ModelAndView oneShowSelectProductAll(HttpSession session, HttpServletRequest request){
+	public ModelAndView showSelectProductAll(HttpSession session, HttpServletRequest request){
 		List<ProductVo> list = new ArrayList<ProductVo>();
 		try {
 			list = productService.selectProductAll();
@@ -52,14 +52,14 @@ public class ProductController {
 		request.setAttribute("pg",1);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("list", list);	
-		mv.setViewName("product/product");
+		mv.setViewName("product/productList");
 		session.setAttribute("productViewStat", "all");
 		return mv;
 	}
 	
 	//상품상세보기
 	@RequestMapping(value="viewProductDetails.do", method = RequestMethod.GET)
-	public ModelAndView oneShowSelectProductDetails(HttpSession session, HttpServletRequest request,int productNo){
+	public ModelAndView showSelectProductDetails(HttpSession session, HttpServletRequest request,int productNo){
 		ProductVo productVo = new ProductVo();
 		try {
 			productVo = productService.selectProductDetails(productNo);
@@ -88,7 +88,7 @@ public class ProductController {
 	
 	//키워드검색
 	@RequestMapping(value="selectProductByKeyword.do", method = RequestMethod.POST)
-	public ModelAndView oneShowSelectProductByKeyword(HttpSession session, HttpServletRequest request,String keyword){
+	public ModelAndView showSelectProductByKeyword(HttpSession session, HttpServletRequest request,String keyword){
 		List<ProductVo> list = new ArrayList<ProductVo>();
 		try {
 			list = productService.selectProductByKeyword(keyword);
@@ -99,14 +99,14 @@ public class ProductController {
 		request.setAttribute("pg",1);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("list", list);	
-		mv.setViewName("product/product");	
+		mv.setViewName("product/productList");	
 		session.setAttribute("productViewStat", "searchKeyword");
 		return mv;
 	}
 
 	//카테고리검색
 	@RequestMapping(value="selectProductByCategory.do", method = RequestMethod.GET)
-	public ModelAndView oneShowSelectProductByCategory(HttpSession session, HttpServletRequest request,int categoryNo){
+	public ModelAndView showSelectProductByCategory(HttpSession session, HttpServletRequest request,int categoryNo){
 		List<ProductVo> list = new ArrayList<ProductVo>();
 		try {
 			list = productService.selectProductByCategory(categoryNo);
@@ -117,7 +117,7 @@ public class ProductController {
 		request.setAttribute("pg",1);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("list", list);	
-		mv.setViewName("product/product");	
+		mv.setViewName("product/productList");	
 		session.setAttribute("productViewStat", "searchCategory");
 		return mv;
 	}

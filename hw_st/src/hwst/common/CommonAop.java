@@ -25,9 +25,9 @@ public class CommonAop {
 	private ProductService productService;
 	
 	
-	//show*로 시작하는 메소드가 실행되기 전에 이 메소드가 실행되어 카테고리와 상품리스트 세션구성
+	//main*로 시작하는 메소드가 실행되기 전에 이 메소드가 실행되어 카테고리와 상품리스트 세션구성
 	//메인페이지 실행할때만 적용
-	@Before("execution(public * show*(..))")
+	@Before("execution(public * main*(..))")
 	public void bringMainContets(JoinPoint joinPoint)throws Exception{
 		Object[] args = joinPoint.getArgs();
 		
@@ -46,7 +46,7 @@ public class CommonAop {
 	}
 	
 	//메인페이지를 제외하고 카테고리리스트만 필요한 곳들에 적용
-	@Before("execution(public * oneShow*(..))")
+	@Before("execution(public * show*(..))")
 	public void bringCategoryContets(JoinPoint joinPoint)throws Exception{
 		Object[] args = joinPoint.getArgs();
 		

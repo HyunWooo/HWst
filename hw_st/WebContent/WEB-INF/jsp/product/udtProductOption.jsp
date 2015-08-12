@@ -382,8 +382,10 @@ function getSelectValue(frm,i)
 	
 	
 	
-	<footer id="footer"><!--Footer-->
-	</footer><!--/Footer-->
+<!-- footer -->
+<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+<!-- /footer -->	
+
 	
 
   

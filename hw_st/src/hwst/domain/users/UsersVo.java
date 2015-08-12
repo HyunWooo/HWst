@@ -2,6 +2,8 @@ package hwst.domain.users;
 
 import hwst.domain.users.UsersEnum.UserSection;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.stereotype.Repository;
 
 
@@ -99,24 +101,8 @@ public class UsersVo{
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UsersVo [userNo=");
-		builder.append(userNo);
-		builder.append(", id=");
-		builder.append(id);
-		builder.append(", pw=");
-		builder.append(pw);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", phone=");
-		builder.append(phone);
-		builder.append(", postCode=");
-		builder.append(postCode);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append(", userSection=");
-		builder.append(userSection);
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 }

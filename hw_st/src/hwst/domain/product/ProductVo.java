@@ -2,6 +2,9 @@ package hwst.domain.product;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 
 public class ProductVo{
 	private int productNo;
@@ -99,37 +102,12 @@ public class ProductVo{
 	public void setRecentUpdateUserNo(int recentUpdateUserNo) {
 		this.recentUpdateUserNo = recentUpdateUserNo;
 	}
+	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ProductVo [productNo=");
-		builder.append(productNo);
-		builder.append(", userNo=");
-		builder.append(userNo);
-		builder.append(", categoryNo=");
-		builder.append(categoryNo);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", basicPrice=");
-		builder.append(basicPrice);
-		builder.append(", stat=");
-		builder.append(stat);
-		builder.append(", details=");
-		builder.append(details);
-		builder.append(", opTotalNum=");
-		builder.append(opTotalNum);
-		builder.append(", regisTime=");
-		builder.append(regisTime);
-		builder.append(", recentUpdateTime=");
-		builder.append(recentUpdateTime);
-		builder.append(", recentUpdateUserNo=");
-		builder.append(recentUpdateUserNo);
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
-	
-	
-
-
 	
 }

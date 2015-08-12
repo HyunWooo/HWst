@@ -2,6 +2,9 @@ package hwst.domain.product;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 
 public class ProductOptionVo extends ProductVo{
 	private int productOptionNo;
@@ -180,49 +183,9 @@ public class ProductOptionVo extends ProductVo{
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ProductOptionVo [productOptionNo=");
-		builder.append(productOptionNo);
-		builder.append(", productNo=");
-		builder.append(productNo);
-		builder.append(", optionProcedure=");
-		builder.append(optionProcedure);
-		builder.append(", addPrice=");
-		builder.append(addPrice);
-		builder.append(", productAmount=");
-		builder.append(productAmount);
-		builder.append(", productOptionName=");
-		builder.append(productOptionName);
-		builder.append(", optionStat=");
-		builder.append(optionStat);
-		builder.append(", recentUpdateTime=");
-		builder.append(recentUpdateTime);
-		builder.append(", recentUpdateUserNo=");
-		builder.append(recentUpdateUserNo);
-		builder.append(", userNo=");
-		builder.append(userNo);
-		builder.append(", categoryNo=");
-		builder.append(categoryNo);
-		builder.append(", buyAmount=");
-		builder.append(buyAmount);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", basicPrice=");
-		builder.append(basicPrice);
-		builder.append(", eachPrice=");
-		builder.append(eachPrice);
-		builder.append(", productNoCount=");
-		builder.append(productNoCount);
-		builder.append(", getStat()=");
-		builder.append(getStat());
-		builder.append(", getDetails()=");
-		builder.append(getDetails());
-		builder.append(", getOpTotalNum()=");
-		builder.append(getOpTotalNum());
-		builder.append(", getRegisTime()=");
-		builder.append(getRegisTime());
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 
 

@@ -1,5 +1,8 @@
 package hwst.domain.users;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import hwst.domain.users.UsersEnum.UserSection;
 
 public class SellerVo extends UsersVo{
@@ -35,29 +38,9 @@ public class SellerVo extends UsersVo{
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SellerVo [getId()=");
-		builder.append(getId());
-		builder.append(", getPw()=");
-		builder.append(getPw());
-		builder.append(", getName()=");
-		builder.append(getName());
-		builder.append(", getPhone()=");
-		builder.append(getPhone());
-		builder.append(", getPostCode()=");
-		builder.append(getPostCode());
-		builder.append(", getUserNo()=");
-		builder.append(getUserNo());
-		builder.append(", getAddress()=");
-		builder.append(getAddress());
-		builder.append(", getUserSection()=");
-		builder.append(getUserSection());
-		builder.append(", bankName=");
-		builder.append(bankName);
-		builder.append(", accountNo=");
-		builder.append(accountNo);
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(
+				this, ToStringStyle.MULTI_LINE_STYLE
+				);
 	}
 	
 

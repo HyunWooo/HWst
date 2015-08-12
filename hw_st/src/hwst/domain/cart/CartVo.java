@@ -1,5 +1,8 @@
 package hwst.domain.cart;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 
 
 public class CartVo {
@@ -160,41 +163,13 @@ public class CartVo {
 			this.eachPrice = eachPrice;
 		}
 
+		
 		@Override
 		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			builder.append("CartVo [cartNo=");
-			builder.append(cartNo);
-			builder.append(", productOptionNo=");
-			builder.append(productOptionNo);
-			builder.append(", userNo=");
-			builder.append(userNo);
-			builder.append(", buyAmount=");
-			builder.append(buyAmount);
-			builder.append(", cartTime=");
-			builder.append(cartTime);
-			builder.append(", categoryNo=");
-			builder.append(categoryNo);
-			builder.append(", productNo=");
-			builder.append(productNo);
-			builder.append(", name=");
-			builder.append(name);
-			builder.append(", productOptionName=");
-			builder.append(productOptionName);
-			builder.append(", productAmount=");
-			builder.append(productAmount);
-			builder.append(", addPrice=");
-			builder.append(addPrice);
-			builder.append(", basicPrice=");
-			builder.append(basicPrice);
-			builder.append(", eachPrice=");
-			builder.append(eachPrice);
-			builder.append("]");
-			return builder.toString();
+			return ToStringBuilder.reflectionToString(
+					this, ToStringStyle.MULTI_LINE_STYLE
+					);
 		}
 
-	
-
-
-
+		
 }

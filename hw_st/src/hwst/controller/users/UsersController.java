@@ -173,7 +173,7 @@ public class UsersController {
     
     
     @RequestMapping(value="index.do")
-    public String showIndex(HttpSession session){
+    public String mainIndex(HttpSession session){
     	return "common/index";
     }
     

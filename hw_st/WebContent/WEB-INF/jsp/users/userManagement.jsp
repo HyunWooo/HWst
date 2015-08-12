@@ -117,62 +117,14 @@
 					<div class="col-sm-6 col-xs-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<!-- <li><a href="#"><i class="fa fa-user"></i> Account</a></li> -->
- 								<!--<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
-								<c:choose>
-									<c:when test="${not empty sessionScope.userLoginInfo}">
-										<li><a href="allCartView.do"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 										<li><a href= "userManagement.do"><i class="fa fa-user"></i>${sessionScope.userLoginInfo.name}님</a></li>
 										<li><a href="logoutProcess.do"><i class="fa fa-crosshairs"></i> Logout</a></li>
-									</c:when>
-								</c:choose>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div><!--/header_top-->
-		
-		<div class="header-middle"><!--header-middle-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="index.do"><img src="images/home/logo.png" alt="" /></a>
-						</div>
-						<!-- 안쓰는 버튼그룹 -->
-						<div class="btn-group pull-right">
-						</div>
-					</div>
-					<div class="col-sm-8">
-						<div class="search_box pull-right">
-							<form action="selectProductByKeyword.do"  name="selectProductByKeyword.do" method="post">
-	                             <input type="text" placeholder="Search" id="keyword"  name = "keyword" autocomplete="off"/>
-                             </form>
-						</div>
-						<div class="mainmenu pull-right">
-							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.do" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                    	<li><a href="orderManagement.do">주문배송조회</a></li>
-                                        <li><a href="allProductView.do">전체상품보기</a></li>
-                                    </ul>
-                                </li> 
-								<!-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.jsp">Blog List</a></li>
-										<li><a href="blog_single.jsp">Blog Single</a></li>
-                                    </ul>
-                                </li>  -->
-								<!-- <li><a href="404.jsp">404</a></li> -->
-								<li><a href="contact_us.do">Contact-us</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/header-middle-->
 	</header><!--/header-->
 	
 			<section id="form"><!--form-->
@@ -206,18 +158,9 @@
 	
 	
 	
-	<footer id="footer"><!--Footer-->
-		<div class="footer-bottom">
-			<div class="container">
-					<div class="col-sm-6">
-						<div class="single-widget">
-							<p class="pull-left">Copyright © 2015 HW. All rights reserved.</p>
-						</div>
-					</div>
-			</div>
-		</div>
-		
-	</footer><!--/Footer-->
+<!-- footer -->
+<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+<!-- /footer -->	
 	
 
   

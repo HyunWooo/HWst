@@ -38,6 +38,11 @@
 			<br><br><br><br><br><br><br><br>
 		</div>
 	</div>
+	
+<!-- footer -->
+<jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+<!-- /footer -->	
+	
 
   
     <script src="js/jquery.js"></script>
