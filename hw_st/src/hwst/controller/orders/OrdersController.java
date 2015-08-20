@@ -3,6 +3,9 @@ package hwst.controller.orders;
 import hwst.domain.orders.OrdersEnum.DeliveryStat;
 import hwst.domain.orders.OrdersEnum.OrderStat;
 import hwst.domain.orders.OrdersVo;
+import hwst.domain.users.BuyerVo;
+import hwst.domain.users.SellerVo;
+import hwst.domain.users.UsersEnum.Grade;
 import hwst.domain.users.UsersEnum.UserSection;
 import hwst.domain.users.UsersVo;
 import hwst.service.orders.OrdersService;
@@ -36,7 +39,7 @@ public class OrdersController {
 			@RequestParam("totalPrice") List<Integer> totalPrice,
 			@RequestParam(value="deletedCart", required=false) List<Integer> deletedCart,
 			String receiverName, String phone, String postCode, String address, 
-			 int userNo,	int grade, String message,	String allTotalPrice,
+			 int userNo,	Grade grade, String message,	String allTotalPrice,
 			String discountPrice, String discountedTotalPrice, int checkoutInfo){
 		
 		
@@ -47,7 +50,6 @@ public class OrdersController {
 			OrdersVo ordersVo = new OrdersVo(userNo, receiverName, phone, postCode, address, message, grade, allTotalPrice, discountPrice, discountedTotalPrice);
 			stat = ordersService.insertOrders(ordersVo,productOptionNo, buyAmount, totalPrice, deletedCart, checkoutInfo, fromCart);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -115,16 +117,22 @@ public class OrdersController {
 	
 	//해당 OrderNo의 주문상태를 변경
 	@RequestMapping(value="udtDeliveryStat.do", method = RequestMethod.POST)
-    public ModelAndView udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat, HttpSession session, HttpServletRequest request){
+    public ModelAndView udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat, HttpSession session, HttpServletRequest request)throws Exception{
 		boolean stat=false;
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("common/404");
-		
-		try {
-			stat = ordersService.udtDeliveryStat(orderNo,productOptionNo,deliveryStat);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		UsersVo usersVo = (UsersVo) session.getAttribute("userLoginInfo");
+		switch(usersVo.getUserSection()){
+		case BUYER:
+			usersVo = (BuyerVo) session.getAttribute("userLoginInfo");
+			stat = ordersService.udtDeliveryStat(orderNo,productOptionNo,deliveryStat, ((BuyerVo) usersVo).getGrade(), usersVo.getUserNo());
+			break;
+		case SELLER:
+			usersVo = (SellerVo) session.getAttribute("userLoginInfo");
+			stat = ordersService.udtDeliveryStatS(orderNo,productOptionNo,deliveryStat);
+			break;
+		default:
+			break;
 		}
 		if(stat){
 				mv.setViewName("redirect:orderManagement.do");

@@ -108,4 +108,10 @@ public class UsersDaoImpl implements UsersDao {
 		return sqlSession.update("users.updateUsersLog", userNo);
 	}
 	
+	//구매자 등급 업데이트
+	@Override
+	public int updateGrade(BuyerVo buyerVo){
+		return sqlSession.update("users.updateGrade", buyerVo);
+	}
+	
 }

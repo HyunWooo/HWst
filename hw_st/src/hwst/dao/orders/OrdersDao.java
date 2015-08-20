@@ -14,4 +14,5 @@ public interface OrdersDao {
 	List<OrdersVo> selectSellerOrdersAll(int userNo);
 	List<OrdersVo> selectSellerGroupCount(int userNo);
 	List<OrdersVo> selectByPrdOpNo(int orderNo);
+	OrdersVo selectGradeFulfill(int userNo);
 }

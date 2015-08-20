@@ -23,4 +23,5 @@ public interface UsersDao {
 	int updateUsersLog(int userNo);
 	int updateSellerLog(int userNo);
 	int updateAdminLog(int userNo);
+	int updateGrade(BuyerVo buyerVo);
 }

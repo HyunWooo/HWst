@@ -3,6 +3,7 @@ package hwst.service.orders;
 import hwst.domain.orders.OrdersEnum.DeliveryStat;
 import hwst.domain.orders.OrdersEnum.OrderStat;
 import hwst.domain.orders.OrdersVo;
+import hwst.domain.users.UsersEnum.Grade;
 import hwst.domain.users.UsersVo;
 
 import java.util.List;
@@ -14,7 +15,8 @@ public interface OrdersService {
 	List<OrdersVo> selectOrdersAll(UsersVo vo)throws Exception;
 	boolean updateOrderStat(int orderNo, OrderStat orderStat)throws Exception;
 	boolean deleteOrder(int orderNo)throws Exception;
-	boolean udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat)throws Exception;
-	boolean checkUpDeliveryStat(int orderNo, DeliveryStat deliveryStat)throws Exception;
+	boolean udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat, Grade grade, int userNo)throws Exception;
+	boolean checkUpDeliveryStat(int orderNo, DeliveryStat deliveryStat, Grade grade, int userNo)throws Exception;
+	boolean udtDeliveryStatS(int orderNo, int productOptionNo,	DeliveryStat deliveryStat)throws Exception;
 	
 }

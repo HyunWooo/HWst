@@ -44,8 +44,7 @@ public class CartServiceTest {
 	   Log4jConfigurer.initLogging("file:WebContent/WEB-INF/log4j.properties");
 	   
 	  } catch (FileNotFoundException e) {
-	   // TODO Auto-generated catch block
-	   System.err.println("file not found!!");
+		  System.err.println("file not found!!");
 	  }
 	 }
 	

@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectOneBuyer" parameterType="buyerVo" resultMap="bResultMap">
 		select u.userNo, u.id, u.pw, u.name, u.phone, u.postCode, u.address, u.userSection, b.grade, d.discountPercent, b.udtGradeTime 
 		from users u, buyer b, grade d
-		where u.id=#{id} and u.pw=#{pw} and u.userNo=b.userNo and d.gradeNo = b.grade
+		where u.id=#{id} and u.pw=#{pw} and u.userNo=b.userNo and d.grading = b.grade
 	</select>
 	
 	<select id="selectOneSeller" parameterType="int" resultMap="sResultMap">
@@ -99,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertBuyer" parameterType="String">
 		insert into buyer
-		values(#{userNo}, 1, now());
+		values(#{userNo}, 2, now());
 	</insert>
 	
 	<insert id="insertSeller" parameterType="sellerVo">
@@ -119,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원별 회원탈퇴-->
 	 <update id="updateBuyerLog" parameterType="int">
 		update buyer 
-		set grade=0, udtGradeTime=now()
+		set grade=1, udtGradeTime=now()
 		where userNo = #{userNo}
 	</update> 
 	
@@ -135,5 +135,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where userNo = #{userNo}
 	</update>
 
-	
+
+	<!-- 구매자 등급 변경 -->
+	<update id="updateGrade" parameterType="buyerVo">
+		update buyer
+		set grade = #{grading}
+		where userNo = #{userNo}
+	</update>
 </mapper>

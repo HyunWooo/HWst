@@ -9,12 +9,19 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 	<c:if test="${sessionScope.insertCartStat eq true}">
+		<%session.removeAttribute("insertCartStat");%>
 		<script>
+			<%session.removeAttribute("insertCartStat");%>
+			window.location.reload();
+			
 			if (confirm("장바구니가 추가되었습니다. \n장바구니 목록을 확인하시겠습니까?")){    //확인
 				location.href = "allCartView.do";
 			}
-			<%session.removeAttribute("insertCartStat");%>
-			window.location.reload();
+			else{
+				<%session.removeAttribute("insertCartStat");%>
+				window.location.reload();
+			}
+			
 		</script>
 	</c:if>
 	

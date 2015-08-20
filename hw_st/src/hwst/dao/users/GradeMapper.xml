@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="grade">
+
+	<resultMap type="gradeVo" id="gResultMap">
+		<result column="grading" property="grading" />
+		<result column="gradeName" property="gradeName" />
+		<result column="discountPercent" property="discountPercent" />
+		<result column="sumPayment" property="sumPayment" />
+		<result column="orderCount" property="orderCount" />
+	</resultMap>
+	
+
+
+	<!-- 회원별 로그인 쿼리 -->
+	<select id="selectGradeList" resultMap="gResultMap">
+		select *
+		from grade
+	</select>
+	
+</mapper>

@@ -20,9 +20,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="discountedTotalPrice" property="discountedTotalPrice" />
 		<result column="recentUpdateTime" property="recentUpdateTime" />
 		<result column="recentUpdateUserNo" property="recentUpdateUserNo" />
-		<!-- <result column="orderNoCount" property="orderNoCount" />
-		<result column="productStat" property="productStat" />
-		<result column="deliveryStat" property="deliveryStat" /> -->
 	</resultMap>
 	
 	<resultMap type="orderProductVo" id="opResultMap">
@@ -122,7 +119,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where orderNo = #{orderNo}
 	</select>
 	
-	
+	<select id="selectGradeFulfill" parameterType="int" resultType="ordersVo">
+	select count(distinct orders.orderNo) as orderCount, sum(orderProduct.totalPrice) as sumPayment
+	from orders, orderProduct
+	where orders.orderNo = orderProduct.orderNo and orders.userNo = #{userNo};
+	</select>
 	
 	<update id="updateOrderStat" parameterType="ordersVo">
 	update orders
@@ -149,6 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	set recentUpdateTime=now()
 	where orderNo = #{orderNo}
 	</update>
+	
 	
 	
 	

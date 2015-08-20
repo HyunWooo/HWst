@@ -18,15 +18,24 @@ public class UsersEnum {
 			return value;
 		}
 
-		/*public static UserSection valueOf(int value){
-			switch(value){
-				case 2: return UserSection.BUYER;
-				case 3: return UserSection.SELLER;
-				case 4: return UserSection.ADMIN;
-				default : throw new AssertionError("Unknown userSection: " + value);
-			}
-		}*/
-        
 	};
 	
+	
+	public enum Grade{
+		UNREGISTER(1),
+		GENERAL(2), 
+		SILVER(3),
+		GOLD(4);
+		
+		private int value;
+ 
+        private Grade(int value) {
+                this.value = value;
+        }
+
+		public int getValue() {
+			return value;
+		}
+
+	};
 }

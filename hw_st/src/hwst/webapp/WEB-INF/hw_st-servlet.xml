@@ -59,10 +59,6 @@
 	   </property>
 	</bean>
 	
-	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
-	</bean> -->
-	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/hwst?characterEncoding=UTF-8" />
@@ -78,12 +74,14 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>	
-<tx:annotation-driven  transaction-manager="transactionManager" />
+	
+	<!-- 어노테이션에 기반한 트랜잭션 동작의 설정을 활성화한다. -->
+	<tx:annotation-driven  transaction-manager="transactionManager" />
 	<context:annotation-config/>
+	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-<!-- 	<bean id="users" class="hwst.dao.users.UsersDaoImpl" /> -->
 
 	<aop:config proxy-target-class="true">
 		<aop:pointcut expression="execution(public * com.spring..service.*Service.*(..))" id="serviceOperation"/>

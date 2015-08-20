@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service("productOptionService")
@@ -15,7 +16,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 
 	@Resource(name="productOptionDao")
 	private ProductOptionDao productOptionDao;
-	
+	Logger logger = Logger.getLogger(this.getClass());
 	
 	//해당상품의 활성화상태의 상품옵션정보 조회
 	@Override
@@ -45,8 +46,8 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	public List<ProductOptionVo> selectRegisterPrdAll(int userNo)throws Exception{
 		List<ProductOptionVo> productOptionVo = productOptionDao.selectRegisterPrdAll(userNo);
 		List<ProductOptionVo> productNoCount = productOptionDao.selectPrdNoGroupCnt(userNo);
-		
-		for(int num=0; num<productOptionVo.size();){  //productOptionVo를 productNo 별로 group한 productNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 productNoCount속성에 set한다
+
+		/*for(int num=0; num<productOptionVo.size();){  //productOptionVo를 productNo 별로 group한 productNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 productNoCount속성에 set한다
 			ProductOptionVo poVo = productOptionVo.get(num);
 			
 			for(int countNum=0; countNum<productNoCount.size(); countNum++){
@@ -57,6 +58,15 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 					num += prdNo.getProductNoCount();
 				}
 			}
+		}*/
+		
+		//리팩토링한 부분
+		int tempNo = 0;
+		for(int count = 0, length = productNoCount.size(); count < length; count++){
+			int groupCount = productNoCount.get(count).getProductNoCount();
+			
+			productOptionVo.get(tempNo).setProductNoCount(groupCount);
+			tempNo += groupCount;
 		}
 		
 		return productOptionVo;

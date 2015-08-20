@@ -27,6 +27,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
      <typeAlias type="hwst.domain.orders.OrdersVo" alias="ordersVo"/>
      <typeAlias type="hwst.domain.orders.OrderProductVo" alias="orderProductVo"/>
      <typeAlias type="hwst.domain.orders.PaymentVo" alias="paymentVo"/>
+     <typeAlias type="hwst.domain.users.GradeVo" alias="gradeVo"/>
    </typeAliases>
    
 	<environments default="development">
@@ -50,5 +51,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="hwst/dao/product/ProductOptionMapper.xml"/>
 		<mapper resource="hwst/dao/cart/CartMapper.xml"/>
 		<mapper resource="hwst/dao/orders/OrdersMapper.xml"/>
+		<mapper resource="hwst/dao/users/GradeMapper.xml"/>
 	</mappers>
 </configuration>

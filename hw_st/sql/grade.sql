@@ -3,7 +3,7 @@ TRUNCATE TABLE grade;
 
 
 CREATE TABLE Grade (
-	gradeNo             int NOT NULL, -- 등급번호
+	grading            int NOT NULL, -- 등급번호
 	gradeName          varchar(20) NOT NULL,     -- 등급명
 	discountPercent     int NOT NULL,     -- 할인율
 	accmulOrderPayment int NOT NULL,     -- 누적주문완료결제금액

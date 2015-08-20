@@ -7,6 +7,12 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+	<script>
+		history.pushState(null, null, location.href);
+		window.onpopstate = function(event) {
+			history.go(-1);
+		};	
+	</script>
 	<c:if test="${sessionScope.deleteCartStat eq true}">
 		<script>
 			alert("해당 장바구니 항목이 삭제되었습니다.");

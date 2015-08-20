@@ -2,6 +2,7 @@ package hwst.domain.orders;
 
 import hwst.domain.orders.OrdersEnum.DeliveryStat;
 import hwst.domain.orders.OrdersEnum.OrderStat;
+import hwst.domain.users.UsersEnum.Grade;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public class OrdersVo {
 	private String postCode;
 	private String address;
 	private String message;
-	private int grade;
+	private Grade grade;
 	private OrderStat orderStat;	
 	private String allTotalPrice;
 	private String discountPrice;
@@ -38,14 +39,26 @@ public class OrdersVo {
 	private String userName;
 	private String id;
 	private int quantityCheck;
+	private int orderCount;
+	private int sumPayment;
 	
 	public OrdersVo(){}
+	
+	public static OrdersVo newInstance(int orderCount, int sumPayment){
+		return new OrdersVo(orderCount, sumPayment);
+	}
+	
+	public OrdersVo(int orderCount, int sumPayment) {
+		this.orderCount = orderCount;
+		this.sumPayment = sumPayment;
+	}
 	
 	public OrdersVo(int orderNo, OrderStat orderStat){
 		this.orderNo = orderNo;
 		this.orderStat = orderStat;
 	}
-	public OrdersVo(int userNo, String receiverName, String phone, String postCode, String address, String message, int grade, String allTotalPrice, String discountPrice, String discountedTotalPrice){
+	
+	public OrdersVo(int userNo, String receiverName, String phone, String postCode, String address, String message, Grade grade, String allTotalPrice, String discountPrice, String discountedTotalPrice){
 		this.userNo = userNo;
 		this.receiverName = receiverName;
 		this.phone = phone;
@@ -61,7 +74,7 @@ public class OrdersVo {
 	
 	public OrdersVo(int orderNo, int userNo, Date orderTime,
 			String receiverName, String phone, String postCode, String address,
-			String message, int grade, OrderStat orderStat, String allTotalPrice,
+			String message, Grade grade, OrderStat orderStat, String allTotalPrice,
 			String discountPrice, String discountedTotalPrice,
 			Date recentUpdateTime, int recentUpdateUserNo, int productOptionNo,
 			String productOptionName, int productNo, String name,
@@ -99,6 +112,8 @@ public class OrdersVo {
 		this.id = id;
 		this.quantityCheck = quantityCheck;
 	}
+
+	
 
 	public int getOrderNo() {
 		return orderNo;
@@ -164,11 +179,11 @@ public class OrdersVo {
 		this.message = message;
 	}
 
-	public int getGrade() {
+	public Grade getGrade() {
 		return grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(Grade grade) {
 		this.grade = grade;
 	}
 
@@ -331,8 +346,6 @@ public class OrdersVo {
 		this.id = id;
 	}
 
-	
-
 	public int getQuantityCheck() {
 		return quantityCheck;
 	}
@@ -341,6 +354,22 @@ public class OrdersVo {
 		this.quantityCheck = quantityCheck;
 	}
 
+	public int getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(int orderCount) {
+		this.orderCount = orderCount;
+	}
+
+	public int getSumPayment() {
+		return sumPayment;
+	}
+
+	public void setSumPayment(int sumPayment) {
+		this.sumPayment = sumPayment;
+	}
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(

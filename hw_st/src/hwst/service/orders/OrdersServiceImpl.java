@@ -6,6 +6,8 @@ import hwst.dao.orders.OrderProductDao;
 import hwst.dao.orders.OrdersDao;
 import hwst.dao.orders.PaymentDao;
 import hwst.dao.product.ProductOptionDao;
+import hwst.dao.users.GradeDao;
+import hwst.dao.users.UsersDao;
 import hwst.domain.orders.OrderProductVo;
 import hwst.domain.orders.OrdersEnum;
 import hwst.domain.orders.OrdersEnum.DeliveryStat;
@@ -13,6 +15,9 @@ import hwst.domain.orders.OrdersEnum.OrderStat;
 import hwst.domain.orders.OrdersVo;
 import hwst.domain.orders.PaymentVo;
 import hwst.domain.product.ProductOptionVo;
+import hwst.domain.users.BuyerVo;
+import hwst.domain.users.GradeVo;
+import hwst.domain.users.UsersEnum.Grade;
 import hwst.domain.users.UsersVo;
 
 import java.util.List;
@@ -38,6 +43,12 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	@Resource(name="cartDao")
 	private CartDao cartDao;
+	
+	@Resource(name="gradeDao")
+	private GradeDao gradeDao;
+	
+	@Resource(name="usersDao")
+	private UsersDao usersDao;
 	
 	
 	//주문정보 Insert
@@ -146,14 +157,31 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	//해당주문의 각 상품의 deliveryStat 변경
 	@Override
-	public boolean udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat)throws Exception{
+	public boolean udtDeliveryStat(int orderNo, int productOptionNo, DeliveryStat deliveryStat, Grade grade, int userNo)throws Exception{
 		if(CommonMethod.isSuccessOneCUD(orderProductDao.udtDeliveryStat(new OrderProductVo(orderNo, productOptionNo, deliveryStat)))){
 		   System.out.println(deliveryStat);
 			switch(deliveryStat){
 				case DELIVERING:
-					return checkUpDeliveryStat(orderNo,deliveryStat);
+					return checkUpDeliveryStat(orderNo, deliveryStat, grade, userNo);
 				case DELIVERYALLCOMPLETE:
-					return checkUpDeliveryStat(orderNo,deliveryStat);
+					return checkUpDeliveryStat(orderNo, deliveryStat, grade, userNo);
+				default:
+					break;
+			}
+		}
+		return false;
+	}
+	
+	//해당주문의 각 상품의 deliveryStat 변경 (SELLER용)
+	@Override
+	public boolean udtDeliveryStatS(int orderNo, int productOptionNo, DeliveryStat deliveryStat)throws Exception{
+		if(CommonMethod.isSuccessOneCUD(orderProductDao.udtDeliveryStat(new OrderProductVo(orderNo, productOptionNo, deliveryStat)))){
+		   System.out.println(deliveryStat);
+			switch(deliveryStat){
+				case DELIVERING:
+					return checkUpDeliveryStatS(orderNo, deliveryStat);
+				case DELIVERYALLCOMPLETE:
+					return checkUpDeliveryStatS(orderNo, deliveryStat);
 				default:
 					break;
 			}
@@ -164,14 +192,28 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	//deliveryStat이 변경 될 시점에 각 deliveryStat을 체크하여 조건을 충족하면 orderStat을 변경하는 메소드
 	@Override
-	public boolean checkUpDeliveryStat(int orderNo, DeliveryStat deliveryStat)throws Exception{
-		System.out.println("여기야여기  "+ deliveryStat);
+	public boolean checkUpDeliveryStat(int orderNo, DeliveryStat deliveryStat, Grade grade, int userNo)throws Exception{
 		switch(deliveryStat){
 			case DELIVERING: //deliveryStat이 배송중 상태일 경우 orderStat을 배송중으로 변경하는 로직
 				return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrdersEnum.OrderStat.DELIVERING)));
 				
 			case DELIVERYALLCOMPLETE: //deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
-				checkDeliveryComplete(orderNo, orderProductDao.selectDeliveryStat(orderNo));
+				checkDeliveryComplete(orderNo, orderProductDao.selectDeliveryStat(orderNo), grade, userNo);
+				return true;			
+						
+			default:
+				return false;
+		}
+	}
+	
+	//deliveryStat이 변경 될 시점에 각 deliveryStat을 체크하여 조건을 충족하면 orderStat을 변경하는 메소드
+	public boolean checkUpDeliveryStatS(int orderNo, DeliveryStat deliveryStat)throws Exception{
+		switch(deliveryStat){
+			case DELIVERING: //deliveryStat이 배송중 상태일 경우 orderStat을 배송중으로 변경하는 로직
+				return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrdersEnum.OrderStat.DELIVERING)));
+				
+			case DELIVERYALLCOMPLETE: //deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
+				checkDeliveryCompleteS(orderNo, orderProductDao.selectDeliveryStat(orderNo));
 				return true;			
 						
 			default:
@@ -223,21 +265,67 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 		
 	//deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
-		private boolean checkDeliveryComplete(int orderNo, List<OrderProductVo> productList) throws Exception{
-			int completeDelivery = 0;
-			for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
-				if(CommonMethod.isEqualValues(eachProduct.getDeliveryStat(),DeliveryStat.DELIVERYALLCOMPLETE)){
-					completeDelivery += 1;
-				}
+	private boolean checkDeliveryComplete(int orderNo, List<OrderProductVo> productList, Grade grade, int userNo) throws Exception{
+		int completeDelivery = 0;
+		for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
+			if(CommonMethod.isEqualValues(eachProduct.getDeliveryStat(),DeliveryStat.DELIVERYALLCOMPLETE)){
+				completeDelivery += 1;
 			}
-			System.out.println(completeDelivery);
-			System.out.println(productList.size());
-			if(CommonMethod.isEqualValues(completeDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
-				System.out.println("안들어오지?");
-				return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE)));
-			}
-			
-			return false;
 		}
+		if(CommonMethod.isEqualValues(completeDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
+			checkGradeUp(grade, userNo);
+			return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE)));
+		}
+		
+		return false;
+	}
+	
+	//deliveryStat이 배송완료 상태일 경우, 해당 orderNo에 해당하는 전체상품옵션의 deliveryStat이 모두 배송완료인지 체크한 후 orderStat을 전체배송완료로 변경하는 로직
+	private boolean checkDeliveryCompleteS(int orderNo, List<OrderProductVo> productList) throws Exception{
+		int completeDelivery = 0;
+		for(OrderProductVo eachProduct :productList){ //해당상품옵션의 deliveryStat이 배송완료일 경우 CompleteDelivery에 1을 더해준다.
+			if(CommonMethod.isEqualValues(eachProduct.getDeliveryStat(),DeliveryStat.DELIVERYALLCOMPLETE)){
+				completeDelivery += 1;
+			}
+		}
+		if(CommonMethod.isEqualValues(completeDelivery, productList.size())){ //모든 상품옵션이 배송완료상태일 경우 해당 주문의 orderStat을 전체배송완료로 변경
+			return CommonMethod.isSuccessOneCUD(ordersDao.updateOrderStat(new OrdersVo(orderNo, OrderStat.DELIVERYALLCOMPLETE)));
+		}
+		
+		return false;
+	}
+
+
+	private void checkGradeUp(Grade grade, int userNo) {
+		OrdersVo oVo = ordersDao.selectGradeFulfill(userNo);
+		List<GradeVo> gVo = gradeDao.selectGradeList();
+		BuyerVo buyerVo = new BuyerVo();
+		buyerVo.setUserNo(userNo);
+		GradeVo silver = gVo.get(1);
+		GradeVo gold = gVo.get(2);
+		
+		switch(grade){
+		case GENERAL:
+			checkGradeStat(oVo,silver, buyerVo);
+			break;
+		case SILVER:
+			checkGradeStat(oVo,gold, buyerVo);
+			break;
+		case GOLD:
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	private void checkGradeStat(OrdersVo oVo, GradeVo gVo, BuyerVo buyerVo) {
+		System.out.println("왔다갑니다");
+		if(oVo.getOrderCount() >= gVo.getOrderCount() && oVo.getSumPayment() >= gVo.getSumPayment()){
+			buyerVo.setGrade(gVo.getGrading());
+			usersDao.updateGrade(buyerVo);
+		}
+		
+	} 
 	
 }

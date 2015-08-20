@@ -40,23 +40,23 @@ public class OrdersDaoImpl  implements OrdersDao {
 	}
 	
 	//userNo별 주문항목 조회
-		@Override
-		public List<OrdersVo> selectSellerOrdersAll(int userNo){
-			return sqlSession.selectList("orders.selectSellerOrdersAll", userNo);
-		}
-		
-		//orderNo를 group by하여 각 orderNo의 상품개수 조회
-		@Override
-		public List<OrdersVo> selectSellerGroupCount(int userNo){
-			return sqlSession.selectList("orders.selectSellerGroupCount", userNo);
-		}
-		
-		
-		//orderNo에 속해있는 productOptionNo와 buyAmount를 받아옴
-		@Override
-		public List<OrdersVo> selectByPrdOpNo(int orderNo){
-			return sqlSession.selectList("orders.selectByPrdOpNo", orderNo);
-		}
+	@Override
+	public List<OrdersVo> selectSellerOrdersAll(int userNo){
+		return sqlSession.selectList("orders.selectSellerOrdersAll", userNo);
+	}
+	
+	//orderNo를 group by하여 각 orderNo의 상품개수 조회
+	@Override
+	public List<OrdersVo> selectSellerGroupCount(int userNo){
+		return sqlSession.selectList("orders.selectSellerGroupCount", userNo);
+	}
+	
+	
+	//orderNo에 속해있는 productOptionNo와 buyAmount를 받아옴
+	@Override
+	public List<OrdersVo> selectByPrdOpNo(int orderNo){
+		return sqlSession.selectList("orders.selectByPrdOpNo", orderNo);
+	}
 		
 	
 	//해당 주문의 orderStat 변경
@@ -70,5 +70,10 @@ public class OrdersDaoImpl  implements OrdersDao {
 	@Override
 	public int deleteOrder(int orderNo){
 		return sqlSession.update("orders.deleteOrder", orderNo);
+	}
+	
+	@Override
+	public OrdersVo selectGradeFulfill(int userNo){
+		return sqlSession.selectOne("orders.selectGradeFulfill", userNo);
 	}
 }

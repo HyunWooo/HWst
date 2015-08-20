@@ -47,7 +47,6 @@ public class CartController {
 		try {
 			list = cartService.selectCartAll(userNo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		logger.info("안녕하세요!"+ list + "입니다.");
@@ -104,7 +103,6 @@ public class CartController {
 		try {
 			stat = cartService.insertCart(productOptionNo, userNo, buyAmount);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		logger.info("안녕하세요!"+ stat + "입니다.");
@@ -142,7 +140,6 @@ public class CartController {
 		try {
 			stat = cartService.updateCartAmount(cartVo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		logger.info("안녕하세요!"+ stat + "입니다.");

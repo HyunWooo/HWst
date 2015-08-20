@@ -1,5 +1,6 @@
 package hwst.domain.users;
 
+import hwst.domain.users.UsersEnum.Grade;
 import hwst.domain.users.UsersEnum.UserSection;
 
 import java.util.Date;
@@ -9,25 +10,23 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class BuyerVo extends UsersVo{
 
-	int grade;
+	Grade grade;
 	int discountPercent;
 	Date udtGradeTime;
 	
 	
 	public BuyerVo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public BuyerVo(int userNo, String id, String pw, String name, String phone,
 			UserSection userSection, String postCode, String address) {
 		super(userNo, id, pw, name, phone, address, postCode, userSection);
-		// TODO Auto-generated constructor stub
 	}
 	
-	public int getGrade() {
+	public Grade getGrade() {
 		return grade;
 	}
-	public void setGrade(int grade) {
+	public void setGrade(Grade grade) {
 		this.grade = grade;
 	}
 	public Date getUdtGradeTime() {
