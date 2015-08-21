@@ -3,6 +3,7 @@ package hwst.dao.product;
 import hwst.domain.product.ProductOptionVo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class ProductOptionDaoImpl  implements ProductOptionDao {
 		return sqlSession.selectList("productOption.selectPOByPoNo",productOptionNo);
 	}
 	
+	//Map타입으로 상품번호 그룹별 갯수를 받아옴
+	@Override
+	public Map<Integer, Integer> selectPrdGroupCount(int userNo){
+		return sqlSession.selectMap("productOption.selectPrdGroupCount", userNo, "productNo");
+	}
+	
 	//해당OrderNo의 주문수량을 해당상품재고에서 차감
 	@Override
 	public int udtPrdAmount(ProductOptionVo productOptionVo){
@@ -51,14 +58,7 @@ public class ProductOptionDaoImpl  implements ProductOptionDao {
 		return sqlSession.selectList("productOption.selectRegisterPrdAll", userNo);
 	}
 	
-	//orderNo를 group by하여 각 orderNo의 상품개수 조회
-	@Override
-	public List<ProductOptionVo> selectPrdNoGroupCnt(int userNo){
-		return sqlSession.selectList("productOption.selectPrdNoGroupCnt", userNo);
-	}
-		
-		
-	//orderNo를 group by하여 각 orderNo의 상품개수 조회
+	//상품옵션 추가
 	@Override
 	public int insertPrdOption(ProductOptionVo productOptionVo){
 		return sqlSession.insert("productOption.insertPrdOption", productOptionVo);

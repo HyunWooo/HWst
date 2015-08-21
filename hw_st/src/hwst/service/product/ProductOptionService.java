@@ -3,6 +3,7 @@ package hwst.service.product;
 import hwst.domain.product.ProductOptionVo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductOptionService {
 
@@ -20,4 +21,5 @@ public interface ProductOptionService {
 			List<Integer> plusProductAmount, List<Integer> optionValue,
 			int userNo) throws Exception;
 	boolean udtPrdOpAll(ProductOptionVo prdOption)throws Exception;
+	Map<Integer, Integer> selectPrdGroupCount(int userNo)throws Exception;
 }

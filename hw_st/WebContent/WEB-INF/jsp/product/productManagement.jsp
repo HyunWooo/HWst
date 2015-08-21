@@ -128,8 +128,9 @@ function mySubmit(frm,index,countNo){
 					<tbody>
 						<c:forEach items="${list}" var="productOptionList" varStatus="status">
 							<tr>
-								<c:if test="${productOptionList.productNoCount ne 0}">
-									<td class="cart_info" rowspan="${productOptionList.productNoCount}">
+								<c:set var="key" value="${productOptionList.productNo}"/>
+								<c:if test="${productOptionList.rnum eq 1}">
+									<td class="cart_info" rowspan="${groupCountMap[key].productNoCount}">
 									<form name="PODetailsForm" method="POST">
 										<p>"${productOptionList.name}"<br>(${productOptionList.productNo})</p>
 										<br><input type="hidden" name="productNo" value="${productOptionList.productNo}"/>
@@ -152,8 +153,8 @@ function mySubmit(frm,index,countNo){
 									<input type="hidden" id="${status.count}" name="productOptionNo" value="${productOptionList.productOptionNo}">
 									<p>${productOptionList.productAmount}</p>
 								</td>
-								<c:if test="${productOptionList.productNoCount ne 0}">
-									<td class="cart_stats" rowspan="${productOptionList.productNoCount}">
+								<c:if test="${productOptionList.rnum eq 1}">
+									<td class="cart_stats" rowspan="${groupCountMap[key].productNoCount}">
 										${productOptionList.details}
 										<%-- <button type="button" class="btn btn-fefault cart" name="updateButton"value="${status.count}"onclick="mySubmit(this.form,1,this.value);">삭제</button> --%>
 									</td>

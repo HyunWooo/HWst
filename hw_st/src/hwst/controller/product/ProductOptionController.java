@@ -6,7 +6,9 @@ import hwst.domain.users.UsersVo;
 import hwst.service.product.ProductOptionService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +69,7 @@ public class ProductOptionController {
 	@RequestMapping(value="selectRegisterPrdAll.do")
     public ModelAndView selectRegisterPrdAll(HttpSession session, HttpServletRequest request){
 		List<ProductOptionVo> poList = new ArrayList<ProductOptionVo>();
+		Map<Integer, Integer> groupCountMap = new HashMap<Integer, Integer>();
 		ModelAndView mv = new ModelAndView();
 		UsersVo vo = (UsersVo)session.getAttribute("userLoginInfo");
 		
@@ -82,12 +85,14 @@ public class ProductOptionController {
 		
 		try {
 			poList = productOptionService.selectRegisterPrdAll(vo.getUserNo());
+			groupCountMap = productOptionService.selectPrdGroupCount(vo.getUserNo());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		logger.info("안녕하세요!"+ poList + "입니다.");
+		logger.info("안녕하세요!"+ groupCountMap + "입니다.");
 		
+		mv.addObject("groupCountMap", groupCountMap);
 		mv.addObject("list", poList);
 		mv.setViewName("/product/productManagement");
 		

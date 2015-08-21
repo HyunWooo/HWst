@@ -19,6 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="basicPrice" property="basicPrice" />
 		<result column="eachPrice" property="eachPrice" />
 	</resultMap>
+	
+	<resultMap type="java.util.HashMap" id="map">
+		<result column="productNoCount" property="productNoCount" />
+	</resultMap>
 
 	<!-- 상품번호로 활성화된 상품옵션의 정보 조회 -->
 	<select id="selectProductOptionAll" resultMap="pResultMap">
@@ -36,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by optionProcedure asc
 	</select>
 	
+	<!-- 상품옵션번호들로 해당 상품옵션들의 정보 조회 -->
 	<select id="selectPOByPoNo" resultMap="pResultMap" parameterType="java.util.List">
 		select po.productOptionNo, p.categoryNo, p.productNo, p.name, po.productOptionName,  po.productAmount, po.addPrice, p.basicPrice , po.addPrice+p.basicPrice as eachPrice 
 		from productOption po, product p
@@ -46,14 +51,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND p.productNo = po.productNo
 	</select>
 	
+	<!-- 해당 판매자가 등록한 상품 모두 조회(각 상품별 파티션의 랭크매기기  포함) -->
 	<select id="selectRegisterPrdAll" parameterType="int" resultMap="pResultMap">
-		select *
-		from product p, productOption po
-		where userNo = #{userNo} and p.productNo = po.productNo
-		order by p.productNo, optionProcedure asc
-	</select>
+	select *
+	from(
+		select p.userNo, p.categoryNo, p.name, p.basicPrice, p.stat, p.details, p.opTotalNum, p.regisTime, po.productOptionNo, po.productNo, po.optionProcedure, po.addPrice, po.productAmount, po.productOptionName, po.optionStat, po.recentUpdateTime, po.recentUpdateUserNo,
+			(CASE @vPrdNo WHEN po.productNo THEN @rownum:=@rownum+1 ELSE @rownum:=1 END) rnum,
+	        (@vPrdNo:=po.productNo)vPrdNo
+		from product p, productOption po, (select @vPrdNo:='',@rownum:=0 from dual)b
+		where p.userNo = #{userNo} and p.productNo = po.productNo
+	    order by p.productNo, optionProcedure asc
+	)c;
+	</select> 
 	
-	<select id="selectPrdNoGroupCnt" parameterType="int" resultMap="pResultMap">
+	<!-- 해당 상품번호그룹에 해당하는 갯수 조회 -->
+	<select id="selectPrdGroupCount" parameterType="int" resultMap="map">
 		select p.productNo, count(p.productNo) as productNoCount
 		from product p, productOption po
 		where p.userNo = #{userNo} and p.productNo = po.productNo

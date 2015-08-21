@@ -5,6 +5,7 @@ import hwst.dao.product.ProductOptionDao;
 import hwst.domain.product.ProductOptionVo;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -44,32 +45,13 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 	//해당 판매자가 등록한 상품정보 select
 	@Override
 	public List<ProductOptionVo> selectRegisterPrdAll(int userNo)throws Exception{
-		List<ProductOptionVo> productOptionVo = productOptionDao.selectRegisterPrdAll(userNo);
-		List<ProductOptionVo> productNoCount = productOptionDao.selectPrdNoGroupCnt(userNo);
-
-		/*for(int num=0; num<productOptionVo.size();){  //productOptionVo를 productNo 별로 group한 productNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 productNoCount속성에 set한다
-			ProductOptionVo poVo = productOptionVo.get(num);
-			
-			for(int countNum=0; countNum<productNoCount.size(); countNum++){
-				ProductOptionVo prdNo = productNoCount.get(countNum);
-				
-				if(isEqualsPrdNo(poVo, prdNo)){ //상품번호가 같을때 해당 상품번호 group에 해당하는 개수를 set해준다
-					poVo.setProductNoCount(prdNo.getProductNoCount());
-					num += prdNo.getProductNoCount();
-				}
-			}
-		}*/
-		
-		//리팩토링한 부분
-		int tempNo = 0;
-		for(int count = 0, length = productNoCount.size(); count < length; count++){
-			int groupCount = productNoCount.get(count).getProductNoCount();
-			
-			productOptionVo.get(tempNo).setProductNoCount(groupCount);
-			tempNo += groupCount;
-		}
-		
-		return productOptionVo;
+		return productOptionDao.selectRegisterPrdAll(userNo);
+	}
+	
+	//상품번호로 그룹맺은 뒤 해당 그룹별 갯수를 count
+	@Override
+	public Map<Integer, Integer> selectPrdGroupCount(int userNo)throws Exception{
+		return productOptionDao.selectPrdGroupCount(userNo);
 	}
 		
 	//해당상품옵션의 재고수량 변경

@@ -22,7 +22,7 @@ public class ProductOptionVo extends ProductVo{
 	private String name;
 	private int basicPrice;
 	private int eachPrice;
-	private int productNoCount;
+	private int rnum;
 	
 	
 	public ProductOptionVo(){}
@@ -47,7 +47,7 @@ public class ProductOptionVo extends ProductVo{
 	public ProductOptionVo(int productOptionNo, int productNo,
 			int optionProcedure, int addPrice, int productAmount,
 			String productOptionName, int optionStat, Date recentUpdateTime,
-			int recentUpdateUserNo, int buyAmount, int categoryNo, String name, int basicPrice, int eachPrice, int productNoCount) {
+			int recentUpdateUserNo, int buyAmount, int categoryNo, String name, int basicPrice, int eachPrice,  int rnum) {
 		super();
 		this.productOptionNo = productOptionNo;
 		this.productNo = productNo;
@@ -63,7 +63,7 @@ public class ProductOptionVo extends ProductVo{
 		this.name = name;
 		this.basicPrice = basicPrice;
 		this.eachPrice = eachPrice;
-		this.productNoCount = productNoCount;
+		this.rnum = rnum;
 	}
 	public int getProductOptionNo() {
 		return productOptionNo;
@@ -108,15 +108,6 @@ public class ProductOptionVo extends ProductVo{
 		this.optionStat = optionStat;
 	}
 	
-	
-	public int getProductNoCount() {
-		return productNoCount;
-	}
-
-	public void setProductNoCount(int productNoCount) {
-		this.productNoCount = productNoCount;
-	}
-
 	public Date getRecentUpdateTime() {
 		return recentUpdateTime;
 	}
@@ -179,6 +170,15 @@ public class ProductOptionVo extends ProductVo{
 
 	public void setEachPrice(int eachPrice) {
 		this.eachPrice = eachPrice;
+	}
+
+	
+	public int getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 
 	@Override

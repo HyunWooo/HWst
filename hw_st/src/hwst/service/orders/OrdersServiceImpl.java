@@ -109,7 +109,7 @@ public class OrdersServiceImpl implements OrdersService {
 		}
 		
 		
-		for(int num = 0; num < ordersVoList.size();){		//ordersVo를 OrderNo 별로 group한 orderNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 orderNoCount속성에 set한다
+		/*for(int num = 0; num < ordersVoList.size();){		//ordersVo를 OrderNo 별로 group한 orderNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 orderNoCount속성에 set한다
 			OrdersVo eachOrder = ordersVoList.get(num);
 			
 			for(int countNum=0; countNum < orderNoCount.size(); countNum++){
@@ -121,6 +121,14 @@ public class OrdersServiceImpl implements OrdersService {
 					break;
 				}
 			}
+		}*/
+		
+		int tempNo = 0;
+		for(int count = 0, length = orderNoCount.size(); count < length; count++){
+			int groupCount = orderNoCount.get(count).getOrderNoCount();
+			
+			ordersVoList.get(tempNo).setOrderNoCount(groupCount);
+			tempNo += groupCount;
 		}
 		
 		checkQuantity(ordersVoList);
