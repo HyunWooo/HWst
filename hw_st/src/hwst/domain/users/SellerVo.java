@@ -3,7 +3,7 @@ package hwst.domain.users;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.UserSection;
 
 public class SellerVo extends UsersVo{
 

@@ -1,6 +1,6 @@
 package hwst.domain.users;
 
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.UserSection;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

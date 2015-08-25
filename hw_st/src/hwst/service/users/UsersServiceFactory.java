@@ -1,6 +1,6 @@
 package hwst.service.users;
 
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.UserSection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

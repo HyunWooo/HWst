@@ -17,10 +17,11 @@ import hwst.domain.orders.PaymentVo;
 import hwst.domain.product.ProductOptionVo;
 import hwst.domain.users.BuyerVo;
 import hwst.domain.users.GradeVo;
-import hwst.domain.users.UsersEnum.Grade;
+import hwst.domain.users.Grade;
 import hwst.domain.users.UsersVo;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -50,7 +51,6 @@ public class OrdersServiceImpl implements OrdersService {
 	@Resource(name="usersDao")
 	private UsersDao usersDao;
 	
-	
 	//주문정보 Insert
 	@Override
 	public boolean insertOrders(OrdersVo ordersVo, List<Integer> productOptionNo, List<Integer> buyAmount,
@@ -79,63 +79,19 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 	
 	
-	/* DB에 하나의 주문에 존재하는 상품개수를 못넣는이유
-	 * 1. 해당 칼럼 전체에 상품개수를 넣는다면 jsp에서 뿌려줄 때 각 주문번호 별로 구분짓는 무언가가 또 필요하다
-	 * 2. db에 해당 주문번호의 첫번째 상품옵션 정보에 상품개수를 넣고, 해당주문번호의 나머지 상품옵션들의 상품개수칼럼에는 null값는다고 가정 시, 
-	 * 		desc/asc 상황에 따라 순서가 뒤틀리면 의미가 없어짐
-	 * 3. 결국 그렇다면 불러올 때 속성값으로만 처리를 해주어야 한다.
-	 */
-	//주문정보 불러오기
+	//주문정보 불러오기 
 	@Override
 	public List<OrdersVo> selectOrdersAll(UsersVo usersVo)throws Exception{
-		List<OrdersVo> ordersVoList = null;
-		List<OrdersVo> orderNoCount = null;
-		
-		switch(usersVo.getUserSection()){
-			case BUYER: 
-				ordersVoList = ordersDao.selectOrdersAll(usersVo.getUserNo());
-				orderNoCount = ordersDao.selectOrderNoGroupCount(usersVo.getUserNo());
-				break;
-			case SELLER:
-				ordersVoList = ordersDao.selectSellerOrdersAll(usersVo.getUserNo());
-				orderNoCount = ordersDao.selectSellerGroupCount(usersVo.getUserNo());
-				break;
-			case ADMIN:
-				break;
-			case UNREGISTER:
-				break;
-			default:
-				break;
-		}
-		
-		
-		/*for(int num = 0; num < ordersVoList.size();){		//ordersVo를 OrderNo 별로 group한 orderNoCount를 가지고 각 group의 개수를 해당 group의 첫번째 데이터의 orderNoCount속성에 set한다
-			OrdersVo eachOrder = ordersVoList.get(num);
-			
-			for(int countNum=0; countNum < orderNoCount.size(); countNum++){
-				OrdersVo orderCount = orderNoCount.get(countNum);
-				
-				if(isEqualsOrderNo(eachOrder,orderCount)){ //주문번호가 같을때 해당 주문번호 group에 해당하는 개수를 set해준다
-					eachOrder.setOrderNoCount(orderCount.getOrderNoCount());
-					num += orderCount.getOrderNoCount();
-					break;
-				}
-			}
-		}*/
-		
-		int tempNo = 0;
-		for(int count = 0, length = orderNoCount.size(); count < length; count++){
-			int groupCount = orderNoCount.get(count).getOrderNoCount();
-			
-			ordersVoList.get(tempNo).setOrderNoCount(groupCount);
-			tempNo += groupCount;
-		}
-		
-		checkQuantity(ordersVoList);
-		
-		return ordersVoList;
+		usersVo.getUserSection().setOrderDao(ordersDao);
+		return checkQuantity(usersVo.getUserSection().selectOrdersAll(usersVo.getUserNo())); //해당 상품의 수량부족 체크 후 return
 	}
 
+	//주문번호로 그룹맺은 뒤 해당 그룹별 갯수를 count
+	@Override
+	public Map<Integer, Integer> selectOrderGroupCount(UsersVo usersVo)throws Exception{
+		usersVo.getUserSection().setOrderDao(ordersDao);
+		return usersVo.getUserSection().selectOrderGroupCount(usersVo.getUserNo());
+	}
 
 	//해당주문의 orderStat 변경
 	@Override
@@ -255,10 +211,11 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	
 	//해당 상품옵션의 수량부족 체크
-	private void checkQuantity(List<OrdersVo> ordersVoList) {
+	private List<OrdersVo> checkQuantity(List<OrdersVo> ordersVoList) {
 		for(int num = 0; num<ordersVoList.size(); num++){
 			checkLackOfAmount(ordersVoList, num);
 		}
+		return ordersVoList;
 	}
 	
 	//수량부족한 해당 주문번호의 QuantityCheck값을 1로 설정하기

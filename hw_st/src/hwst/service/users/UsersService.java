@@ -1,7 +1,7 @@
 package hwst.service.users;
 
 import hwst.domain.users.SellerVo;
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.UserSection;
 import hwst.domain.users.UsersVo;
 
 public interface UsersService {

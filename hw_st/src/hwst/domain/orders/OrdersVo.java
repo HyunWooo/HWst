@@ -2,7 +2,7 @@ package hwst.domain.orders;
 
 import hwst.domain.orders.OrdersEnum.DeliveryStat;
 import hwst.domain.orders.OrdersEnum.OrderStat;
-import hwst.domain.users.UsersEnum.Grade;
+import hwst.domain.users.Grade;
 
 import java.util.Date;
 
@@ -41,6 +41,7 @@ public class OrdersVo {
 	private int quantityCheck;
 	private int orderCount;
 	private int sumPayment;
+	private int rnum;
 	
 	public OrdersVo(){}
 	
@@ -80,7 +81,7 @@ public class OrdersVo {
 			String productOptionName, int productNo, String name,
 			int buyAmount, int totalPrice, int categoryNo, int orderNoCount,
 			int productStat, DeliveryStat deliveryStat, int productAmount,
-			String userName, String id, int quantityCheck) {
+			String userName, String id, int quantityCheck, int rnum) {
 		super();
 		this.orderNo = orderNo;
 		this.userNo = userNo;
@@ -111,6 +112,7 @@ public class OrdersVo {
 		this.userName = userName;
 		this.id = id;
 		this.quantityCheck = quantityCheck;
+		this.rnum = rnum;
 	}
 
 	
@@ -369,7 +371,15 @@ public class OrdersVo {
 	public void setSumPayment(int sumPayment) {
 		this.sumPayment = sumPayment;
 	}
-	
+
+	public int getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(

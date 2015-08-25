@@ -1,7 +1,7 @@
 package hwst.controller.product;
 
 import hwst.domain.product.ProductOptionVo;
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.UserSection;
 import hwst.domain.users.UsersVo;
 import hwst.service.product.ProductOptionService;
 

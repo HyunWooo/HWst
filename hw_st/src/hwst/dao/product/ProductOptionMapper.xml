@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from product p, productOption po, (select @vPrdNo:='',@rownum:=0 from dual)b
 		where p.userNo = #{userNo} and p.productNo = po.productNo
 	    order by p.productNo, optionProcedure asc
-	)c;
+	)c
 	</select> 
 	
 	<!-- 해당 상품번호그룹에 해당하는 갯수 조회 -->

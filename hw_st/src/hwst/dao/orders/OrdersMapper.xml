@@ -41,6 +41,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="refundBankName" property="refundBankName"/>
 		<result column="refundAccountNo" property="refundAccountNo"/>
 	</resultMap>
+	
+	<resultMap type="java.util.HashMap" id="map">
+		<result column="orderNoCount" property="orderNoCount" />
+	</resultMap>
 
 
 
@@ -73,16 +77,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by orderTime desc limit 1
 	</select>
 	
-	<!-- 해당 userNo의 전체주문 조회 -->
-	<select id="selectOrdersAll" parameterType="int" resultType="ordersVo">
-		select o.orderTime, o.orderNo, op.productOptionNo, po.productOptionName, po.productNo, p.name, op.buyAmount, po.productAmount, op.totalPrice, o.orderStat, p.categoryNo, o.discountedTotalPrice, op.productStat, op.deliveryStat
-		from orders o, orderProduct op, productOption po, product p
-		where o.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo
-		order by o.orderNo, orderTime desc
+	<!-- 해당 구매자 userNo의 전체주문 조회 (각 주문별 파티션의 랭크매기기  포함)-->
+	<select id="selectBuyerOrdersAll" parameterType="int" resultType="ordersVo">
+		select *
+		from(
+			select o.orderTime, o.orderNo, op.productOptionNo, po.productOptionName, po.productNo, p.name, op.buyAmount, po.productAmount, op.totalPrice, o.orderStat, p.categoryNo, o.discountedTotalPrice, op.productStat, op.deliveryStat,
+				(CASE @vOrdNo WHEN o.orderNo THEN @rownum:=@rownum+1 ELSE @rownum:=1 END) rnum,
+		        (@vOrdNo:=o.orderNo)vOrdNo
+	        from orders o, orderProduct op, productOption po, product p, (select @vOrdNo:='',@rownum:=0 from dual)b
+			where o.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo
+			order by o.orderNo, orderTime desc
+		)c
 	</select>
 	
 	<!-- userNo의 주문목록을 orderNo로 그룹하여 그룹별 count 조회 -->
-	<select id="selectOrderNoGroupCount" parameterType="int" resultType="ordersVo">
+	<select id="selectBuyerOrdGroupCnt" parameterType="int" resultType="map">
 	select o.orderNo, count(o.orderNo)as orderNoCount
 	from orders o, orderProduct op, productOption po, product p
 	where o.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo
@@ -90,16 +99,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	order by o.orderNo, orderTime desc
 	</select>
 	
-		<!-- 해당 seller의 주문받은 전체주문 조회 -->
+	<!-- 해당 seller의 주문받은 전체주문 조회 -->
 	<select id="selectSellerOrdersAll" parameterType="int" resultType="ordersVo">
-	select o.orderTime, o.orderNo, op.productOptionNo, po.productOptionName, po.productNo, p.name, op.buyAmount, po.productAmount, op.totalPrice, o.orderStat, p.categoryNo, o.discountedTotalPrice, o.userNo, op.productStat, op.deliveryStat, u.name as userName, u.id
-	from orders o, orderProduct op, productOption po, product p, users u
-	where p.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo and o.userNo>0 and o.userNo= u.userNo
-	order by o.orderNo, orderTime, o.userNo desc
+		select *
+		from(
+			select o.orderTime, o.orderNo, op.productOptionNo, po.productOptionName, po.productNo, p.name, op.buyAmount, po.productAmount, op.totalPrice, o.orderStat, p.categoryNo, o.discountedTotalPrice, o.userNo, op.productStat, op.deliveryStat, u.name as userName, u.id,
+				(CASE @vOrdNo WHEN o.orderNo THEN @rownum:=@rownum+1 ELSE @rownum:=1 END) rnum,
+		        (@vOrdNo:=o.orderNo)vOrdNo
+			from orders o, orderProduct op, productOption po, product p, users u, (select @vOrdNo:='',@rownum:=0 from dual)b
+			where p.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo and o.userNo>0 and o.userNo= u.userNo
+			order by o.orderNo, orderTime, o.userNo desc
+		)c
 	</select>
 	
 	<!-- 해당 seller의 주문목록을 orderNo로 그룹하여 그룹별 count 조회 -->
-	<select id="selectSellerGroupCount" parameterType="int" resultType="ordersVo">
+	<select id="selectSellerOrdGroupCnt" parameterType="int" resultType="map">
 	select o.orderNo, count(o.orderNo)as orderNoCount
 	from orders o, orderProduct op, productOption po, product p
 	where p.userNo = #{userNo} and o.orderNo = op.orderNo and op.productOptionNo = po.productOptionNo and po.productNo = p.productNo and o.userNo>0

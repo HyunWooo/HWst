@@ -1,10 +1,17 @@
 package hwst.domain.category;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class CategoryVo {
+public class CategoryVo implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6125819855024933998L;
+	
 	private int categoryNo;
 	private int upCategoryNo;
 	private String categoryName;

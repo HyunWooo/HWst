@@ -5,12 +5,14 @@ import hwst.domain.orders.OrdersEnum.OrderStat;
 import hwst.domain.orders.OrdersVo;
 import hwst.domain.users.BuyerVo;
 import hwst.domain.users.SellerVo;
-import hwst.domain.users.UsersEnum.Grade;
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.Grade;
+import hwst.domain.users.UserSection;
 import hwst.domain.users.UsersVo;
 import hwst.service.orders.OrdersService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +66,7 @@ public class OrdersController {
 	@RequestMapping(value="orderManagement.do")
     public ModelAndView selectOrdersAll(HttpSession session, HttpServletRequest request){
 		List<OrdersVo> list = null;
+		Map<Integer, Integer> groupCountMap = new HashMap<Integer, Integer>();
 		ModelAndView mv = new ModelAndView();
 		UsersVo vo = (UsersVo)session.getAttribute("userLoginInfo");
 		
@@ -75,12 +78,15 @@ public class OrdersController {
 		
 		try {
 			list = ordersService.selectOrdersAll(vo);
+			groupCountMap = ordersService.selectOrderGroupCount(vo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		logger.info("안녕하세요!"+ list + "입니다.");
+		logger.info("안녕하세요!"+ groupCountMap + "입니다.");
 		
+		
+		mv.addObject("groupCountMap", groupCountMap);
 		mv.addObject("list", list);
 		
 		//구매자,판매자별로 setViewName 분기해야됨

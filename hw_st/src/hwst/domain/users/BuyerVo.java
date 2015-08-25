@@ -1,7 +1,7 @@
 package hwst.domain.users;
 
-import hwst.domain.users.UsersEnum.Grade;
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.Grade;
+import hwst.domain.users.UserSection;
 
 import java.util.Date;
 

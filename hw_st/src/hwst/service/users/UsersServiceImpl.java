@@ -3,7 +3,7 @@ package hwst.service.users;
 import hwst.common.CommonMethod;
 import hwst.dao.users.UsersDao;
 import hwst.domain.users.SellerVo;
-import hwst.domain.users.UsersEnum.UserSection;
+import hwst.domain.users.UserSection;
 import hwst.domain.users.UsersVo;
 
 import java.sql.SQLException;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 @Service("usersService")
 public class UsersServiceImpl implements UsersService {
 

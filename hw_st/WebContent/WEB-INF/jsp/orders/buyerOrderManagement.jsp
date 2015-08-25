@@ -170,11 +170,11 @@ function mySubmit(frm,index,countNo){
 					</thead>
 					
 					<tbody>
-					<!-- 장바구니 리스트 출력 -->
 						<c:forEach items="${list}" var="orderList" varStatus="status">
 							<tr>
-								<c:if test="${orderList.orderNoCount ne 0}">
-									<td class="cart_info" rowspan="${orderList.orderNoCount}">
+								<c:set var="key" value="${orderList.orderNo}"/>
+								<c:if test="${orderList.rnum eq 1}">
+									<td class="cart_info" rowspan="${groupCountMap[key].orderNoCount}">
 										<p><fmt:formatDate value="${orderList.orderTime}" pattern="yyyy-MM-dd"/><br>(${orderList.orderNo})</p>
 									</td>
 								</c:if>
@@ -209,8 +209,8 @@ function mySubmit(frm,index,countNo){
 										</c:choose>
 									</c:if>
 								</td>
-								<c:if test="${orderList.orderNoCount ne 0}">
-									<td class="cart_stat" rowspan="${orderList.orderNoCount}">
+								<c:if test="${orderList.rnum eq 1}">
+									<td class="cart_stat" rowspan="${groupCountMap[key].orderNoCount}">
 										<c:choose>
 											<c:when test="${orderList.orderStat eq 'DEPOSITWATING' and orderList.quantityCheck eq 1}">
 													&nbsp;&nbsp;&nbsp;재고 부족<br>
@@ -234,8 +234,8 @@ function mySubmit(frm,index,countNo){
 										</c:choose>
 									</td>
 								</c:if>
-								<c:if test="${orderList.orderNoCount ne 0}">
-									<td class="cart_delete" rowspan="${orderList.orderNoCount}">
+								<c:if test="${orderList.rnum eq 1}">
+									<td class="cart_delete" rowspan="${groupCountMap[key].orderNoCount}">
 										<c:if test="${orderList.orderStat eq 'DEPOSITWATING'}">
 											<button class="cart_delete_button" type='button' id="${orderList.orderNo}" name='delOrder' value='${orderList.orderNo}' onClick='mySubmit(this.form,2,this.value)'>주문취소</button>
 										</c:if>

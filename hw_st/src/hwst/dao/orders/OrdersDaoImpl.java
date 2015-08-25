@@ -3,6 +3,7 @@ package hwst.dao.orders;
 import hwst.domain.orders.OrdersVo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,25 +31,26 @@ public class OrdersDaoImpl  implements OrdersDao {
 	//userNo별 주문항목 조회
 	@Override
 	public List<OrdersVo> selectOrdersAll(int userNo){
-		return sqlSession.selectList("orders.selectOrdersAll", userNo);
+		return sqlSession.selectList("orders.selectBuyerOrdersAll", userNo);
 	}
 	
 	//orderNo를 group by하여 각 orderNo의 상품개수 조회
 	@Override
-	public List<OrdersVo> selectOrderNoGroupCount(int userNo){
-		return sqlSession.selectList("orders.selectOrderNoGroupCount", userNo);
+	public Map<Integer, Integer> selectBuyerOrdGroupCnt(int userNo){
+		return sqlSession.selectMap("orders.selectBuyerOrdGroupCnt", userNo, "orderNo");
 	}
 	
 	//userNo별 주문항목 조회
 	@Override
 	public List<OrdersVo> selectSellerOrdersAll(int userNo){
+		System.out.println(sqlSession);
 		return sqlSession.selectList("orders.selectSellerOrdersAll", userNo);
 	}
 	
 	//orderNo를 group by하여 각 orderNo의 상품개수 조회
 	@Override
-	public List<OrdersVo> selectSellerGroupCount(int userNo){
-		return sqlSession.selectList("orders.selectSellerGroupCount", userNo);
+	public Map<Integer, Integer> selectSellerOrdGroupCnt(int userNo){
+		return sqlSession.selectMap("orders.selectSellerOrdGroupCnt", userNo, "orderNo");
 	}
 	
 	
