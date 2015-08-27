@@ -321,6 +321,10 @@ function mySubmit(frm,index,countNo){
 			</div>
 			<div class="table-responsive cart_info">
 			
+			<c:if test="${empty list}">
+				<hr><label>등록된 장바구니상품이 없습니다<br><br>장바구니를 등록해 주세요</label>
+			</c:if>
+			<c:if test="${not empty list}">
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
@@ -383,6 +387,7 @@ function mySubmit(frm,index,countNo){
 					</tbody>
 				</table>
 				<input type="hidden" name="updateBuyAmountStat" />
+				</c:if>
 			</div>
 		</div>
 	</section> <!--/#cart_items-->
@@ -390,6 +395,7 @@ function mySubmit(frm,index,countNo){
 	<section id="do_action">
 		<div class="container">
 			<div class="col-sm-8">
+				<c:if test="${not empty list}">
 						<table class="table table-condensed total-result">
 							<tr>
 								<td>선택한 장바구니 개수</td>
@@ -411,6 +417,7 @@ function mySubmit(frm,index,countNo){
 						<br><a class="btn btn-default update" href="javascript:history.back(-1)">뒤로가기</a>
 						<a class="btn btn-default check_out" onclick="mySubmit(this.form,2,this.value);">선택상품주문</a>
 						<a class="btn btn-default check_out" onclick="mySubmit(this.form,3,this.value);">전체주문</a>
+					</c:if>
 			</div>
 		</div>
 	</section><!--/#do_action-->

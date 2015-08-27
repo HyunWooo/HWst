@@ -207,4 +207,9 @@ public class UsersController {
     	return "common/contact_us";
     }
     
+    @RequestMapping(value="errorPage.do")
+    public String errorPage(){
+    	return "common/404";
+    }
+    
 }

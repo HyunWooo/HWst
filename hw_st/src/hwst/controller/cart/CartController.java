@@ -36,11 +36,6 @@ public class CartController {
 		ModelAndView mv = new ModelAndView();
 		UsersVo vo = (UsersVo)session.getAttribute("userLoginInfo");
 		
-		if(vo==null){
-			mv.setViewName("users/login");
-			return mv;
-		}
-		
 		int userNo = vo.getUserNo();
 		logger.info("안녕하세요! userNo "+ userNo + "입니다.");
 		
