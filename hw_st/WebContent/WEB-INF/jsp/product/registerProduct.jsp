@@ -153,23 +153,23 @@
 								<div class="row">
 									<div class="col-sm-3">
 										<div class="shopper-info" id="basicInput">
-								<select name="selectBox" id="list" onchange="getSelectValue(this.form);" width="100px;">
-									<c:forEach items="${sessionScope.categoryList}" var="categoryList" >
-										<option id="${categoryList.categoryNo}" label="${categoryList.categoryName}" value="${categoryList.categoryNo}">
-										</option>
-									</c:forEach>
-								</select>
-								<label>카테고리번호</label><input type="text" placeholder="카테고리번호" name="categoryNo" readonly/><br>
-								<label>상품명</label><input type="text" placeholder="상품명" name="name" /><br>
-								<label>기본가격</label><input type="number" placeholder="기본가격" name="basicPrice" /><br>
-								<label>상세설명</label><input type="text" placeholder="상세설명" name="details"/><br>
-								<input type="hidden" name="opTotalNum" value="0">
+											<select name="selectBox" id="list" onchange="getSelectValue(this.form);" width="100px;">
+												<c:forEach items="${sessionScope.categoryList}" var="categoryList" >
+													<option id="${categoryList.categoryNo}" label="${categoryList.categoryName}" value="${categoryList.categoryNo}">
+													</option>
+												</c:forEach>
+											</select>
+											<label>카테고리번호</label><input type="text" placeholder="카테고리번호" name="categoryNo" readonly/><br>
+											<label>상품명</label><input type="text" placeholder="상품명" name="name" /><br>
+											<label>기본가격</label><input type="number" placeholder="기본가격" name="basicPrice" /><br>
+											<label>상세설명</label><input type="text" placeholder="상세설명" name="details"/><br>
+			<!-- 								<input type="file" name="imgTemp"/><br/> -->
+											<input type="hidden" name="opTotalNum" value="0">
+										</div>
+									</div>
 								</div>
-								</div>
-								</div>
-								</div>
+							</div>
 						<br>
-						
 						<table class="table table-condensed">
 						  <tr>
 						    <td colspan="2" align="left" bgcolor="#FFFFFF">

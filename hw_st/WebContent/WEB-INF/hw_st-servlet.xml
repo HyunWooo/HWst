@@ -100,7 +100,7 @@
 			<tx:method name="delete*" rollback-for="Exception"/>
 		</tx:attributes>
 	</tx:advice>
-	
+
 	<aop:aspectj-autoproxy/>
  	<aop:config proxy-target-class="true"/>
 	<bean class="hwst.common.CommonAop"/>

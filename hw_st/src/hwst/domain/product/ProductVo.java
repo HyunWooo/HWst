@@ -1,12 +1,18 @@
 package hwst.domain.product;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 
-public class ProductVo{
+public class ProductVo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7333117728641002210L;
+	
 	private int productNo;
 	private int userNo;
 	private int categoryNo;
